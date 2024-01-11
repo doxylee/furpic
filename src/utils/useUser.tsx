@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useMemo, useReducer } from "react";
 import { Base64 } from "js-base64";
-import { getMyUser } from "@/interface/backend/api/user";
-import { loginOAuth } from "@/interface/backend/api/oauth";
+import { getMyUser } from "@/_interface/backend/api/user";
+import { loginOAuth } from "@/_interface/backend/api/oauth";
 import clientSettings from "clientSettings";
-import { User } from "@/interface/backend/entities/user";
+import { User } from "@/_interface/backend/entities/user";
 import { setCookie } from "./cookie";
 
 const propertyFields: (keyof UserController)[] = ["user"];
