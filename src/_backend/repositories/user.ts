@@ -10,6 +10,16 @@ export class UserRepository {
       },
     });
   }
+
+  async createUser(user: {
+    twitterId: string;
+    name: string;
+    username: string;
+  }) {
+    return await prisma.user.create({
+      data: user,
+    });
+  }
 }
 
 export const userRepository = new UserRepository();

@@ -1,3 +1,4 @@
+import { userRepository } from "@/_backend/repositories/user";
 import axios from "axios";
 import clientSettings from "clientSettings";
 import { NextRequest, NextResponse } from "next/server";
@@ -26,10 +27,19 @@ export async function POST(request: NextRequest) {
   console.log(res.data);
 
   const client = new TwitterApi(res.data.access_token);
-  const user = await client.currentUserV2();
+  const userRes = await client.currentUserV2();
 
-  
+  let user = await userRepository.getUserByTwitterId(userRes.data.id);
 
-  console.log(user.data);
-  return NextResponse.json(user.data);
+  // TODO: Profile image
+  if (!user) {
+    user = await userRepository.createUser({
+      twitterId: userRes.data.id,
+      name: userRes.data.name,
+      username: userRes.data.username,
+    });
+  }
+
+  console.log(userRes.data);
+  return NextResponse.json(userRes.data);
 }
