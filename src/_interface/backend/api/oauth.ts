@@ -9,6 +9,5 @@ export async function loginOAuth({
   codeVerifier: string;
   redirectUrl: string;
 }) {
-  await axios.post("/api/oauth2/token", { code, codeVerifier, redirectUrl });
-  return { token: "" }; // TODO
+  return await axios.post("/api/oauth2/token", { code, codeVerifier, redirectUrl });
 }
