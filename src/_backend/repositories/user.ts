@@ -20,6 +20,14 @@ export class UserRepository {
       data: user,
     });
   }
+
+  async getUserByUsername(username: string) {
+    return await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+  }
 }
 
 export const userRepository = new UserRepository();

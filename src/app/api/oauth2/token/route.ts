@@ -1,9 +1,13 @@
 import { userRepository } from "@/_backend/repositories/user";
+import { signJWT } from "@/_backend/utils/jwt";
 import axios from "axios";
 import clientSettings from "clientSettings";
 import { NextRequest, NextResponse } from "next/server";
 import serverSettings from "serverSettings";
 import { TwitterApi } from "twitter-api-v2";
+
+import { cookies } from "next/headers";
+import { sessionRepository } from "@/_backend/repositories/session";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -33,12 +37,29 @@ export async function POST(request: NextRequest) {
 
   // TODO: Profile image
   if (!user) {
+    let username = userRes.data.username;
+    while (await userRepository.getUserByUsername(username)) {
+      username = `${userRes.data.username}${Math.floor(Math.random() * 999)}`;
+    }
     user = await userRepository.createUser({
       twitterId: userRes.data.id,
       name: userRes.data.name,
-      username: userRes.data.username,
+      username: username,
     });
   }
+
+  const { access, refresh, sessionId, refreshExp } = signJWT(user.id);
+  await sessionRepository.createSession({
+    id: sessionId,
+    userId: user.id,
+    expires: refreshExp,
+  });
+  cookies().set("access", access, { secure: true, httpOnly: true, path: "/" });
+  cookies().set("refresh", refresh, {
+    secure: true,
+    httpOnly: true,
+    path: "/",
+  });
 
   console.log(userRes.data);
   return NextResponse.json(userRes.data);

@@ -18,12 +18,20 @@ model User {
   twitterId  String          @unique
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
+  sessions   Session[]
   characters Character[]
   pictureId  String?
   uploads    Picture[]
   comments   Comment[]
   likes      Like[]
   authored   PictureAuthor[]
+}
+
+model Session {
+  id     String @id
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  expires DateTime
 }
 
 model Character {
