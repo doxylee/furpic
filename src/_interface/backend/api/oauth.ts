@@ -1,4 +1,5 @@
 import axios from "axios";
+import { User } from "../entities/user";
 
 export async function loginOAuth({
   code,
@@ -9,5 +10,10 @@ export async function loginOAuth({
   codeVerifier: string;
   redirectUrl: string;
 }) {
-  return await axios.post("/api/oauth2/token", { code, codeVerifier, redirectUrl });
+  const res = await axios.post("/api/oauth2/token", {
+    code,
+    codeVerifier,
+    redirectUrl,
+  });
+  return res.data as User;
 }

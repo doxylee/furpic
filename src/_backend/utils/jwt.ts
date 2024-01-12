@@ -1,13 +1,17 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import serverSettings from "serverSettings";
 import { Base64 } from "js-base64";
+
+export function calcRefreshExp() {
+  return Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60;
+}
 
 export function signJWT(userId: string, sessionId?: string) {
   if (!sessionId)
     sessionId = Base64.fromUint8Array(
       crypto.getRandomValues(new Uint8Array(16)),
     );
-  const refreshExp = Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60;
+  const refreshExp = calcRefreshExp();
   return {
     access: jwt.sign(
       {

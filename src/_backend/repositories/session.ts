@@ -29,6 +29,13 @@ export class SessionRepository {
       },
     }));
   }
+
+  async updateSessionExpiration(id: string, userId: string, expires: Date) {
+    await prisma.session.update({
+      where: { id, userId },
+      data: { expires },
+    });
+  }
 }
 
 export const sessionRepository = new SessionRepository();

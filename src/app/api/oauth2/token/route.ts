@@ -8,6 +8,7 @@ import { TwitterApi } from "twitter-api-v2";
 
 import { cookies } from "next/headers";
 import { sessionRepository } from "@/_backend/repositories/session";
+import { setJWT } from "@/_backend/utils/auth";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -45,22 +46,10 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const { access, refresh, sessionId, refreshExp } = signJWT(user.id);
+  const {sessionId, userId, refreshExp} = setJWT(user.id);
   await sessionRepository.createSession({
     id: sessionId,
-    userId: user.id,
-    expires: refreshExp,
-  });
-  cookies().set("access", access, {
-    secure: true,
-    httpOnly: true,
-    path: "/",
-    expires: new Date(Date.now() + 1000 * 60 * 15),
-  });
-  cookies().set("refresh", refresh, {
-    secure: true,
-    httpOnly: true,
-    path: "/",
+    userId,
     expires: refreshExp,
   });
 
