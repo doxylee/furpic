@@ -11,7 +11,6 @@ import { sessionRepository } from "@/_backend/repositories/session";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  console.log(body);
   const res = await axios.post(
     "https://api.twitter.com/2/oauth2/token",
     {
@@ -27,14 +26,11 @@ export async function POST(request: NextRequest) {
       },
     },
   );
-  console.log(res.status, res.statusText);
-  console.log(res.data);
 
   const client = new TwitterApi(res.data.access_token);
   const userRes = await client.currentUserV2();
 
   let user = await userRepository.getUserByTwitterId(userRes.data.id);
-
   // TODO: Profile image
   if (!user) {
     let username = userRes.data.username;
@@ -43,6 +39,7 @@ export async function POST(request: NextRequest) {
     }
     user = await userRepository.createUser({
       twitterId: userRes.data.id,
+      twitterUsername: userRes.data.username,
       name: userRes.data.name,
       username: username,
     });
@@ -54,13 +51,18 @@ export async function POST(request: NextRequest) {
     userId: user.id,
     expires: refreshExp,
   });
-  cookies().set("access", access, { secure: true, httpOnly: true, path: "/" });
+  cookies().set("access", access, {
+    secure: true,
+    httpOnly: true,
+    path: "/",
+    expires: new Date(Date.now() + 1000 * 60 * 15),
+  });
   cookies().set("refresh", refresh, {
     secure: true,
     httpOnly: true,
     path: "/",
+    expires: refreshExp,
   });
 
-  console.log(userRes.data);
-  return NextResponse.json(userRes.data);
+  return NextResponse.json(user);
 }

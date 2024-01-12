@@ -13,6 +13,7 @@ export class UserRepository {
 
   async createUser(user: {
     twitterId: string;
+    twitterUsername: string;
     name: string;
     username: string;
   }) {
