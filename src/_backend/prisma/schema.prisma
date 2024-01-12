@@ -12,10 +12,88 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  username  String   @unique
-  twitterId String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String          @id @default(uuid())
+  name       String
+  username   String          @unique
+  twitterId  String          @unique
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  characters Character[]
+  pictureId  String?
+  uploads    Picture[]
+  comments   Comment[]
+  likes      Like[]
+  authored   PictureAuthor[]
 }
+
+model Character {
+  id               String             @id @default(uuid())
+  userId           String?
+  user             User?              @relation(fields: [userId], references: [id])
+  nameKo           String?
+  nameEn           String?
+  species          String?
+  image            String?
+  PictureCharacter PictureCharacter[]
+}
+
+enum PictureType {
+  drawing
+  photo
+}
+
+model Picture {
+  id               String             @id @default(uuid())
+  type             PictureType
+  image            String
+  uploaderId       String
+  uploader         User               @relation(fields: [uploaderId], references: [id])
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  likeCount        Int                @default(0)
+  viewCount        Int                @default(0)
+  comments         Comment[]
+  likes            Like[]
+  authors          PictureAuthor[]
+  PictureCharacter PictureCharacter[]
+}
+
+model Comment {
+  id        String    @id @default(uuid())
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  pictureId String
+  picture   Picture   @relation(fields: [pictureId], references: [id])
+  parentId  String?
+  parent    Comment?  @relation("ChildComments", fields: [parentId], references: [id])
+  children  Comment[] @relation("ChildComments")
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  pictureId String
+  picture   Picture  @relation(fields: [pictureId], references: [id])
+}
+
+model PictureAuthor {
+  id        Int     @id @default(autoincrement())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+  pictureId String
+  picture   Picture @relation(fields: [pictureId], references: [id])
+}
+
+model PictureCharacter {
+  id          Int       @id @default(autoincrement())
+  pictureId   String
+  picture     Picture   @relation(fields: [pictureId], references: [id])
+  characterId String
+  character   Character @relation(fields: [characterId], references: [id])
+}
+
