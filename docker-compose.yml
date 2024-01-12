@@ -1,0 +1,14 @@
+version: "3.4"
+
+services:
+  db:
+    container_name: furpic-dev-db
+    image: postgres:16.1
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=furpic
+    volumes:
+      - ./volumes/db:/var/lib/postgresql/data
