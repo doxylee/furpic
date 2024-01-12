@@ -1,13 +1,11 @@
-import type { Metadata } from 'next'
+"use client";
+
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
-import './globals.css'
-
-export const metadata: Metadata = {
-  title: undefined, // TODO
-  description: undefined,
-}
+import "./globals.css";
+import { UserContextProvider } from "@/utils/useUser";
+import Head from "next/head";
 
 export default function RootLayout({
   children,
@@ -16,12 +14,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
+      <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
       <body>
-        <AppRouterCacheProvider>
-          {children}
-          <SpeedInsights />
-          <Analytics />
-        </AppRouterCacheProvider>
+        <UserContextProvider>
+          <AppRouterCacheProvider>
+            {children}
+            <SpeedInsights />
+            <Analytics />
+          </AppRouterCacheProvider>
+        </UserContextProvider>
       </body>
     </html>
   );

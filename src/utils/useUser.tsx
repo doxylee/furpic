@@ -43,9 +43,15 @@ class UserController {
     return instance;
   }
 
+  readFromLocalStorage() {
+    this.user = JSON.parse(localStorage.getItem("user") || "null");
+    this.forceUpdate?.();
+  }
+
   async fetchUser() {
     try {
       this.user = await getMyUser();
+      localStorage.setItem("user", JSON.stringify(this.user));
       this.forceUpdate?.();
       return true;
     } catch (e) {
@@ -57,9 +63,9 @@ class UserController {
   }
 
   logout() {
-    localStorage.removeItem("token");
-    setCookie("jwt", "", new Date());
-    setCookie("ref", "", new Date());
+    setCookie("access", "", new Date());
+    setCookie("refresh", "", new Date());
+    localStorage.removeItem("user");
     this.user = null;
     this.forceUpdate?.();
   }
@@ -108,6 +114,8 @@ class UserController {
         codeVerifier,
         redirectUrl: UserController.getOAuthRedirectUrl(),
       });
+      localStorage.setItem("user", JSON.stringify(this.user));
+      this.forceUpdate?.();
       return true;
     } catch (e: any) {
       if (e.name == "Network Error") throw new Error("Network error"); // TODO: interface 단에서 처리
@@ -135,6 +143,7 @@ export function UserContextProvider({
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   useEffect(() => {
     userSingleton.forceUpdate = forceUpdate;
+    userSingleton.readFromLocalStorage();
     userSingleton.fetchUser();
   }, []);
   const memoized = useMemo(() => {

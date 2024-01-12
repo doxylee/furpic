@@ -61,10 +61,10 @@ export default function TwitterOauthCallbackPage() {
       </Head>
       {error ? (
         <div>
-          <Typography variant="h2" fontSize={36} mb={4} color="white">
+          <Typography variant="h2" fontSize={36} mb={4}>
             에러가 발생했습니다 :(
           </Typography>
-          <Typography variant="body1" fontSize={16} mb={16} color="white">
+          <Typography variant="body1" fontSize={16} mb={16}>
             원인: {error}
           </Typography>
           <Button

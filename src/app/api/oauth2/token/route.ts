@@ -46,12 +46,7 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const {sessionId, userId, refreshExp} = setJWT(user.id);
-  await sessionRepository.createSession({
-    id: sessionId,
-    userId,
-    expires: refreshExp,
-  });
+  await setJWT(user.id);
 
   return NextResponse.json(user);
 }

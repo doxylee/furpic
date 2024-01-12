@@ -55,13 +55,14 @@ export async function verifyJWT() {
       }) as JwtPayload;
 
       if (!sessionRepository.validateSession(payload.ses, payload.userId))
-        return false;
+        return null;
 
       await setJWT(payload.userId, payload.ses);
 
       return { userId: payload.userId, ses: payload.ses };
     } catch (e) {
-      return false;
+      return null;
     }
   }
+  return null;
 }
