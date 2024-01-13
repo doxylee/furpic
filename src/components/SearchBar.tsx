@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 
 import CancelIcon from "@mui/icons-material/Cancel";
 import SearchIcon from "@mui/icons-material/Search";
-import { IconButton, Paper, TextField } from "@mui/material";
+import { CircularProgress, IconButton, Paper, TextField } from "@mui/material";
 
 export const SearchBar = React.forwardRef(
   (
@@ -16,6 +16,7 @@ export const SearchBar = React.forwardRef(
       placeholder = "",
       searchIcon = <SearchIcon />,
       value = "",
+      loading = false,
     }: {
       /** Whether to clear search on escape */
       cancelOnEscape?: boolean;
@@ -35,6 +36,8 @@ export const SearchBar = React.forwardRef(
       searchIcon?: ReactNode;
       /** The value of the text field. */
       value?: string;
+      /** Whether to show loading animation */
+      loading?: boolean;
     },
     ref,
   ) => {
@@ -59,22 +62,44 @@ export const SearchBar = React.forwardRef(
           sx={{
             flex: "1 1",
             "& fieldset": { border: "none", outline: "none" },
+            "& input": { pr: 0 },
           }}
           placeholder={placeholder}
         />
         <IconButton
           onClick={onCancelSearch ? () => onCancelSearch() : () => onChange("")}
           disabled={disabled}
-          sx={{opacity: value ? 1 : 0, transition: "opacity 0.3s ease"}}
+          sx={{
+            opacity: value ? 1 : 0,
+            transform: `scale(${value ? 1 : 0})`,
+            transition: "opacity 0.3s ease, transform 0.3s ease",
+          }}
         >
           {closeIcon}
         </IconButton>
         <IconButton
           onClick={() => onRequestSearch?.(value)}
           disabled={disabled}
+          sx={{
+            opacity: loading ? 0 : 1,
+            transform: `scale(${loading ? 0 : 1})`,
+            width: loading ? 0 : 40,
+            height: loading ? 0 : 40,
+            transition:
+              "opacity 0.3s ease, transform 0.3s ease, width 0.3s ease, height 0.3s ease",
+          }}
         >
           {searchIcon}
         </IconButton>
+        <CircularProgress
+          size={loading ? 40 : 0}
+          sx={{
+            p:1,
+            ml:-2,
+            opacity: loading ? 1 : 0,
+            transition: "opacity 0.3s ease, width 0.3s ease, height 0.3s ease",
+          }}
+        />
       </Paper>
     );
   },

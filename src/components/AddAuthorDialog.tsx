@@ -4,12 +4,17 @@ import {
   DialogContent,
   Button,
   DialogActions,
-  Box,
-  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { AuthorItem } from "./SelectAuthors";
-import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useEffect } from "react";
 
+type FormFields = {
+  name: string;
+  twitterUsername: string;
+};
 export function AddAuthorDialog({
   openModal,
   onFinish,
@@ -17,39 +22,113 @@ export function AddAuthorDialog({
   openModal: boolean;
   onFinish: (author?: AuthorItem) => void;
 }) {
-  const [mode, setMode] = useState<"twitter" | "manual" | undefined>(undefined);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm<FormFields>();
 
-  // Reset mode when modal is reopen
+  const onSubmit = async (data: FormFields) => {
+    onFinish({
+      id: "new",
+      name: data.name,
+      twitterUsername: data.twitterUsername,
+      username: null,
+      pictureURL: null,
+      create: true,
+    });
+  };
+
   useEffect(() => {
-    if (openModal) setMode(undefined);
+    if (openModal) reset();
   }, [openModal]);
 
   return (
     <Dialog open={openModal} onClose={() => onFinish()}>
       <DialogTitle>작가 추가하기</DialogTitle>
       <DialogContent>
-        {mode === "twitter" ? (
-          <></>
-        ) : mode === "manual" ? (
-          <></>
-        ) : (
-          <Stack spacing={1}>
-            <Button variant="outlined" onClick={() => setMode("twitter")}>
-              트위터 유저네임으로 추가
-            </Button>
-            <Button variant="outlined" onClick={() => setMode("manual")}>
-              수동으로 추가하기
-            </Button>
-          </Stack>
-        )}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            name="name"
+            control={control}
+            rules={{ required: true }}
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <TextField
+                  {...field}
+                  label="닉네임"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                />
+                {error?.type === "required" && (
+                  <Typography color="red">
+                    작가의 닉네임을 입력해주세요
+                  </Typography>
+                )}
+              </>
+            )}
+          />
+
+          <Controller
+            name="twitterUsername"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="트위터 유저네임"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+              />
+            )}
+          />
+
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+            fullWidth
+          >
+            추가하기
+          </Button>
+        </form>
       </DialogContent>
       <DialogActions>
-        {mode ? (
-          <Button onClick={() => setMode(undefined)}>돌아가기</Button>
-        ) : (
-          <Button onClick={() => onFinish()}>취소</Button>
-        )}
+        <Button onClick={() => onFinish()}>취소</Button>
       </DialogActions>
     </Dialog>
   );
 }
+
+// function AddyByTwitter() {
+//   const [username, setUsername] = useState<string>("");
+//   const [usernameQuery, setUsernameQuery] = useState<string>("");
+//   const { data, isLoading } = useQuery({
+//     queryKey: ["users", "searchOnTwitter", usernameQuery],
+//     enabled: !!usernameQuery,
+//     queryFn: () => searchOnTwitter(usernameQuery),
+//   });
+
+//   const onSearch = () => {
+//     if (!username) return;
+//     setUsernameQuery(username);
+//   };
+
+//   // Search on pressing
+
+//   return (
+//     <Stack spacing={1} sx={{ pt: 1 }}>
+//       <SearchBar
+//         value={username}
+//         onChange={setUsername}
+//         onRequestSearch={onSearch}
+//         placeholder="@username"
+//         loading={isLoading}
+//       />
+//       {data && <UserCard user={data} />}
+//     </Stack>
+//   );
+// }

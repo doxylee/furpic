@@ -129,7 +129,14 @@ export default function PostPage() {
           render={({
             field: { onChange, onBlur, value, ref },
             fieldState: { error },
-          }) => <SelectAuthors value={value} onChange={onChange} />}
+          }) => (
+            <div>
+              <SelectAuthors value={value} onChange={onChange} />
+              {error?.type === "required" && (
+                <Typography color="red">작가를 선택해주세요</Typography>
+              )}
+            </div>
+          )}
         />
         <Button type="submit" variant="contained">
           업로드

@@ -24,14 +24,16 @@ export function UserCard({
         >
           {user.name}
         </Typography>
-        <Typography
-          fontSize={12}
-          color="gray"
-          noWrap
-          sx={{ overflow: "hidden", textOverflow: "ellipsis" }}
-        >
-          @{user.username || user.twitterUsername}
-        </Typography>
+        {(user.username || user.twitterUsername) && (
+          <Typography
+            fontSize={12}
+            color="gray"
+            noWrap
+            sx={{ overflow: "hidden", textOverflow: "ellipsis" }}
+          >
+            @{user.username || user.twitterUsername}
+          </Typography>
+        )}
       </CardContent>
     </Card>
   );

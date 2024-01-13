@@ -20,6 +20,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import { UserCard } from "./UserCard";
 import { User } from "@/_interface/backend/entities/user";
 import { AddAuthorDialog } from "./AddAuthorDialog";
+import { useUser } from "@/utils/useUser";
 
 export type AuthorItem = User & { create: boolean };
 
@@ -30,6 +31,7 @@ export function SelectAuthors({
   value: AuthorItem[] | undefined;
   onChange: (users: AuthorItem[] | undefined) => void;
 }) {
+  const { user } = useUser();
   const [expanded, setExpanded] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -37,7 +39,7 @@ export function SelectAuthors({
     if (!term) return;
     setSearchQuery(term);
   };
-  const { data } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["users", "search", searchQuery],
     enabled: !!searchQuery,
     queryFn: () => searchUsers(searchQuery),
@@ -49,11 +51,17 @@ export function SelectAuthors({
     }
   };
 
-  const removeAuthor = (user: User) => {
-    onChange(value?.filter((u) => u !== user));
+  const removeAuthor = (author: AuthorItem) => {
+    onChange(value?.filter((u) => u !== author));
+  };
+
+  const createAuthor = (author: AuthorItem) => {
+    onChange([...(value || []), author]);
   };
 
   const [addDialogueOpen, setAddDialogueOpen] = useState<boolean>(false);
+
+  const authors = data?.length ? data : user?[user]:[];
 
   return (
     <Box>
@@ -96,9 +104,10 @@ export function SelectAuthors({
               onRequestSearch={onSearch}
               searchIcon={<SearchIcon />}
               placeholder="작가 검색"
+              loading={isFetching}
             />
             <Grid2 container spacing={1}>
-              {data?.map((user) => (
+              {authors?.map((user) => (
                 <Grid2 key={user.id} xs={4} sm={3}>
                   <UserCard user={user} onClick={() => onAuthorClick(user)} />
                 </Grid2>
@@ -111,7 +120,10 @@ export function SelectAuthors({
             )}
             <AddAuthorDialog
               openModal={addDialogueOpen}
-              onFinish={() => setAddDialogueOpen(false)}
+              onFinish={(author) => {
+                if (author) createAuthor(author);
+                setAddDialogueOpen(false);
+              }}
             />
           </Stack>
         </AccordionDetails>
