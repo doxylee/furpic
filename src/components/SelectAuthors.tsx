@@ -6,6 +6,7 @@ import {
   Button,
   IconButton,
   Stack,
+  Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
@@ -114,9 +115,12 @@ export function SelectAuthors({
               ))}
             </Grid2>
             {data && (
-              <Button onClick={() => setAddDialogueOpen(true)}>
-                작가를 찾을 수 없나요? 작가 직접 추가하기
-              </Button>
+              <div>
+                <Typography fontSize={14} textAlign="center">작가를 찾을 수 없나요? 작가님께 가입을 요청드리거나</Typography>
+                <Button fullWidth onClick={() => setAddDialogueOpen(true)}>
+                  작가 직접 추가하기
+                </Button>
+              </div>
             )}
             <AddAuthorDialog
               openModal={addDialogueOpen}

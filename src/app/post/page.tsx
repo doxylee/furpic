@@ -5,12 +5,14 @@ import { DragDropFileUpload } from "@/components/dragDropFileUpload";
 import { Box, Button, ButtonGroup, Stack, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { enqueueSnackbar } from "notistack";
-import { SelectCharacters } from "@/components/selectCharacters";
+import { CharacterItem, SelectCharacters } from "@/components/selectCharacters";
 import { AuthorItem, SelectAuthors } from "@/components/SelectAuthors";
+import { useState } from "react";
 
 type FormFields = {
   image: File;
   type: "drawing" | "photo";
+  characters: CharacterItem[];
   authors: AuthorItem[];
 };
 
@@ -20,7 +22,8 @@ export default function PostPage() {
     handleSubmit,
     control,
     formState: { errors },
-    watch,
+    getValues,
+    setValue,
   } = useForm<FormFields>();
   const onSubmit = async ({ image, type, authors }: FormFields) => {
     await uploadPicture({
@@ -34,6 +37,17 @@ export default function PostPage() {
       enqueueSnackbar("업로드에 실패했습니다", { variant: "error" });
     });
   };
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const onImagePreviewUpdate = (imagePreview: string) => {
+    setImagePreview(imagePreview);
+    const characters = getValues("characters")?.map((character) => ({
+      ...character,
+      imageURL:
+        character.imageURL || (character.setImage ? imagePreview : null),
+    }));
+    setValue("characters", characters);
+  };
+
   return (
     <Box
       sx={{
@@ -66,6 +80,7 @@ export default function PostPage() {
                 onBlur={onBlur}
                 ref={ref}
                 description="10MB 이하, jpg, png, gif 이미지"
+                onImagePreview={onImagePreviewUpdate}
                 check={(file) => {
                   if (file.size > 10 * 1024 * 1024) {
                     enqueueSnackbar("10MB 이하의 이미지를 업로드 해주세요", {
@@ -126,7 +141,34 @@ export default function PostPage() {
           )}
         />
         <Typography variant="h6">캐릭터</Typography>
-        <SelectCharacters />
+        <Controller
+          control={control}
+          name="characters"
+          rules={{ required: true }}
+          render={({
+            field: { onChange, onBlur, value, ref },
+            fieldState: { error },
+          }) => (
+            <div>
+              <SelectCharacters
+                value={value}
+                onChange={(characters) =>
+                  onChange(
+                    characters?.map((character) => ({
+                      ...character,
+                      imageURL:
+                        character.imageURL ||
+                        (character.setImage ? imagePreview : null),
+                    })),
+                  )
+                }
+              />
+              {error?.type === "required" && (
+                <Typography color="red">캐릭터를 선택해주세요</Typography>
+              )}
+            </div>
+          )}
+        />
         <Typography variant="h6">작가</Typography>
         <Controller
           control={control}

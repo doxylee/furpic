@@ -24,12 +24,14 @@ export const DragDropFileUpload = React.forwardRef(
       onBlur,
       description,
       check,
+      onImagePreview,
     }: {
       onFileUpload: (file: File) => void;
       sx?: SxProps;
       onBlur?: () => void;
       description?: string;
       check?: (file: File) => boolean;
+      onImagePreview?: (imagePreview: string) => void;
     },
     ref,
   ) => {
@@ -57,13 +59,14 @@ export const DragDropFileUpload = React.forwardRef(
     };
 
     const handleFileChange = (file: File) => {
-      if(check && !check(file)) return;
+      if (check && !check(file)) return;
       setLoading(true);
       onFileUpload(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setLoading(false);
         setImagePreview(reader.result as string);
+        onImagePreview?.(reader.result as string);
       };
       reader.readAsDataURL(file);
     };
