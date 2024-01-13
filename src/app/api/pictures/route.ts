@@ -3,6 +3,10 @@ import { userRepository } from "@/_backend/repositories/user";
 import { verifyJWT } from "@/_backend/utils/auth";
 import { uploadFileR2 } from "@/_backend/utils/r2";
 import { uuid } from "@/_backend/utils/uuid";
+import {
+  TempUserData,
+  UploadPictureData,
+} from "@/_interface/backend/api/pictures";
 import { NextRequest, NextResponse } from "next/server";
 
 // Take formdata from request.body. There is a file named image and json named data.
@@ -15,7 +19,7 @@ export async function POST(request: NextRequest) {
   const dataStr = formData.get("data");
   if (!image || !dataStr) return { status: 400 }; // TODO: Better error message
   // TODO: type should be validated
-  const { type } = JSON.parse(dataStr as string);
+  const { type, authors } = JSON.parse(dataStr as string) as UploadPictureData; // TODO Validate
   if (!["drawing", "photo"].includes(type)) return { status: 400 }; // TODO: Better error message
   const user = await userRepository.getUserById(userId);
   if (!user) throw new Error("User not found");
@@ -28,11 +32,22 @@ export async function POST(request: NextRequest) {
   const key = `${id}.${fileExtension}`;
 
   await uploadFileR2({ file: image, key });
+  const usersToCreate = authors
+    .filter((author) => "name" in author)
+    .map((user) => ({ ...user, id: uuid() })) as (TempUserData & {
+    id: string;
+  })[];
+  await userRepository.createTempUsers(usersToCreate);
+  const userIds = authors
+    .filter((author) => "id" in author)
+    .map((author) => (author as { id: string }).id);
+  userIds.concat(usersToCreate.map((user) => user.id));
   const picture = await pictureRepository.createPicture({
     id,
     type,
     image: key,
     uploaderId: userId,
+    authors: userIds,
   });
   return NextResponse.json(picture);
 }

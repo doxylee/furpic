@@ -65,6 +65,18 @@ export class UserRepository {
       take: limit,
     });
   }
+
+  async createTempUsers(
+    users: {
+      id: string;
+      name: string;
+      twitterUsername: string | null;
+    }[],
+  ) {
+    return await prisma.user.createMany({
+      data: users,
+    });
+  }
 }
 
 export const userRepository = new UserRepository();

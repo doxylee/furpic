@@ -3,9 +3,19 @@ import { PictureType, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export class PictureRepository {
-  async createPicture(picture: { id: string; type: PictureType; image: string, uploaderId: string }) {
+  async createPicture({id, type, image, uploaderId, authors}: { id: string; type: PictureType; image: string, uploaderId: string, authors: string[] }) {
     return await prisma.picture.create({
-      data: picture,
+      data: {
+        id,
+        type,
+        image,
+        uploaderId,
+        authors: {
+          create: authors.map((authorId) => ({
+            userId: authorId,
+          })),
+        },
+      },
     });
   }
 }

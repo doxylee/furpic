@@ -22,8 +22,14 @@ export default function PostPage() {
     formState: { errors },
     watch,
   } = useForm<FormFields>();
-  const onSubmit = async (data: FormFields) => {
-    await uploadPicture(data).catch((e) => {
+  const onSubmit = async ({ image, type, authors }: FormFields) => {
+    await uploadPicture({
+      image,
+      type,
+      authors: authors.map(({ create, id, name, twitterUsername }) =>
+        create ? { name, twitterUsername: twitterUsername || null } : { id },
+      ),
+    }).catch((e) => {
       console.log(e);
       enqueueSnackbar("업로드에 실패했습니다", { variant: "error" });
     });
