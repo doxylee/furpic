@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const jwt = await verifyJWT();
-  if (!jwt) return { status: 401 };
+  if (!jwt) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { userId } = jwt;
   const user = await userRepository.getUserById(userId);
   if (!user)
