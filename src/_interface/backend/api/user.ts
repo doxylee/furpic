@@ -18,3 +18,12 @@ export async function searchUsers(query: string): Promise<User[]> {
     throw e;
   }
 }
+
+export async function searchOnTwitter(username: string) {
+  try {
+    const res = await axios.get(`/api/users/searchOnTwitter?username=${username}`);
+    return res.data;
+  } catch (e) {
+    throw e;
+  }
+}

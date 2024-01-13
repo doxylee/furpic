@@ -1,4 +1,5 @@
 const serverSettings = {
+  TWITTER_BEARER_TOKEN: process.env.TWITTER_BEARER_TOKEN!,
   TWITTER_OAUTH_CLIENT_SECRET: process.env.TWITTER_OAUTH_CLIENT_SECRET!,
   SECRET: process.env.SECRET!,
   R2_URL: process.env.R2_URL!,
