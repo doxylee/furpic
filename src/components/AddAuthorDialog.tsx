@@ -77,10 +77,11 @@ export function AddAuthorDialog({
             render={({ field }) => (
               <TextField
                 {...field}
-                label="트위터 유저네임"
+                label="트위터 유저네임 (선택)"
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                placeholder="@username"
               />
             )}
           />

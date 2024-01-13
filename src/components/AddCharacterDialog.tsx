@@ -73,7 +73,7 @@ export function AddCharacterDialog({
               <>
                 <TextField
                   {...field}
-                  label="한글 이름"
+                  label="한글 이름 (최소 하나)"
                   variant="outlined"
                   fullWidth
                   margin="normal"
@@ -99,7 +99,7 @@ export function AddCharacterDialog({
               <>
                 <TextField
                   {...field}
-                  label="영어 이름"
+                  label="영어 이름 (최소 하나)"
                   variant="outlined"
                   fullWidth
                   margin="normal"
@@ -119,7 +119,7 @@ export function AddCharacterDialog({
             render={({ field }) => (
               <TextField
                 {...field}
-                label="종족"
+                label="종족 (선택)"
                 variant="outlined"
                 fullWidth
                 margin="normal"
