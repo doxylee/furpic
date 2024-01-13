@@ -22,10 +22,14 @@ export const DragDropFileUpload = React.forwardRef(
       onFileUpload,
       sx,
       onBlur,
+      description,
+      check,
     }: {
       onFileUpload: (file: File) => void;
       sx?: SxProps;
       onBlur?: () => void;
+      description?: string;
+      check?: (file: File) => boolean;
     },
     ref,
   ) => {
@@ -53,6 +57,7 @@ export const DragDropFileUpload = React.forwardRef(
     };
 
     const handleFileChange = (file: File) => {
+      if(check && !check(file)) return;
       setLoading(true);
       onFileUpload(file);
       const reader = new FileReader();
@@ -112,6 +117,11 @@ export const DragDropFileUpload = React.forwardRef(
                 <ImageIcon style={{ fontSize: 60 }} />
               </IconButton>
               <Typography>업로드할 파일을 끌어다 놓거나 클릭하세요</Typography>
+              {description && (
+                <Typography fontSize={12} color="gray">
+                  {description}
+                </Typography>
+              )}
             </Box>
           </label>
           {loading && (
@@ -127,6 +137,7 @@ export const DragDropFileUpload = React.forwardRef(
             />
           )}
         </Paper>
+
         {imagePreview && (
           <Grid container justifyContent="center" style={{ marginTop: 16 }}>
             <Grid item xs={12} sm={6} md={4}>

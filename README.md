@@ -20,14 +20,17 @@ Create and start a postgres container.
 $ make db
 ```
 
+(Ignore below. Just use root user for now. Permission problem with prisma migrate)
 Connect to the running postgres container and run the following command.
 
 ```bash
-$ make access-db
+$ make db-access
 ```
 
 ```sql
-CREATE USER 'backend' WITH PASSWORD 'password';
+CREATE USER backend WITH PASSWORD 'password';
+ALTER USER backend CREATEDB;
+GRANT USAGE ON SCHEMA public TO backend;
 GRANT ALL PRIVILEGES ON DATABASE furpic TO backend;
 GRANT CREATE, CONNECT ON DATABASE furpic TO backend;
 \q

@@ -55,6 +55,19 @@ export default function PostPage() {
                 sx={{ width: 1 }}
                 onBlur={onBlur}
                 ref={ref}
+                description="10MB 이하, jpg, png, gif 이미지"
+                check={(file) => {
+                    if(file.size > 10 * 1024 * 1024) {
+                        enqueueSnackbar("10MB 이하의 이미지를 업로드 해주세요", { variant: "error" });
+                        return false;
+                    }
+                    // only jpg, png, gif
+                    if(!file.type.match(/image\/(jpeg|png|gif)/)) {
+                        enqueueSnackbar("jpg, png, gif 이미지만 업로드 해주세요", { variant: "error" });
+                        return false;
+                    }
+                    return true;
+                }}
               />
               {error?.type === "required" && (
                 <Typography color="red">이미지를 업로드 해주세요</Typography>
