@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { UserContextProvider } from "@/utils/useUser";
 import Head from "next/head";
+import { SnackbarProvider } from "notistack";
 
 export default function RootLayout({
   children,
@@ -20,6 +21,9 @@ export default function RootLayout({
       <body>
         <UserContextProvider>
           <AppRouterCacheProvider>
+            <SnackbarProvider
+              anchorOrigin={{ horizontal: "center", vertical: "top" }}
+            />
             {children}
             <SpeedInsights />
             <Analytics />
