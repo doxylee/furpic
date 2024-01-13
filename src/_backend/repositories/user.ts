@@ -38,7 +38,7 @@ export class UserRepository {
     });
   }
 
-  async searchUsers(search: string, limit: number = 10) {
+  async searchUsers(search: string, limit: number = 12) {
     return await prisma.user.findMany({
       where: {
         OR: [

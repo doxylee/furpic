@@ -1,5 +1,5 @@
-import { presentUser } from "@/_backend/presenters/user";
-import { userRepository } from "@/_backend/repositories/user";
+import { presentCharacterWithUser } from "@/_backend/presenters/character";
+import { characterRepository } from "@/_backend/repositories/character";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -8,6 +8,8 @@ export async function GET(request: NextRequest) {
   if (!query)
     return NextResponse.json({ error: "No query provided" }, { status: 400 });
   return NextResponse.json(
-    (await userRepository.searchUsers(query)).map(presentUser),
+    (await characterRepository.searchCharactersAndInUsers(query)).map(
+      presentCharacterWithUser,
+    ),
   );
 }
