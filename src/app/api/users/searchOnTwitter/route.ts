@@ -5,6 +5,7 @@ import { TwitterApi } from "twitter-api-v2";
 
 
 export async function GET(request: NextRequest) {
+  return NextResponse.json({ error: "Not implemented due to paid API" }, { status: 501 });
   if (!await verifyJWT()) return { status: 401 };
 
   const username = request.nextUrl.searchParams.get("username");
