@@ -5,6 +5,7 @@ import { DragDropFileUpload } from "@/components/dragDropFileUpload";
 import { Box, Button, ButtonGroup, Stack, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { enqueueSnackbar } from "notistack";
+import { SelectCharacters } from "@/components/selectCharacters";
 
 type FormFields = {
   image: File;
@@ -110,6 +111,7 @@ export default function PostPage() {
             </div>
           )}
         />
+        <SelectCharacters />
         <Button type="submit" variant="contained">
           제출
         </Button>
