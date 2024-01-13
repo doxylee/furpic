@@ -1,13 +1,10 @@
 import { userRepository } from "@/_backend/repositories/user";
-import { signJWT } from "@/_backend/utils/jwt";
 import axios from "axios";
 import clientSettings from "clientSettings";
 import { NextRequest, NextResponse } from "next/server";
 import serverSettings from "serverSettings";
 import { TwitterApi } from "twitter-api-v2";
 
-import { cookies } from "next/headers";
-import { sessionRepository } from "@/_backend/repositories/session";
 import { setJWT } from "@/_backend/utils/auth";
 
 export async function POST(request: NextRequest) {
