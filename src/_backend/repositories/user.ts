@@ -37,6 +37,28 @@ export class UserRepository {
       },
     });
   }
+
+  async searchUsers(search: string, limit: number = 10) {
+    return await prisma.user.findMany({
+      where: {
+        OR: [
+          {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+          {
+            username: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
+      take: limit,
+    });
+  }
 }
 
 export const userRepository = new UserRepository();
