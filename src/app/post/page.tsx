@@ -32,6 +32,10 @@ export default function PostPage() {
       authors: authors.map(({ create, id, name, twitterUsername }) =>
         create ? { name, twitterUsername: twitterUsername || null } : { id },
       ),
+      characters: getValues("characters").map(
+        ({ create, id, nameKo, nameEn, species, mine, setImage }) =>
+          create ? { nameKo, nameEn, species, mine, setImage } : { id },
+      ),
     }).catch((e) => {
       console.log(e);
       enqueueSnackbar("업로드에 실패했습니다", { variant: "error" });
