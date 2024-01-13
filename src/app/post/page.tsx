@@ -6,10 +6,12 @@ import { Box, Button, ButtonGroup, Stack, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { enqueueSnackbar } from "notistack";
 import { SelectCharacters } from "@/components/selectCharacters";
+import { AuthorItem, SelectAuthors } from "@/components/SelectAuthors";
 
 type FormFields = {
   image: File;
   type: "drawing" | "photo";
+  authors: AuthorItem[];
 };
 
 export default function PostPage() {
@@ -18,6 +20,7 @@ export default function PostPage() {
     handleSubmit,
     control,
     formState: { errors },
+    watch,
   } = useForm<FormFields>();
   const onSubmit = async (data: FormFields) => {
     await uploadPicture(data).catch((e) => {
@@ -58,16 +61,20 @@ export default function PostPage() {
                 ref={ref}
                 description="10MB 이하, jpg, png, gif 이미지"
                 check={(file) => {
-                    if(file.size > 10 * 1024 * 1024) {
-                        enqueueSnackbar("10MB 이하의 이미지를 업로드 해주세요", { variant: "error" });
-                        return false;
-                    }
-                    // only jpg, png, gif
-                    if(!file.type.match(/image\/(jpeg|png|gif)/)) {
-                        enqueueSnackbar("jpg, png, gif 이미지만 업로드 해주세요", { variant: "error" });
-                        return false;
-                    }
-                    return true;
+                  if (file.size > 10 * 1024 * 1024) {
+                    enqueueSnackbar("10MB 이하의 이미지를 업로드 해주세요", {
+                      variant: "error",
+                    });
+                    return false;
+                  }
+                  // only jpg, png, gif
+                  if (!file.type.match(/image\/(jpeg|png|gif)/)) {
+                    enqueueSnackbar("jpg, png, gif 이미지만 업로드 해주세요", {
+                      variant: "error",
+                    });
+                    return false;
+                  }
+                  return true;
                 }}
               />
               {error?.type === "required" && (
@@ -76,6 +83,7 @@ export default function PostPage() {
             </div>
           )}
         />
+        <Typography variant="h6">작품 종류</Typography>
 
         <Controller
           control={control}
@@ -111,9 +119,20 @@ export default function PostPage() {
             </div>
           )}
         />
+        <Typography variant="h6">캐릭터</Typography>
         <SelectCharacters />
+        <Typography variant="h6">작가</Typography>
+        <Controller
+          control={control}
+          name="authors"
+          rules={{ required: true }}
+          render={({
+            field: { onChange, onBlur, value, ref },
+            fieldState: { error },
+          }) => <SelectAuthors value={value} onChange={onChange} />}
+        />
         <Button type="submit" variant="contained">
-          제출
+          업로드
         </Button>
       </Stack>
     </Box>

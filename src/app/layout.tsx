@@ -7,6 +7,9 @@ import "./globals.css";
 import { UserContextProvider } from "@/utils/useUser";
 import Head from "next/head";
 import { SnackbarProvider } from "notistack";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -19,16 +22,18 @@ export default function RootLayout({
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <body>
-        <UserContextProvider>
-          <AppRouterCacheProvider>
-            <SnackbarProvider
-              anchorOrigin={{ horizontal: "center", vertical: "top" }}
-            />
-            {children}
-            <SpeedInsights />
-            <Analytics />
-          </AppRouterCacheProvider>
-        </UserContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <UserContextProvider>
+            <AppRouterCacheProvider>
+              <SnackbarProvider
+                anchorOrigin={{ horizontal: "center", vertical: "top" }}
+              />
+              {children}
+              <SpeedInsights />
+              <Analytics />
+            </AppRouterCacheProvider>
+          </UserContextProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );

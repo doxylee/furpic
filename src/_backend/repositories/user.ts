@@ -54,6 +54,12 @@ export class UserRepository {
               mode: "insensitive",
             },
           },
+          {
+            twitterUsername: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
         ],
       },
       take: limit,
