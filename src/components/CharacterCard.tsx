@@ -40,7 +40,7 @@ export function CharacterCard({
             noWrap
             sx={{ overflow: "hidden", textOverflow: "ellipsis" }}
           >
-            {character.user.name} | @
+            {character.user.name} @
             {character.user.username || character.user.twitterUsername}
           </Typography>
         )}

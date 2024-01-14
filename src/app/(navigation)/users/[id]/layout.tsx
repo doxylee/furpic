@@ -3,10 +3,12 @@
 import { presentUser } from "@/_backend/presenters/user";
 import { userRepository } from "@/_backend/repositories/user";
 import { NotFoundComponent } from "@/components/404";
-import { Avatar, Typography } from "@mui/material";
+import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import { Stack, Container } from "@mui/system";
 import React from "react";
 import { UserTabs } from "./UserTabs";
+import XIcon from "@mui/icons-material/X";
+import Link from "next/link";
 
 export default async function UserLayout({
   children,
@@ -21,8 +23,10 @@ export default async function UserLayout({
   if (!prismaUser) return <NotFoundComponent />;
   const user = presentUser(prismaUser);
 
+  const username = user.username || user.twitterUsername;
+
   return (
-    <Container maxWidth="x2l" >
+    <Container maxWidth="x2l">
       <Stack spacing={2}>
         <Stack
           spacing={2}
@@ -41,10 +45,21 @@ export default async function UserLayout({
             />
             <Stack>
               <Typography fontSize={28}>{user.name}</Typography>
-              <Typography fontSize={14} color="#aaa">
-                @{user.username}
-              </Typography>
+              {username && (
+                <Typography fontSize={14} color="#aaa">
+                  @{username}
+                </Typography>
+              )}
             </Stack>
+            {user.twitterUsername && (
+              <Link href={`https://twitter.com/${user.twitterUsername}`} target="_blank">
+                <Box
+                  sx={{ color: "white", backgroundColor: "black", p: "4px", pb: "2px", borderRadius: "4px", cursor: "pointer" }}
+                >
+                  <XIcon />
+                </Box>
+              </Link>
+            )}
           </Stack>
           <UserTabs />
         </Stack>
