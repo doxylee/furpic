@@ -1,6 +1,5 @@
-import { Character, PictureType, PrismaClient, User } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { Character,  User } from "@prisma/client";
+import { prisma } from "../prisma/client";
 
 export type PrismaCharacterWithUser = Character & { user: User | null };
 

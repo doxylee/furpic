@@ -7,8 +7,7 @@ import {
   PictureAuthor,
   User,
 } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "../prisma/client";
 
 export type PrismaPictureWithConnections = Picture & {
   uploader: User | null;
@@ -77,6 +76,32 @@ export class PictureRepository {
   ): Promise<PrismaPictureWithConnections | null> {
     return await prisma.picture.findUnique({
       where: { id },
+      include: {
+        uploader: true,
+        authors: { include: { user: true } },
+        characters: { include: { character: { include: { user: true } } } },
+      },
+    });
+  }
+
+  async getUserDrawings(
+    userId: string,
+  ): Promise<PrismaPictureWithConnections[]> {
+    return await prisma.picture.findMany({
+      where: { authors: { some: { userId: userId } }, type: "drawing" },
+      include: {
+        uploader: true,
+        authors: { include: { user: true } },
+        characters: { include: { character: { include: { user: true } } } },
+      },
+    });
+  }
+
+  async getUserDrawingsWithUsername(
+    username: string,
+  ): Promise<PrismaPictureWithConnections[]> {
+    return await prisma.picture.findMany({
+      where: { authors: { some: { user: { username } } }, type: "drawing" },
       include: {
         uploader: true,
         authors: { include: { user: true } },
