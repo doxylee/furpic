@@ -87,8 +87,11 @@ export function SelectAuthors({
                 </Grid2>
               ))}
             </Grid2>
-            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-              <IconButton onClick={() => setExpanded(!expanded)}>
+            <Box
+              sx={{ display: "flex", justifyContent: "flex-end" }}
+              onClick={() => setExpanded(!expanded)}
+            >
+              <IconButton>
                 {expanded ? <ArrowDropUpIcon /> : <AddIcon />}
               </IconButton>
             </Box>

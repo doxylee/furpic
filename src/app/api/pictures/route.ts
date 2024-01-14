@@ -83,5 +83,5 @@ export async function POST(request: NextRequest) {
 function isTempCharacterData(
   character: TempCharacterData | { id: string },
 ): character is TempCharacterData {
-  return "mine" in character;
+  return !("id" in character);
 }
