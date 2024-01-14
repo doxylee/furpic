@@ -1,3 +1,5 @@
+"use client"
+
 import { CharacterWithUser } from "@/_interface/backend/entities/character";
 import {
   Card,
