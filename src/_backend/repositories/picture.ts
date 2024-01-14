@@ -1,6 +1,22 @@
-import { PictureType, PrismaClient } from "@prisma/client";
+import {
+  PictureType,
+  PrismaClient,
+  Picture,
+  Character,
+  PictureCharacter,
+  PictureAuthor,
+  User,
+} from "@prisma/client";
 
 const prisma = new PrismaClient();
+
+export type PrismaPictureWithConnections = Picture & {
+  uploader: User | null;
+  authors: (PictureAuthor & { user: User })[];
+  characters: (PictureCharacter & {
+    character: Character & { user: User | null };
+  })[];
+};
 
 export class PictureRepository {
   async createPicture({
@@ -34,6 +50,24 @@ export class PictureRepository {
             characterId,
           })),
         },
+      },
+    });
+  }
+
+  async getRecentPictures({
+    limit,
+  }: {
+    limit: number;
+  }): Promise<PrismaPictureWithConnections[]> {
+    return await prisma.picture.findMany({
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        uploader: true,
+        authors: { include: { user: true } },
+        characters: { include: { character: { include: { user: true } } } },
       },
     });
   }

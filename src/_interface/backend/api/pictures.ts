@@ -26,7 +26,7 @@ export async function uploadPicture({
   image,
   type,
   authors,
-  characters
+  characters,
 }: UploadPictureParams) {
   const formData = new FormData();
   formData.append("image", image);
@@ -37,4 +37,13 @@ export async function uploadPicture({
     },
   });
   return res.data;
+}
+
+export async function getRecentPictures() {
+  try {
+    const res = await axios.get(`/api/pictures/recent`);
+    return res.data;
+  } catch (e) {
+    throw e;
+  }
 }

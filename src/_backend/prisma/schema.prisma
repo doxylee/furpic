@@ -55,8 +55,8 @@ model Picture {
   id         String             @id @default(uuid())
   type       PictureType
   image      String
-  uploaderId String
-  uploader   User               @relation(fields: [uploaderId], references: [id])
+  uploaderId String?
+  uploader   User?              @relation(fields: [uploaderId], references: [id], onDelete: SetNull)
   createdAt  DateTime           @default(now())
   updatedAt  DateTime           @updatedAt
   likeCount  Int                @default(0)
