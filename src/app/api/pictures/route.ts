@@ -57,11 +57,12 @@ export async function POST(request: NextRequest) {
   characterIds.push(...charactersToCreate.map((character) => character.id));
 
   // Author creation
-  const usersToCreate = authors
-    .filter((author) => "name" in author)
-    .map((user) => ({ ...user, id: uuid() })) as (TempUserData & {
-    id: string;
-  })[];
+  const usersToCreate = authors.filter(isTempUserData).map(
+    (user) =>
+      ({ ...user, id: uuid() }) as TempUserData & {
+        id: string;
+      },
+  );
   await userRepository.createTempUsers(usersToCreate);
   const userIds = authors
     .filter((author) => "id" in author)
@@ -78,6 +79,10 @@ export async function POST(request: NextRequest) {
     characters: characterIds,
   });
   return NextResponse.json(picture);
+}
+
+function isTempUserData(user: TempUserData | { id: string }): user is TempUserData {
+  return !("id" in user);
 }
 
 function isTempCharacterData(
