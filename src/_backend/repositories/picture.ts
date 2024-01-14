@@ -115,6 +115,32 @@ export class PictureRepository {
       },
     });
   }
+
+  async getCharacterPictures({
+    characterId,
+    type,
+    limit,
+    orderBy = { createdAt: "desc" },
+  }: {
+    characterId: string;
+    type?: PictureType;
+    limit: number;
+    orderBy?: PictureOrderByInput;
+  }): Promise<PrismaPictureWithConnections[]> {
+    return await prisma.picture.findMany({
+      where: {
+        characters: { some: { characterId } },
+        type,
+      },
+      take: limit,
+      orderBy,
+      include: {
+        uploader: true,
+        authors: { include: { user: true } },
+        characters: { include: { character: { include: { user: true } } } },
+      },
+    });
+  }
 }
 
 export const pictureRepository = new PictureRepository();

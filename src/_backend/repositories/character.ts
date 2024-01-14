@@ -19,6 +19,15 @@ export class CharacterRepository {
     });
   }
 
+  async getCharacterById(id: string): Promise<PrismaCharacterWithUser | null> {
+    return await prisma.character.findUnique({
+      where: { id },
+      include: {
+        user: true,
+      },
+    });
+  }
+
   async searchCharactersAndInUsers(
     search: string,
     limit: number = 12,
