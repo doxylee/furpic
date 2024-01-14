@@ -127,30 +127,13 @@ export default function PostPage() {
             fieldState: { error },
           }) => (
             <div>
-              {/* <ButtonGroup sx={{ width: 1 }}>
-                <Button
-                  variant={value === "drawing" ? "contained" : "outlined"}
-                  sx={{ flex: 1 }}
-                  onClick={() => onChange("drawing")}
-                  onBlur={onBlur}
-                  ref={ref}
-                >
-                  그림
-                </Button>
-                <Button
-                  variant={value === "photo" ? "contained" : "outlined"}
-                  sx={{ flex: 1 }}
-                  onClick={() => onChange("photo")}
-                  onBlur={onBlur}
-                >
-                  사진
-                </Button>
-              </ButtonGroup> */}
               <ToggleButtonGroup
                 color="primary"
                 value={value}
                 exclusive
                 onChange={(e, value) => onChange(value)}
+                onBlur={onBlur}
+                ref={ref}
                 sx={{ width: 1 }}
               >
                 <ToggleButton value="drawing" fullWidth>그림</ToggleButton>
