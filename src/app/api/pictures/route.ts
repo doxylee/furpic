@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
   if (!user) throw new Error("User not found");
 
   const id = uuid();
-  const fileExtension = image.name.split(".").pop();
+  const fileExtension = image.name.split(".").pop()?.toLowerCase();
   if (!["jpg", "jpeg", "png", "gif"].includes(fileExtension || ""))
     return NextResponse.json({error: "File extension must be jpg, jpeg, png, or gif"}, {status: 400})
   if (image.size > 1024 * 1024 * 10) return NextResponse.json({error: "File size must be less than 10MB"}, {status: 400})
