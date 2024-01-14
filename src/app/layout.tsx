@@ -8,8 +8,12 @@ import { UserContextProvider } from "@/utils/useUser";
 import Head from "next/head";
 import { SnackbarProvider } from "notistack";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "@mui/material";
+import { theme } from "./theme";
 
 const queryClient = new QueryClient();
+
+
 
 export default function RootLayout({
   children,
@@ -24,14 +28,16 @@ export default function RootLayout({
       <body>
         <QueryClientProvider client={queryClient}>
           <UserContextProvider>
-            <AppRouterCacheProvider>
-              <SnackbarProvider
-                anchorOrigin={{ horizontal: "center", vertical: "top" }}
-              />
-              {children}
-              <SpeedInsights />
-              <Analytics />
-            </AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+              <AppRouterCacheProvider>
+                <SnackbarProvider
+                  anchorOrigin={{ horizontal: "center", vertical: "top" }}
+                />
+                {children}
+                <SpeedInsights />
+                <Analytics />
+              </AppRouterCacheProvider>
+            </ThemeProvider>
           </UserContextProvider>
         </QueryClientProvider>
       </body>

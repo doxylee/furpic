@@ -1,4 +1,5 @@
 import axios from "axios";
+import { PictureWithConnections } from "../entities/picture";
 
 export type TempUserData = { name: string; twitterUsername: string | null };
 export type AuthorLink = { id: string } | TempUserData;
@@ -39,7 +40,7 @@ export async function uploadPicture({
   return res.data;
 }
 
-export async function getRecentPictures() {
+export async function getRecentPictures(): Promise<PictureWithConnections[]> {
   try {
     const res = await axios.get(`/api/pictures/recent`);
     return res.data;

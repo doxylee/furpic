@@ -6,6 +6,7 @@ export type PictureType = "drawing" | "photo"
 export type PictureWithConnections = {
     id: string;
     type: PictureType;
+    imageURL: string;
     uploaderId:string | null;
     uploader: User | null;
     createdAt: Date;

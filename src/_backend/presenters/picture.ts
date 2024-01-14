@@ -2,6 +2,7 @@ import { PictureWithConnections } from "@/_interface/backend/entities/picture";
 import { PrismaPictureWithConnections } from "../repositories/picture";
 import { presentCharacterWithUser } from "./character";
 import { presentUser } from "./user";
+import serverSettings from "serverSettings";
 
 export function presentPictureWithConnections(
   picture: PrismaPictureWithConnections,
@@ -9,6 +10,7 @@ export function presentPictureWithConnections(
   return {
     id: picture.id,
     type: picture.type,
+    imageURL: `${serverSettings.R2_ACCESS_URL}/${picture.image}`,
     uploaderId: picture.uploaderId,
     uploader: picture.uploader ? presentUser(picture.uploader) : null,
     createdAt: picture.createdAt,
