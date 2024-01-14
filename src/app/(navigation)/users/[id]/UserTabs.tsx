@@ -24,6 +24,12 @@ export function UserTabs({ sx }: { sx?: SxProps }) {
         value="photos"
         href={`/users/${pathname.split("/")[2]}/photos`}
       />
+      <Tab
+        component="a"
+        label="캐릭터"
+        value="characters"
+        href={`/users/${pathname.split("/")[2]}/characters`}
+      />
     </Tabs>
   );
 }

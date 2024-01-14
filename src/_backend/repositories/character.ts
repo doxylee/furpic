@@ -1,4 +1,4 @@
-import { Character,  User } from "@prisma/client";
+import { Character, User } from "@prisma/client";
 import { prisma } from "../prisma/client";
 
 export type PrismaCharacterWithUser = Character & { user: User | null };
@@ -71,11 +71,17 @@ export class CharacterRepository {
     });
   }
 
-  async getMyCharacters(userId: string, limit:number): Promise<PrismaCharacterWithUser[]> {
+  async getCharactersOfUser({
+    userId,
+    username,
+    limit,
+  }: {
+    userId?: string;
+    username?: string;
+    limit: number;
+  }): Promise<PrismaCharacterWithUser[]> {
     return await prisma.character.findMany({
-      where: {
-        userId,
-      },
+      where: userId ? { userId } : { user: { username } },
       take: limit,
       include: {
         user: true,

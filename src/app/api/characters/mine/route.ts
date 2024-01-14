@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     const { userId } = jwt;
 
   return NextResponse.json(
-    (await characterRepository.getMyCharacters(userId, 12)).map(
+    (await characterRepository.getCharactersOfUser({userId, limit: 12})).map(
       presentCharacterWithUser,
     ),
   );
