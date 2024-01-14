@@ -45,7 +45,7 @@ export default function PostPage() {
           create ? { nameKo, nameEn, species, mine, setImage } : { id },
       ),
     }).catch((e) => {
-      console.log(e);
+      console.error(e);
       enqueueSnackbar("업로드에 실패했습니다", { variant: "error" });
     });
   };

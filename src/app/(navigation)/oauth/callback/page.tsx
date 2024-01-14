@@ -41,7 +41,7 @@ export default function TwitterOauthCallbackPage() {
         }
       })
       .catch((e) => {
-        console.log(e);
+        console.error(e);
         setError(e.message);
       });
   }, []);

@@ -10,6 +10,5 @@ export async function GET(request: NextRequest) {
   const user = await userRepository.getUserById(userId);
   if (!user)
     return NextResponse.json({ error: "User not found" }, { status: 404 });
-  console.log("user", user  )
   return NextResponse.json(presentUser(user));
 }
