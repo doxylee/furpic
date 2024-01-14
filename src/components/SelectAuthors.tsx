@@ -36,10 +36,7 @@ export function SelectAuthors({
   const [expanded, setExpanded] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const onSearch = (term: string) => {
-    if (!term) return;
-    setSearchQuery(term);
-  };
+
   const { data, isFetching } = useQuery({
     queryKey: ["users", "search", searchQuery],
     enabled: !!searchQuery,
@@ -62,7 +59,7 @@ export function SelectAuthors({
 
   const [addDialogueOpen, setAddDialogueOpen] = useState<boolean>(false);
 
-  const authors = data?.length ? data : user?[user]:[];
+  const authors = searchQuery ? data : user?[user]:[];
 
   return (
     <Box>
@@ -102,7 +99,7 @@ export function SelectAuthors({
             <SearchBar
               value={search}
               onChange={(newValue) => setSearch(newValue)}
-              onRequestSearch={onSearch}
+              onRequestSearch={setSearchQuery}
               searchIcon={<SearchIcon />}
               placeholder="작가 검색"
               loading={isFetching}
@@ -116,7 +113,9 @@ export function SelectAuthors({
             </Grid2>
             {data && (
               <div>
-                <Typography fontSize={14} textAlign="center">작가를 찾을 수 없나요? 작가님께 가입을 요청드리거나</Typography>
+                <Typography fontSize={14} textAlign="center">
+                  작가를 찾을 수 없나요? 작가님께 가입을 요청드리거나
+                </Typography>
                 <Button fullWidth onClick={() => setAddDialogueOpen(true)}>
                   작가 직접 추가하기
                 </Button>

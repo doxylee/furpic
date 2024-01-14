@@ -20,7 +20,10 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import { CharacterCard } from "./CharacterCard";
 import { AddCharacterDialog } from "./AddCharacterDialog";
 import { useQuery } from "@tanstack/react-query";
-import { fullSearchCharacters } from "@/_interface/backend/api/characters";
+import {
+  fullSearchCharacters,
+  getMyCharacters,
+} from "@/_interface/backend/api/characters";
 
 export type CharacterItem = CharacterWithUser & {
   create: boolean;
@@ -38,10 +41,7 @@ export function SelectCharacters({
   const [expanded, setExpanded] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const onSearch = (term: string) => {
-    if (!term) return;
-    setSearchQuery(term);
-  };
+
   const { data, isFetching } = useQuery({
     queryKey: ["characters", "fullSearch", searchQuery],
     enabled: !!searchQuery,
@@ -66,6 +66,13 @@ export function SelectCharacters({
   };
 
   const [addDialogueOpen, setAddDialogueOpen] = useState<boolean>(false);
+
+  const { data: myCharacters } = useQuery({
+    queryKey: ["characters", "mine"],
+    queryFn: () => getMyCharacters(),
+  });
+
+  const characters = searchQuery ? data : myCharacters;
 
   return (
     <Box>
@@ -105,12 +112,13 @@ export function SelectCharacters({
             <SearchBar
               value={search}
               onChange={(newValue) => setSearch(newValue)}
-              onRequestSearch={onSearch}
+              onRequestSearch={setSearchQuery}
               searchIcon={<SearchIcon />}
               placeholder="캐릭터/오너 검색"
+              loading={isFetching}
             />
             <Grid2 container spacing={1}>
-              {data?.map((character) => (
+              {characters?.map((character) => (
                 <Grid2 key={character.id} xs={4} sm={3}>
                   <CharacterCard
                     character={character}

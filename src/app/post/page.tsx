@@ -2,7 +2,15 @@
 
 import { uploadPicture } from "@/_interface/backend/api/pictures";
 import { DragDropFileUpload } from "@/components/dragDropFileUpload";
-import { Box, Button, ButtonGroup, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { enqueueSnackbar } from "notistack";
 import { CharacterItem, SelectCharacters } from "@/components/selectCharacters";
@@ -119,7 +127,7 @@ export default function PostPage() {
             fieldState: { error },
           }) => (
             <div>
-              <ButtonGroup sx={{ width: 1 }}>
+              {/* <ButtonGroup sx={{ width: 1 }}>
                 <Button
                   variant={value === "drawing" ? "contained" : "outlined"}
                   sx={{ flex: 1 }}
@@ -137,7 +145,17 @@ export default function PostPage() {
                 >
                   사진
                 </Button>
-              </ButtonGroup>
+              </ButtonGroup> */}
+              <ToggleButtonGroup
+                color="primary"
+                value={value}
+                exclusive
+                onChange={(e, value) => onChange(value)}
+                sx={{ width: 1 }}
+              >
+                <ToggleButton value="drawing" fullWidth>그림</ToggleButton>
+                <ToggleButton value="photo" fullWidth>사진</ToggleButton>
+              </ToggleButtonGroup>
               {error?.type === "required" && (
                 <Typography color="red">작품 종류를 선택해주세요</Typography>
               )}

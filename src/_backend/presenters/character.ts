@@ -1,10 +1,10 @@
-import { Character, CharacterWithUser } from "@/_interface/backend/entities/character";
-import { Character as PrismaCharacter, User as PrismaUser } from "@prisma/client";
+import { CharacterWithUser } from "@/_interface/backend/entities/character";
 import serverSettings from "serverSettings";
 import { presentUser } from "./user";
+import { PrismaCharacterWithUser } from "../repositories/character";
 
 export function presentCharacterWithUser(
-  character: PrismaCharacter & { user: PrismaUser | null },
+  character: PrismaCharacterWithUser,
 ): CharacterWithUser {
   return {
     id: character.id,

@@ -2,6 +2,8 @@ import { Character, PictureType, PrismaClient, User } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+export type PrismaCharacterWithUser = Character & { user: User | null };
+
 export class CharacterRepository {
   async createTempCharacters(
     characters: {
@@ -21,7 +23,7 @@ export class CharacterRepository {
   async searchCharactersAndInUsers(
     search: string,
     limit: number = 12,
-  ): Promise<(Character & { user: User | null })[]> {
+  ): Promise<PrismaCharacterWithUser[]> {
     return await prisma.character.findMany({
       where: {
         OR: [
@@ -62,6 +64,18 @@ export class CharacterRepository {
             },
           },
         ],
+      },
+      take: limit,
+      include: {
+        user: true,
+      },
+    });
+  }
+
+  async getMyCharacters(userId: string, limit:number): Promise<PrismaCharacterWithUser[]> {
+    return await prisma.character.findMany({
+      where: {
+        userId,
       },
       take: limit,
       include: {

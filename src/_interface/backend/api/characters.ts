@@ -9,3 +9,12 @@ export async function fullSearchCharacters(query: string): Promise<CharacterWith
     throw e;
   }
 }
+
+export async function getMyCharacters(): Promise<CharacterWithUser[]> {
+  try {
+    const res = await axios.get(`/api/characters/mine`);
+    return res.data;
+  } catch (e) {
+    throw e;
+  }
+}
