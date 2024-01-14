@@ -17,6 +17,10 @@ export type PrismaPictureWithConnections = Picture & {
   })[];
 };
 
+export type PictureOrderByInput =
+  | Partial<Record<keyof Picture, "asc" | "desc">>
+  | Partial<Record<keyof Picture, "asc" | "desc">>[];
+
 export class PictureRepository {
   async createPicture({
     id,
@@ -84,24 +88,26 @@ export class PictureRepository {
     });
   }
 
-  async getUserDrawings(
-    userId: string,
-  ): Promise<PrismaPictureWithConnections[]> {
+  async getUserAuthored({
+    userId,
+    username,
+    type,
+    limit,
+    orderBy = { createdAt: "desc" },
+  }: {
+    userId?: string;
+    username?: string;
+    type?: PictureType;
+    limit: number;
+    orderBy?: PictureOrderByInput;
+  }): Promise<PrismaPictureWithConnections[]> {
     return await prisma.picture.findMany({
-      where: { authors: { some: { userId: userId } }, type: "drawing" },
-      include: {
-        uploader: true,
-        authors: { include: { user: true } },
-        characters: { include: { character: { include: { user: true } } } },
+      where: {
+        authors: { some: userId ? { userId: userId } : { user: { username } } },
+        type,
       },
-    });
-  }
-
-  async getUserDrawingsWithUsername(
-    username: string,
-  ): Promise<PrismaPictureWithConnections[]> {
-    return await prisma.picture.findMany({
-      where: { authors: { some: { user: { username } } }, type: "drawing" },
+      take: limit,
+      orderBy,
       include: {
         uploader: true,
         authors: { include: { user: true } },

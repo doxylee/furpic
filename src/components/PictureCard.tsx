@@ -1,3 +1,5 @@
+"use client";
+
 import { PictureWithConnections } from "@/_interface/backend/entities/picture";
 import {
   Avatar,
@@ -61,16 +63,14 @@ export function PictureCard({
               sx={{ position: "absolute", left: 8, bottom: 8 }}
               total={picture.authors.length}
             >
-              {picture.authors.map(
-                (author) => (
-                  <Avatar
-                    key={author.id}
-                    alt={author.name}
-                    src={author.pictureURL ?? undefined}
-                    sx={{ width: 32, height: 32 }}
-                  />
-                ),
-              )}
+              {picture.authors.map((author) => (
+                <Avatar
+                  key={author.id}
+                  alt={author.name}
+                  src={author.pictureURL ?? undefined}
+                  sx={{ width: 32, height: 32 }}
+                />
+              ))}
             </AvatarGroup>
           </Tooltip>
           <Tooltip

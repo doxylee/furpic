@@ -31,7 +31,7 @@ export default async function PicturePage({
         <Typography variant="h5">캐릭터</Typography>
         <CharactersPart characters={picture.characters} />
         <Typography variant="h5">작가</Typography>
-        <AuthorsPart authors={picture.authors} />
+        <AuthorsPart authors={picture.authors} type={picture.type} />
       </Stack>
     </Container>
   );

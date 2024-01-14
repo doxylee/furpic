@@ -1,16 +1,27 @@
 import { User } from "@/_interface/backend/entities/user";
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  SxProps,
+  Typography,
+} from "@mui/material";
 import { MouseEventHandler } from "react";
 
 export function UserCard({
   user,
   onClick,
+  sx,
 }: {
   user: User;
   onClick?: MouseEventHandler<HTMLDivElement>;
+  sx?: SxProps;
 }) {
   return (
-    <Card onClick={onClick} sx={{ cursor: onClick ? "pointer" : "auto" }}>
+    <Card
+      onClick={onClick}
+      sx={{ cursor: onClick ? "pointer" : "auto", ...sx }}
+    >
       <CardMedia
         image={user.pictureURL ?? undefined}
         title={user.name}

@@ -1,16 +1,24 @@
 import { CharacterWithUser } from "@/_interface/backend/entities/character";
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  SxProps,
+  Typography,
+} from "@mui/material";
 import { MouseEventHandler } from "react";
 
 export function CharacterCard({
   character,
   onClick,
+  sx,
 }: {
   character: CharacterWithUser;
   onClick?: MouseEventHandler<HTMLDivElement>;
+  sx?: SxProps;
 }) {
   return (
-    <Card onClick={onClick} sx={{ cursor: onClick ? "pointer" : "auto" }}>
+    <Card onClick={onClick} sx={{ cursor: onClick ? "pointer" : "auto", ...sx }}>
       <CardMedia
         image={character.imageURL ?? undefined}
         title={character.nameKo || character.nameEn || undefined}
