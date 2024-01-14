@@ -13,15 +13,20 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 
-
 import { useState } from "react";
 import { SearchBar } from "./SearchBar";
 import { CharacterWithUser } from "@/_interface/backend/entities/character";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { CharacterCard } from "./CharacterCard";
 import { AddCharacterDialog } from "./AddCharacterDialog";
+import { useQuery } from "@tanstack/react-query";
+import { fullSearchCharacters } from "@/_interface/backend/api/characters";
 
-export type CharacterItem = CharacterWithUser & { create: boolean, mine: boolean, setImage: boolean };
+export type CharacterItem = CharacterWithUser & {
+  create: boolean;
+  mine: boolean;
+  setImage: boolean;
+};
 
 export function SelectCharacters({
   value,
@@ -32,12 +37,26 @@ export function SelectCharacters({
 }) {
   const [expanded, setExpanded] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
-  const onSearch = () => {
-    console.log(search);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const onSearch = (term: string) => {
+    if (!term) return;
+    setSearchQuery(term);
+  };
+  const { data, isFetching } = useQuery({
+    queryKey: ["characters", "fullSearch", searchQuery],
+    enabled: !!searchQuery,
+    queryFn: () => fullSearchCharacters(searchQuery),
+  });
+
+  const onCharacterClick = (character: CharacterWithUser) => {
+    if (!value?.find((u) => u.id === character.id)) {
+      onChange([
+        ...(value || []),
+        { ...character, create: false, mine: false, setImage: false },
+      ]);
+    }
   };
 
-
-  
   const removeCharacter = (character: CharacterItem) => {
     onChange(value?.filter((u) => u !== character));
   };
@@ -90,7 +109,17 @@ export function SelectCharacters({
               searchIcon={<SearchIcon />}
               placeholder="캐릭터/오너 검색"
             />
-            {true && (
+            <Grid2 container spacing={1}>
+              {data?.map((character) => (
+                <Grid2 key={character.id} xs={4} sm={3}>
+                  <CharacterCard
+                    character={character}
+                    onClick={() => onCharacterClick(character)}
+                  />
+                </Grid2>
+              ))}
+            </Grid2>
+            {data && (
               <div>
                 <Typography fontSize={14} textAlign="center">
                   캐릭터를 찾을 수 없나요? 오너님께 추가를 요청드리거나
