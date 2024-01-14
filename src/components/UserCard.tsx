@@ -25,7 +25,7 @@ export function UserCard({
       <CardMedia
         image={user.pictureURL ?? undefined}
         title={user.name}
-        sx={{ paddingTop: "100%" }}
+        sx={{ paddingTop: "100%", borderRadius: "50%" }}
       />
       <CardContent sx={{ p: 1, "&:last-child": { pb: 1 } }}>
         <Typography

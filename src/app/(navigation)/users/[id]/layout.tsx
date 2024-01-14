@@ -52,9 +52,19 @@ export default async function UserLayout({
               )}
             </Stack>
             {user.twitterUsername && (
-              <Link href={`https://twitter.com/${user.twitterUsername}`} target="_blank">
+              <Link
+                href={`https://twitter.com/${user.twitterUsername}`}
+                target="_blank"
+              >
                 <Box
-                  sx={{ color: "white", backgroundColor: "black", p: "4px", pb: "2px", borderRadius: "4px", cursor: "pointer" }}
+                  sx={{
+                    color: "white",
+                    backgroundColor: "black",
+                    p: "4px",
+                    pb: "2px",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
                 >
                   <XIcon />
                 </Box>

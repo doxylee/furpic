@@ -56,11 +56,33 @@ export function PictureCard({
           }}
         >
           <Tooltip
-            title={picture.authors.map((a) => a.name).join(", ")}
+            title={picture.characters
+              .map((a) => a.nameKo || a.nameEn)
+              .join(", ")}
             placement="bottom"
           >
             <AvatarGroup
               sx={{ position: "absolute", left: 8, bottom: 8 }}
+              total={picture.characters.length}
+            >
+              {picture.characters.slice(0, 3).map((character) => (
+                <Avatar
+                  key={character.id}
+                  variant="square"
+                  alt={character.nameKo || character.nameEn || undefined}
+                  src={character.imageURL ?? undefined}
+                  sx={{ width: 32, height: 32 }}
+                />
+              ))}
+            </AvatarGroup>
+          </Tooltip>
+
+          <Tooltip
+            title={picture.authors.map((a) => a.name).join(", ")}
+            placement="bottom"
+          >
+            <AvatarGroup
+              sx={{ position: "absolute", right: 8, bottom: 8 }}
               total={picture.authors.length}
             >
               {picture.authors.map((author) => (
@@ -68,26 +90,6 @@ export function PictureCard({
                   key={author.id}
                   alt={author.name}
                   src={author.pictureURL ?? undefined}
-                  sx={{ width: 32, height: 32 }}
-                />
-              ))}
-            </AvatarGroup>
-          </Tooltip>
-          <Tooltip
-            title={picture.characters
-              .map((a) => a.nameKo || a.nameEn)
-              .join(", ")}
-            placement="bottom"
-          >
-            <AvatarGroup
-              sx={{ position: "absolute", right: 8, bottom: 8 }}
-              total={picture.characters.length}
-            >
-              {picture.characters.slice(0, 3).map((character) => (
-                <Avatar
-                  key={character.id}
-                  alt={character.nameKo || character.nameEn || undefined}
-                  src={character.imageURL ?? undefined}
                   sx={{ width: 32, height: 32 }}
                 />
               ))}
