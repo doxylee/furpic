@@ -48,3 +48,14 @@ export async function getRecentPictures(): Promise<PictureWithConnections[]> {
     throw e;
   }
 }
+
+export async function getPictureById(
+  id: string,
+): Promise<PictureWithConnections> {
+  try {
+    const res = await axios.get(`/api/pictures/${id}`);
+    return res.data;
+  } catch (e) {
+    throw e;
+  }
+}

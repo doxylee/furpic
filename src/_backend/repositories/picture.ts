@@ -71,6 +71,19 @@ export class PictureRepository {
       },
     });
   }
+
+  async getPictureById(
+    id: string,
+  ): Promise<PrismaPictureWithConnections | null> {
+    return await prisma.picture.findUnique({
+      where: { id },
+      include: {
+        uploader: true,
+        authors: { include: { user: true } },
+        characters: { include: { character: { include: { user: true } } } },
+      },
+    });
+  }
 }
 
 export const pictureRepository = new PictureRepository();
