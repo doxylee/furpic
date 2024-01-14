@@ -33,7 +33,9 @@ export function AddAuthorDialog({
     onFinish({
       id: "new",
       name: data.name,
-      twitterUsername: data.twitterUsername,
+      twitterUsername: data.twitterUsername.startsWith("@")
+        ? data.twitterUsername.slice(1)
+        : data.twitterUsername,
       username: null,
       pictureURL: null,
       create: true,
