@@ -97,6 +97,33 @@ export class CharacterRepository {
       },
     });
   }
+
+  async updateCharacter({
+    id,
+    nameKo,
+    nameEn,
+    species,
+    image,
+    userId,
+  }: {
+    id: string;
+    nameKo?: string | null;
+    nameEn?: string | null;
+    species?: string | null;
+    image?: string | null;
+    userId?: string;
+  }): Promise<Character> {
+    return await prisma.character.update({
+      where: { id },
+      data: {
+        nameKo,
+        nameEn,
+        species,
+        image,
+        userId,
+      },
+    });
+  }
 }
 
 export const characterRepository = new CharacterRepository();

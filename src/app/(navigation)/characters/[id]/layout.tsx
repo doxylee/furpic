@@ -8,6 +8,7 @@ import { CharacterTabs } from "./CharacterTabs";
 import { characterRepository } from "@/_backend/repositories/character";
 import { presentCharacterWithUser } from "@/_backend/presenters/character";
 import Link from "next/link";
+import { CharacterEditButton } from "./CharacterEditButton";
 
 export default async function UserLayout({
   children,
@@ -16,7 +17,6 @@ export default async function UserLayout({
   children: React.ReactNode;
   params: { id: string };
 }) {
-  console.log("use server", params);
   const prismaCharacter = await characterRepository.getCharacterById(params.id);
   if (!prismaCharacter) return <NotFoundComponent />;
   const character = presentCharacterWithUser(prismaCharacter);
@@ -56,6 +56,7 @@ export default async function UserLayout({
                 </Link>
               )}
             </Stack>
+            <CharacterEditButton character={character} sx={{justifySelf:"flex-end"}} />
           </Stack>
           <CharacterTabs />
         </Stack>
