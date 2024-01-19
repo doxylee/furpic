@@ -2,6 +2,7 @@
 
 import { updateCharacter } from "@/_interface/backend/api/characters";
 import { CharacterWithUser } from "@/_interface/backend/entities/character";
+import { DragDropFileUpload } from "@/components/dragDropFileUpload";
 import { useUser } from "@/utils/useUser";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
@@ -14,10 +15,12 @@ import FormGroup from "@mui/material/FormGroup";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { SxProps } from "@mui/material/styles";
+import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 type FormFields = {
+  image?: File;
   nameKo?: string;
   nameEn?: string;
   species?: string;
@@ -62,6 +65,7 @@ export function CharacterEditButton({
     setModalOpen(false);
     await updateCharacter({
       id: character.id,
+      image: data.image,
       nameKo: data.nameKo,
       nameEn: data.nameEn,
       species: data.species,
@@ -78,6 +82,47 @@ export function CharacterEditButton({
           <DialogTitle>캐릭터 수정하기</DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit(onSubmit)}>
+              <Controller
+                control={control}
+                name="image"
+                rules={{ required: true }}
+                render={({
+                  field: { onChange, onBlur, value, ref },
+                  fieldState: { error },
+                }) => (
+                  <div>
+                    <DragDropFileUpload
+                      onFileUpload={onChange}
+                      sx={{ width: 1 }}
+                      onBlur={onBlur}
+                      ref={ref}
+                      description="10MB 이하, jpg, png, gif 이미지"
+                      check={(file) => {
+                        if (file.size > 10 * 1024 * 1024) {
+                          enqueueSnackbar(
+                            "10MB 이하의 이미지를 업로드 해주세요",
+                            {
+                              variant: "error",
+                            },
+                          );
+                          return false;
+                        }
+                        // only jpg, png, gif
+                        if (!file.type.match(/image\/(jpeg|png|gif)/)) {
+                          enqueueSnackbar(
+                            "jpg, png, gif 이미지만 업로드 해주세요",
+                            {
+                              variant: "error",
+                            },
+                          );
+                          return false;
+                        }
+                        return true;
+                      }}
+                    />
+                  </div>
+                )}
+              />
               <Controller
                 name="nameKo"
                 control={control}
