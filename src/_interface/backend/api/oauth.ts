@@ -4,16 +4,16 @@ import { User } from "../entities/user";
 export async function loginOAuth({
   code,
   codeVerifier,
-  redirectUrl,
+  redirectUri,
 }: {
   code: string;
   codeVerifier: string;
-  redirectUrl: string;
+  redirectUri: string;
 }) {
   const res = await axios.post("/api/oauth2/token", {
     code,
     codeVerifier,
-    redirectUrl,
+    redirectUri,
   });
   return res.data as User;
 }

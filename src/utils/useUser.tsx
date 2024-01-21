@@ -112,7 +112,7 @@ class UserController {
       this.user = await loginOAuth({
         code,
         codeVerifier,
-        redirectUrl: UserController.getOAuthRedirectUrl(),
+        redirectUri: UserController.getOAuthRedirectUrl(),
       });
       localStorage.setItem("user", JSON.stringify(this.user));
       this.forceUpdate?.();
