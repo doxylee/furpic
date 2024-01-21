@@ -37,8 +37,8 @@ export async function updateCharacter({
   try {
     const formData = new FormData();
     if (image) formData.append("image", image);
-    formData.append("data", JSON.stringify({ id, nameKo, nameEn, species }));
-    const res = await axios.post("/api/pictures", formData, {
+    formData.append("data", JSON.stringify({ nameKo, nameEn, species }));
+    const res = await axios.patch(`/api/characters/${id}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

@@ -79,9 +79,9 @@ export function CharacterEditButton({
           수정
         </Button>
         <Dialog open={modalOpen} onClose={() => onCancel()}>
-          <DialogTitle>캐릭터 수정하기</DialogTitle>
-          <DialogContent>
-            <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <DialogTitle>캐릭터 수정하기</DialogTitle>
+            <DialogContent>
               <Controller
                 control={control}
                 name="image"
@@ -188,12 +188,12 @@ export function CharacterEditButton({
                   />
                 )}
               />
-            </form>
-          </DialogContent>
-          <DialogActions>
-            <Button type="submit">저장</Button>
-            <Button onClick={() => onCancel()}>취소</Button>
-          </DialogActions>
+            </DialogContent>
+            <DialogActions>
+              <Button type="submit">저장</Button>
+              <Button onClick={() => onCancel()}>취소</Button>
+            </DialogActions>
+          </form>
         </Dialog>
 
         <Dialog
