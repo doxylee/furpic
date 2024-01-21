@@ -48,3 +48,26 @@ export async function updateCharacter({
     throw e;
   }
 }
+
+export function createCharacter({
+  nameKo,
+  nameEn,
+  species,
+  image,
+}: {
+  nameKo?: string | null;
+  nameEn?: string | null;
+  species?: string | null;
+  image?: File;
+}): Promise<CharacterWithUser> {
+  const formData = new FormData();
+  if (image) formData.append("image", image);
+  formData.append("data", JSON.stringify({ nameKo, nameEn, species }));
+  return axios
+    .post("/api/characters", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => res.data);
+}

@@ -3,8 +3,10 @@
 import { presentCharacterWithUser } from "@/_backend/presenters/character";
 import { characterRepository } from "@/_backend/repositories/character";
 import { CharacterCard } from "@/components/CharacterCard";
+import { useUser } from "@/utils/useUser";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Link from "next/link";
+import { CharacterAddButton, CharacterAddCard } from "./CharacterAddButton";
 
 export default async function UserCharactersPage({
   params,
@@ -22,6 +24,7 @@ export default async function UserCharactersPage({
 
   return (
     <Grid2 container spacing={2}>
+      <CharacterAddButton userId={params.id} />
       {characters?.map((character) => (
         <Grid2 xs={6} sm={4} md={3} lg={2} key={character.id}>
           <Link href={`/characters/${character.id}`}>

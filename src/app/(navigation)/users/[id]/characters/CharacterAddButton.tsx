@@ -1,23 +1,24 @@
 "use client";
 
-import { updateCharacter } from "@/_interface/backend/api/characters";
-import { CharacterWithUser } from "@/_interface/backend/entities/character";
-import { DragDropFileUpload } from "@/components/dragDropFileUpload";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Stack,
+  SxProps,
+  TextField,
+  Typography,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { useUser } from "@/utils/useUser";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import { SxProps } from "@mui/material/styles";
-import { enqueueSnackbar } from "notistack";
-import { useState } from "react";
+import Grid2 from "@mui/material/Unstable_Grid2";
 import { Controller, useForm } from "react-hook-form";
+import { useState } from "react";
+import { DragDropFileUpload } from "@/components/dragDropFileUpload";
+import { enqueueSnackbar } from "notistack";
+import { createCharacter } from "@/_interface/backend/api/characters";
 
 type FormFields = {
   image?: File;
@@ -26,16 +27,17 @@ type FormFields = {
   species?: string;
 };
 
-export function CharacterEditButton({
-  character,
+export function CharacterAddButton({
   sx,
+  userId,
 }: {
-  character: CharacterWithUser;
   sx?: SxProps;
+  userId: string;
 }) {
   const { user } = useUser();
   const [modalOpen, setModalOpen] = useState(false);
   const [closeDialogOpen, setCloseDialogOpen] = useState(false);
+
   const {
     handleSubmit,
     control,
@@ -43,13 +45,7 @@ export function CharacterEditButton({
     reset,
     setValue,
     getFieldState,
-  } = useForm<FormFields>({
-    defaultValues: {
-      nameKo: character.nameKo ?? undefined,
-      nameEn: character.nameEn ?? undefined,
-      species: character.species ?? undefined,
-    },
-  });
+  } = useForm<FormFields>();
 
   const openModal = () => {
     reset();
@@ -63,8 +59,7 @@ export function CharacterEditButton({
 
   const onSubmit = async (data: FormFields) => {
     setModalOpen(false);
-    await updateCharacter({
-      id: character.id,
+    await createCharacter({
       image: data.image,
       nameKo: data.nameKo,
       nameEn: data.nameEn,
@@ -72,14 +67,29 @@ export function CharacterEditButton({
     });
   };
 
-  if (user && user.id === character.userId)
+  if (user && user.id === userId)
     return (
       <>
-        <Button variant="outlined" onClick={openModal} sx={sx}>
-          수정
-        </Button>
-        <Dialog open={modalOpen} onClose={() => onCancel()}>
-          <DialogTitle>캐릭터 수정하기</DialogTitle>
+        <Grid2 xs={6} sm={4} md={3} lg={2}>
+          <Stack
+            onClick={openModal}
+            spacing={1}
+            sx={{
+              height: "100%",
+              border: "#53b5ff dashed 2px",
+              borderRadius: "16px",
+              justifyContent: "center",
+              alignItems: "center",
+              cursor: "pointer",
+              ...sx,
+            }}
+          >
+            <AddIcon fontSize="large" />
+            <Typography>캐릭터 추가하기</Typography>
+          </Stack>
+        </Grid2>
+        <Dialog open={modalOpen} onClose={onCancel}>
+          <DialogTitle>캐릭터 추가하기</DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Controller
@@ -188,14 +198,22 @@ export function CharacterEditButton({
                   />
                 )}
               />
+
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ mt: 2 }}
+                fullWidth
+              >
+                추가하기
+              </Button>
             </form>
           </DialogContent>
           <DialogActions>
-            <Button type="submit">저장</Button>
-            <Button onClick={() => onCancel()}>취소</Button>
+            <Button onClick={onCancel}>취소</Button>
           </DialogActions>
         </Dialog>
-
         <Dialog
           open={closeDialogOpen}
           onClose={() => setCloseDialogOpen(false)}

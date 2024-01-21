@@ -124,6 +124,30 @@ export class CharacterRepository {
       },
     });
   }
+
+  async createCharacter({
+    userId,
+    nameKo,
+    nameEn,
+    species,
+    image,
+  }: {
+    userId: string;
+    nameKo?: string | null;
+    nameEn?: string | null;
+    species?: string | null;
+    image?: string | null;
+  }) {
+    return await prisma.character.create({
+      data: {
+        userId,
+        nameKo,
+        nameEn,
+        species,
+        image,
+      },
+    });
+  }
 }
 
 export const characterRepository = new CharacterRepository();
