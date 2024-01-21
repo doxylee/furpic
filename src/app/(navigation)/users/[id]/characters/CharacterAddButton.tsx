@@ -30,10 +30,10 @@ type FormFields = {
 
 export function CharacterAddButton({
   sx,
-  userId,
+  userSearchQuery,
 }: {
   sx?: SxProps;
-  userId: string;
+  userSearchQuery: { userId: string } | { username: string };
 }) {
   const { user } = useUser();
   const [modalOpen, setModalOpen] = useState(false);
@@ -67,10 +67,17 @@ export function CharacterAddButton({
       nameEn: data.nameEn,
       species: data.species,
     });
-    queryClient.invalidateQueries({queryKey: ["characters", userId]});
+    queryClient.invalidateQueries({
+      queryKey: ["characters", "getCharactersOfUser"],
+    });
   };
 
-  if (user && (user.id === userId || "%40" + user.username === userId))
+  if (
+    user &&
+    (("userId" in userSearchQuery && userSearchQuery.userId === user.id) ||
+      ("username" in userSearchQuery &&
+        userSearchQuery.username === user.username))
+  )
     return (
       <>
         <Grid2 xs={6} sm={4} md={3} lg={2}>

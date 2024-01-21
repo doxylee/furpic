@@ -1,11 +1,8 @@
 "use server";
 
-import { presentCharacterWithUser } from "@/_backend/presenters/character";
 import { characterRepository } from "@/_backend/repositories/character";
-import { CharacterCard } from "@/components/CharacterCard";
-import Grid2 from "@mui/material/Unstable_Grid2";
-import Link from "next/link";
-import { CharacterAddButton } from "./CharacterAddButton";
+import { dehydrate, useQueryClient, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { UserCharacters } from "./UserCharacters";
 
 export default async function UserCharactersPage({
   params,
@@ -15,22 +12,22 @@ export default async function UserCharactersPage({
   const userSearchQuery = params.id.startsWith("%40")
     ? { username: params.id.slice(3) }
     : { userId: params.id };
-  const data = await characterRepository.getCharactersOfUser({
-    ...userSearchQuery,
-    limit: 36,
+
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["characters", "getCharactersOfUser", userSearchQuery],
+    queryFn: () =>
+      characterRepository.getCharactersOfUser({
+        ...userSearchQuery,
+        limit: 36,
+      }),
   });
-  const characters = data.map(presentCharacterWithUser);
+
+  const dehydratedState = dehydrate(queryClient);
 
   return (
-    <Grid2 container spacing={2}>
-      {characters?.map((character) => (
-        <Grid2 xs={6} sm={4} md={3} lg={2} key={character.id}>
-          <Link href={`/characters/${character.id}`}>
-            <CharacterCard character={character} sx={{ cursor: "pointer" }} />
-          </Link>
-        </Grid2>
-      ))}
-      <CharacterAddButton userId={params.id} />
-    </Grid2>
+    <HydrationBoundary state={dehydratedState}>
+      <UserCharacters userSearchQuery={userSearchQuery} />
+    </HydrationBoundary>
   );
 }
