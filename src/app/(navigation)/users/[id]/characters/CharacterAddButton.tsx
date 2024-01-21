@@ -19,6 +19,7 @@ import { useState } from "react";
 import { DragDropFileUpload } from "@/components/dragDropFileUpload";
 import { enqueueSnackbar } from "notistack";
 import { createCharacter } from "@/_interface/backend/api/characters";
+import { useQueryClient } from "@tanstack/react-query";
 
 type FormFields = {
   image?: File;
@@ -37,6 +38,7 @@ export function CharacterAddButton({
   const { user } = useUser();
   const [modalOpen, setModalOpen] = useState(false);
   const [closeDialogOpen, setCloseDialogOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const {
     handleSubmit,
@@ -65,9 +67,10 @@ export function CharacterAddButton({
       nameEn: data.nameEn,
       species: data.species,
     });
+    queryClient.invalidateQueries({queryKey: ["characters", userId]});
   };
 
-  if (user && user.id === userId)
+  if (user && (user.id === userId || "%40" + user.username === userId))
     return (
       <>
         <Grid2 xs={6} sm={4} md={3} lg={2}>

@@ -20,7 +20,7 @@ export function UserCard({
   return (
     <Card
       onClick={onClick}
-      sx={{ cursor: onClick ? "pointer" : "auto", ...sx }}
+      sx={{ cursor: onClick ? "pointer" : "auto", borderRadius:"50em 50em 0 0", ...sx }}
     >
       <CardMedia
         image={user.pictureURL ?? undefined}
