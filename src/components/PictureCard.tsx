@@ -121,7 +121,7 @@ export function PictureCard({
                     <Avatar
                       key={author.id}
                       alt={author.name}
-                      src={author.pictureURL ?? undefined}
+                      src={author.imageURL ?? undefined}
                       sx={{ width: 32, height: 32 }}
                     />
                   </Link>
@@ -129,7 +129,7 @@ export function PictureCard({
                   <Avatar
                     key={author.id}
                     alt={author.name}
-                    src={author.pictureURL ?? undefined}
+                    src={author.imageURL ?? undefined}
                     sx={{ width: 32, height: 32 }}
                   />
                 ),

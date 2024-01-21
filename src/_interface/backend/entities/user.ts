@@ -5,5 +5,5 @@ export type User = {
   name: string;
   username: string | null;
   twitterUsername: string | null;
-  pictureURL: string | null;
+  imageURL: string | null;
 };

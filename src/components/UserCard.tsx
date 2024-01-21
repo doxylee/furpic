@@ -23,7 +23,7 @@ export function UserCard({
       sx={{ cursor: onClick ? "pointer" : "auto", borderRadius:"50em 50em 32px 32px", ...sx }}
     >
       <CardMedia
-        image={user.pictureURL ?? undefined}
+        image={user.imageURL ?? undefined}
         title={user.name}
         sx={{ paddingTop: "100%", borderRadius: "50%" }}
       />

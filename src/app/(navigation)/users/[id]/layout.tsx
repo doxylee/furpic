@@ -40,7 +40,7 @@ export default async function UserLayout({
         >
           <Stack direction="row" alignItems="center" spacing={4}>
             <Avatar
-              src={user.pictureURL ?? undefined}
+              src={user.imageURL ?? undefined}
               sx={{ width: 120, height: 120 }}
             />
             <Stack>

@@ -37,7 +37,7 @@ export function AddAuthorDialog({
         ? data.twitterUsername.slice(1)
         : data.twitterUsername,
       username: null,
-      pictureURL: null,
+      imageURL: null,
       create: true,
     });
   };

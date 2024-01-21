@@ -21,7 +21,7 @@ model User {
   updatedAt       DateTime        @updatedAt
   sessions        Session[]
   characters      Character[]
-  pictureId       String?
+  image           String?
   uploads         Picture[]
   comments        Comment[]
   likes           Like[]

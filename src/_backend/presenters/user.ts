@@ -8,7 +8,7 @@ export function presentUser(user: PrismaUser): User {
     name: user.name,
     username: user.username,
     twitterUsername: user.twitterUsername,
-    pictureURL:
-      user.pictureId && `${serverSettings.R2_ACCESS_URL}/${user.pictureId}`,
+    imageURL:
+      user.image && `${serverSettings.R2_ACCESS_URL}/${user.image}`,
   };
 }
