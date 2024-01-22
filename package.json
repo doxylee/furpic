@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --experimental-https",
     "prebuild": "prisma generate",
     "build": "next build",
     "postbuild": "prisma migrate deploy",
@@ -44,7 +44,8 @@
     "eslint-config-next": "14.0.4",
     "prettier": "^3.1.1",
     "prisma": "^5.8.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "^33.2.0"
   },
   "prisma": {
     "schema": "src/_backend/prisma/schema.prisma"

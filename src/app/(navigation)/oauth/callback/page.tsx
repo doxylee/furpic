@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useUser, userSingleton } from "@/utils/useUser";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
@@ -13,13 +13,9 @@ export default function TwitterOauthCallbackPage() {
   const errorStr = searchParams.get("error");
   const userController = useUser();
   const router = useRouter();
-  const requestSent = useRef(false)
+  const requestSent = useRef(false);
 
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (userController.user) router.replace("/");
-  }, [userController.user]);
 
   useEffect(() => {
     if (errorStr) {
@@ -30,20 +26,13 @@ export default function TwitterOauthCallbackPage() {
       router.replace("/");
       return;
     }
-    if(requestSent.current) return;
+    if (requestSent.current) return;
     requestSent.current = true;
-    userController
-      .loginFromOAuthCallback(state, code)
-      .then((r) => {
-        if (userSingleton.user) {
-          // TODO: custom event
-          router.replace("/");
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-        setError(e.message);
-      });
+    userController.loginFromOAuthCallback(state, code);
+    // .catch((e) => {
+    //   console.error(e);
+    //   setError(e.message);
+    // });
   }, []);
 
   return (

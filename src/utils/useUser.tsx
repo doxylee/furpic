@@ -5,6 +5,7 @@ import { loginOAuth } from "@/_interface/backend/api/oauth";
 import clientSettings from "clientSettings";
 import { User } from "@/_interface/backend/entities/user";
 import { setCookie } from "./cookie";
+import { RedirectType, redirect } from "next/navigation";
 
 const propertyFields: (keyof UserController)[] = ["user"];
 
@@ -44,7 +45,12 @@ class UserController {
   }
 
   readFromLocalStorage() {
-    this.user = JSON.parse(localStorage.getItem("user") || "null");
+    let str = localStorage.getItem("user");
+    if (str === "undefined") {
+      str = null;
+      localStorage.removeItem("user");
+    }
+    this.user = JSON.parse(str || "null");
     this.forceUpdate?.();
   }
 
@@ -100,7 +106,7 @@ class UserController {
     document.location = url;
   }
 
-  async loginFromOAuthCallback(state: string, code: string) {
+  loginFromOAuthCallback(state: string, code: string) {
     const codeVerifier = localStorage.getItem("verifier");
 
     if (state !== localStorage.getItem("oauth_state") || !codeVerifier) {
@@ -108,21 +114,11 @@ class UserController {
       throw new Error("State mismatch");
     }
 
-    try {
-      this.user = await loginOAuth({
-        code,
-        codeVerifier,
-        redirectUri: UserController.getOAuthRedirectUrl(),
-      });
-      localStorage.setItem("user", JSON.stringify(this.user));
-      this.forceUpdate?.();
-      return true;
-    } catch (e: any) {
-      if (e.name == "Network Error") throw new Error("Network error"); // TODO: interface 단에서 처리
-      throw e;
-    } finally {
-      this.clearLocalStorage();
-    }
+    this.clearLocalStorage();
+    redirect(
+      `${clientSettings.BACKEND_URL}/oauth2/callback?code=${code}&codeVerifier=${codeVerifier}&redirectUri=${UserController.getOAuthRedirectUrl()}`,
+      RedirectType.replace,
+    );
   }
 
   private clearLocalStorage() {
