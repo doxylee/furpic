@@ -1,11 +1,14 @@
 import axios from "axios";
 import { CharacterWithUser } from "../entities/character";
+import clientSettings from "clientSettings";
 
 export async function fullSearchCharacters(
   query: string,
 ): Promise<CharacterWithUser[]> {
   try {
-    const res = await axios.get(`/api/characters/fullSearch?query=${query}`);
+    const res = await axios.get(
+      `${clientSettings.BACKEND_URL}/characters/fullSearch?query=${query}`,
+    );
     return res.data;
   } catch (e) {
     throw e;
@@ -14,7 +17,10 @@ export async function fullSearchCharacters(
 
 export async function getMyCharacters(): Promise<CharacterWithUser[]> {
   try {
-    const res = await axios.get(`/api/characters/mine`);
+    const res = await axios.get(
+      `${clientSettings.BACKEND_URL}/characters/mine`,
+      { withCredentials: true },
+    );
     return res.data;
   } catch (e) {
     throw e;
@@ -38,11 +44,16 @@ export async function updateCharacter({
     const formData = new FormData();
     if (image) formData.append("image", image);
     formData.append("data", JSON.stringify({ nameKo, nameEn, species }));
-    const res = await axios.patch(`/api/characters/${id}`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
+    const res = await axios.patch(
+      `${clientSettings.BACKEND_URL}/characters/${id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
       },
-    });
+    );
     return res.data;
   } catch (e) {
     throw e;
@@ -64,10 +75,11 @@ export function createCharacter({
   if (image) formData.append("image", image);
   formData.append("data", JSON.stringify({ nameKo, nameEn, species }));
   return axios
-    .post("/api/characters", formData, {
+    .post(`${clientSettings.BACKEND_URL}/characters`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      withCredentials: true,
     })
     .then((res) => res.data);
 }

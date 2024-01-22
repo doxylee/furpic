@@ -48,7 +48,9 @@ export async function uploadPicture({
 
 export async function getRecentPictures(): Promise<PictureWithConnections[]> {
   try {
-    const res = await axios.get(`/api/pictures/recent`);
+    const res = await axios.get(
+      `${clientSettings.BACKEND_URL}/pictures/recent`,
+    );
     return res.data;
   } catch (e) {
     throw e;
@@ -59,7 +61,7 @@ export async function getPictureById(
   id: string,
 ): Promise<PictureWithConnections> {
   try {
-    const res = await axios.get(`/api/pictures/${id}`);
+    const res = await axios.get(`${clientSettings.BACKEND_URL}/pictures/${id}`);
     return res.data;
   } catch (e) {
     throw e;
