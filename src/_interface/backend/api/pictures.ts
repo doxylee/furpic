@@ -1,5 +1,6 @@
 import axios from "axios";
 import { PictureWithConnections } from "../entities/picture";
+import clientSettings from "clientSettings";
 
 export type TempUserData = { name: string; twitterUsername: string | null };
 export type AuthorLink = { id: string } | TempUserData;
@@ -32,11 +33,16 @@ export async function uploadPicture({
   const formData = new FormData();
   formData.append("image", image);
   formData.append("data", JSON.stringify({ type, authors, characters }));
-  const res = await axios.post("/api/pictures", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
+  const res = await axios.post(
+    clientSettings.BACKEND_URL + "/pictures",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      withCredentials: true,
     },
-  });
+  );
   return res.data;
 }
 
