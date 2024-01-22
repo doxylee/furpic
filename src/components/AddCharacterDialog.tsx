@@ -131,6 +131,7 @@ export function AddCharacterDialog({
             <Controller
               name="mine"
               control={control}
+              defaultValue={false}
               render={({ field }) => (
                 <FormControlLabel
                   control={<Checkbox {...field} />}

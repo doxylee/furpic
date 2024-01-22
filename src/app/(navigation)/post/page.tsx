@@ -33,14 +33,14 @@ export default function PostPage() {
     getValues,
     setValue,
   } = useForm<FormFields>();
-  const onSubmit = async ({ image, type, authors }: FormFields) => {
+  const onSubmit = async ({ image, type, authors, characters }: FormFields) => {
     await uploadPicture({
       image,
       type,
       authors: authors.map(({ create, id, name, twitterUsername }) =>
         create ? { name, twitterUsername: twitterUsername || null } : { id },
       ),
-      characters: getValues("characters").map(
+      characters: characters.map(
         ({ create, id, nameKo, nameEn, species, mine, setImage }) =>
           create ? { nameKo, nameEn, species, mine, setImage } : { id },
       ),
