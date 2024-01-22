@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { CharacterWithUser } from "@/_interface/backend/entities/character";
 import {
@@ -20,7 +20,10 @@ export function CharacterCard({
   sx?: SxProps;
 }) {
   return (
-    <Card onClick={onClick} sx={{ cursor: onClick ? "pointer" : "auto", ...sx }}>
+    <Card
+      onClick={onClick}
+      sx={{ cursor: onClick ? "pointer" : "auto", ...sx }}
+    >
       <CardMedia
         image={character.imageURL ?? undefined}
         title={character.nameKo || character.nameEn || undefined}
