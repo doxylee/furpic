@@ -1,6 +1,4 @@
-import axios from "axios";
 import { PictureWithConnections } from "../entities/picture";
-import clientSettings from "clientSettings";
 import { fetchAPI } from "@/utils/fetch";
 
 export type TempUserData = { name: string; twitterUsername: string | null };

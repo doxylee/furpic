@@ -1,23 +1,25 @@
 "use server";
 
-import { presentPictureWithConnections } from "@/_backend/presenters/picture";
-import { pictureRepository } from "@/_backend/repositories/picture";
 import { NotFoundComponent } from "@/components/404";
-import { CharacterCard } from "@/components/CharacterCard";
 import { Box, Container, Stack, Typography } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2";
 import CharactersPart from "./CharactersPart";
 import AuthorsPart from "./AuthorsPart";
+import { getPictureById } from "@/_interface/backend/api/pictures";
+import { FetchError } from "@/utils/fetch";
 
 export default async function PicturePage({
   params,
 }: {
   params: { id: string };
 }) {
-  const data = await pictureRepository.getPictureById(params.id);
-  if (!data) return <NotFoundComponent />;
-
-  const picture = presentPictureWithConnections(data);
+  let picture;
+  try {
+    picture = await getPictureById(params.id);
+  } catch (e) {
+    if (e instanceof FetchError && e.status === 404)
+      return <NotFoundComponent />; // TODO: Customized 404 page. There's more like this, find them
+    throw e;
+  }
 
   return (
     <Container maxWidth="x2l" sx={{ p: 4 }}>

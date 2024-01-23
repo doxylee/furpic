@@ -1,14 +1,14 @@
 "use server";
 
-import { presentUser } from "@/_backend/presenters/user";
-import { userRepository } from "@/_backend/repositories/user";
 import { NotFoundComponent } from "@/components/404";
-import { Avatar, Box, IconButton, Typography } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import { Stack, Container } from "@mui/system";
 import React from "react";
 import { UserTabs } from "./UserTabs";
 import XIcon from "@mui/icons-material/X";
 import Link from "next/link";
+import { getUserById } from "@/_interface/backend/api/user";
+import { FetchError } from "@/utils/fetch";
 
 export default async function UserLayout({
   children,
@@ -17,11 +17,14 @@ export default async function UserLayout({
   children: React.ReactNode;
   params: { id: string };
 }) {
-  const prismaUser = params.id.startsWith("%40")
-    ? await userRepository.getUserByUsername(params.id.slice(3))
-    : await userRepository.getUserById(params.id);
-  if (!prismaUser) return <NotFoundComponent />;
-  const user = presentUser(prismaUser);
+  let user;
+  try {
+    user = await getUserById(params.id);
+  } catch (e) {
+    if (e instanceof FetchError && e.status === 404)
+      return <NotFoundComponent />;
+    throw e;
+  }
 
   const username = user.username || user.twitterUsername;
 

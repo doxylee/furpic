@@ -76,3 +76,10 @@ export async function getCharacters({
     query: { userId, username, limit, offset },
   });
 }
+
+export async function getCharacterById(id: string): Promise<CharacterWithUser> {
+  return await fetchAPI({
+    method: "GET",
+    path: `characters/${id}`,
+  });
+}

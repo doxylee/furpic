@@ -5,10 +5,10 @@ import { Avatar, Typography } from "@mui/material";
 import { Stack, Container } from "@mui/system";
 import React from "react";
 import { CharacterTabs } from "./CharacterTabs";
-import { characterRepository } from "@/_backend/repositories/character";
-import { presentCharacterWithUser } from "@/_backend/presenters/character";
 import Link from "next/link";
 import { CharacterEditButton } from "./CharacterEditButton";
+import { getCharacterById } from "@/_interface/backend/api/characters";
+import { FetchError } from "@/utils/fetch";
 
 export default async function UserLayout({
   children,
@@ -17,9 +17,14 @@ export default async function UserLayout({
   children: React.ReactNode;
   params: { id: string };
 }) {
-  const prismaCharacter = await characterRepository.getCharacterById(params.id);
-  if (!prismaCharacter) return <NotFoundComponent />;
-  const character = presentCharacterWithUser(prismaCharacter);
+  let character;
+  try {
+    character = await getCharacterById(params.id);
+  } catch (e: any) {
+    if (e instanceof FetchError && e.status === 404)
+      return <NotFoundComponent />; // TODO: Customized 404 page
+    throw e;
+  }
 
   return (
     <Container maxWidth="x2l">
@@ -56,7 +61,10 @@ export default async function UserLayout({
                 </Link>
               )}
             </Stack>
-            <CharacterEditButton character={character} sx={{justifySelf:"flex-end"}} />
+            <CharacterEditButton
+              character={character}
+              sx={{ justifySelf: "flex-end" }}
+            />
           </Stack>
           <CharacterTabs />
         </Stack>

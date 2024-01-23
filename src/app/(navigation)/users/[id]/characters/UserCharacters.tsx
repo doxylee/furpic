@@ -1,12 +1,10 @@
 "use client";
 
-import { presentCharacterWithUser } from "@/_backend/presenters/character";
-import { characterRepository } from "@/_backend/repositories/character";
 import { CharacterCard } from "@/components/CharacterCard";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Link from "next/link";
 import { CharacterAddButton } from "./CharacterAddButton";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getCharacters } from "@/_interface/backend/api/characters";
 
 export function UserCharacters({

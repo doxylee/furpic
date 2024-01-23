@@ -1,10 +1,10 @@
 "use client";
 
+import { PictureType } from "@/_interface/backend/entities/picture";
 import { User } from "@/_interface/backend/entities/user";
 import { UserCard } from "@/components/UserCard";
 import { Button } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import { PictureType } from "@prisma/client";
 import Link from "next/link";
 import { useState } from "react";
 
