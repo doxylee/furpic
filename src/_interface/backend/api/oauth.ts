@@ -1,6 +1,4 @@
-import axios from "axios";
-import { User } from "../entities/user";
-import clientSettings from "clientSettings";
+import { fetchAPI } from "@/utils/fetch";
 
 export async function loginOAuth({
   code,
@@ -11,13 +9,13 @@ export async function loginOAuth({
   codeVerifier: string;
   redirectUri: string;
 }) {
-  const res = await axios.post(
-    clientSettings.BACKEND_URL + "/oauth2/token",
-    {
+  return await fetchAPI({
+    method: "POST",
+    path: "oauth/login",
+    body: {
       code,
       codeVerifier,
       redirectUri,
     },
-  );
-  return res.data as User;
+  });
 }

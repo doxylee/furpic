@@ -1,6 +1,7 @@
 import axios from "axios";
 import { PictureWithConnections } from "../entities/picture";
 import clientSettings from "clientSettings";
+import { fetchAPI } from "@/utils/fetch";
 
 export type TempUserData = { name: string; twitterUsername: string | null };
 export type AuthorLink = { id: string } | TempUserData;
@@ -33,37 +34,45 @@ export async function uploadPicture({
   const formData = new FormData();
   formData.append("image", image);
   formData.append("data", JSON.stringify({ type, authors, characters }));
-  const res = await axios.post(
-    clientSettings.BACKEND_URL + "/pictures",
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      withCredentials: true,
-    },
-  );
-  return res.data;
+  return (await fetchAPI({
+    method: "POST",
+    path: "pictures",
+    body: formData,
+  })) as PictureWithConnections;
 }
 
-export async function getRecentPictures(): Promise<PictureWithConnections[]> {
-  try {
-    const res = await axios.get(
-      `${clientSettings.BACKEND_URL}/pictures/recent`,
-    );
-    return res.data;
-  } catch (e) {
-    throw e;
-  }
+export async function getRecentPictures() {
+  return (await fetchAPI({
+    method: "GET",
+    path: "pictures/recent",
+  })) as PictureWithConnections[];
 }
 
-export async function getPictureById(
-  id: string,
-): Promise<PictureWithConnections> {
-  try {
-    const res = await axios.get(`${clientSettings.BACKEND_URL}/pictures/${id}`);
-    return res.data;
-  } catch (e) {
-    throw e;
-  }
+export async function getPictureById(id: string) {
+  return (await fetchAPI({
+    method: "GET",
+    path: `pictures/${id}`,
+  })) as PictureWithConnections;
+}
+
+export async function getPictures({
+  authorId,
+  authorUsername,
+  characterId,
+  type,
+  limit,
+  offset,
+}: {
+  authorId?: string;
+  authorUsername?: string;
+  characterId?: string;
+  type?: "drawing" | "photo";
+  limit?: number;
+  offset?: number;
+}) {
+  return (await fetchAPI({
+    method: "GET",
+    path: "pictures",
+    query: { authorId, authorUsername, characterId, type, limit, offset },
+  })) as PictureWithConnections[];
 }
