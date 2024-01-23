@@ -7,22 +7,17 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import Link from "next/link";
 import { CharacterAddButton } from "./CharacterAddButton";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCharacters } from "@/_interface/backend/api/characters";
 
 export function UserCharacters({
   userSearchQuery,
 }: {
   userSearchQuery: { userId: string } | { username: string };
 }) {
-  const { data } = useQuery({
+  const { data: characters } = useQuery({
     queryKey: ["characters", "getCharactersOfUser", userSearchQuery],
-    queryFn: () =>
-      characterRepository.getCharactersOfUser({
-        ...userSearchQuery,
-        limit: 36,
-      }),
+    queryFn: () => getCharacters({ limit: 36, ...userSearchQuery }),
   });
-
-  const characters = data?.map(presentCharacterWithUser);
 
   return (
     <Grid2 container spacing={2}>

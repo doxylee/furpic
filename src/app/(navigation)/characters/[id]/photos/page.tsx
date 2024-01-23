@@ -1,22 +1,19 @@
 "use server";
 
-import { presentPictureWithConnections } from "@/_backend/presenters/picture";
-import { pictureRepository } from "@/_backend/repositories/picture";
+import { getPictures } from "@/_interface/backend/api/pictures";
 import { PictureCard } from "@/components/PictureCard";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import Link from "next/link";
 
 export default async function UserPhotosPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const data = await pictureRepository.getCharacterPictures({
+  const photos = await getPictures({
     characterId: params.id,
     type: "photo",
     limit: 36,
   });
-  const photos = data.map(presentPictureWithConnections);
 
   return (
     <Grid2 container spacing={2}>

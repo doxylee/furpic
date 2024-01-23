@@ -1,11 +1,8 @@
 "use server";
 
-import { presentPictureWithConnections } from "@/_backend/presenters/picture";
-import { pictureRepository } from "@/_backend/repositories/picture";
 import { getPictures } from "@/_interface/backend/api/pictures";
 import { PictureCard } from "@/components/PictureCard";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import Link from "next/link";
 
 export default async function UserDrawingsPage({
   params,
@@ -15,7 +12,11 @@ export default async function UserDrawingsPage({
   const userSearchQuery = params.id.startsWith("%40")
     ? { username: params.id.slice(3) }
     : { userId: params.id };
-  const drawings = await getPictures({ limit: 36, ...userSearchQuery });
+  const drawings = await getPictures({
+    limit: 36,
+    type: "drawing",
+    ...userSearchQuery,
+  });
 
   return (
     <Grid2 container spacing={2}>

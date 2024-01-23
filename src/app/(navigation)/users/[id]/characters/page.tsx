@@ -1,8 +1,12 @@
 "use server";
 
-import { characterRepository } from "@/_backend/repositories/character";
-import { dehydrate, useQueryClient, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import { UserCharacters } from "./UserCharacters";
+import { getCharacters } from "@/_interface/backend/api/characters";
 
 export default async function UserCharactersPage({
   params,
@@ -16,11 +20,7 @@ export default async function UserCharactersPage({
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["characters", "getCharactersOfUser", userSearchQuery],
-    queryFn: () =>
-      characterRepository.getCharactersOfUser({
-        ...userSearchQuery,
-        limit: 36,
-      }),
+    queryFn: () => getCharacters({ limit: 36, ...userSearchQuery }),
   });
 
   const dehydratedState = dehydrate(queryClient);

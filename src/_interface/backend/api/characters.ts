@@ -1,6 +1,4 @@
-import axios from "axios";
 import { CharacterWithUser } from "../entities/character";
-import clientSettings from "clientSettings";
 import { fetchAPI } from "@/utils/fetch";
 
 export async function fullSearchCharacters(
@@ -58,5 +56,23 @@ export async function createCharacter({
     method: "POST",
     path: "characters",
     body: formData,
+  });
+}
+
+export async function getCharacters({
+  userId,
+  username,
+  limit,
+  offset,
+}: {
+  userId?: string;
+  username?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<CharacterWithUser[]> {
+  return await fetchAPI({
+    method: "GET",
+    path: "characters",
+    query: { userId, username, limit, offset },
   });
 }
