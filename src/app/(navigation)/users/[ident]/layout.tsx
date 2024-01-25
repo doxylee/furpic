@@ -35,7 +35,7 @@ export default async function UserLayout({
           spacing={2}
           sx={{
             position: "sticky",
-            top: 0,
+            top: 64,
             zIndex: 100,
             backgroundColor: "white",
             pt: 4,

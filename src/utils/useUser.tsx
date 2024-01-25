@@ -4,6 +4,7 @@ import { getMyUser } from "@/_interface/backend/api/user";
 import clientSettings from "clientSettings";
 import { User } from "@/_interface/backend/entities/user";
 import { setCookie } from "./cookie";
+import { logout } from "@/_interface/backend/api/auth";
 
 const propertyFields: (keyof UserController)[] = ["user"];
 
@@ -66,9 +67,8 @@ class UserController {
     }
   }
 
-  logout() {
-    setCookie("access", "", new Date());
-    setCookie("refresh", "", new Date());
+  async logout() {
+    await logout();
     localStorage.removeItem("user");
     this.user = null;
     this.forceUpdate?.();

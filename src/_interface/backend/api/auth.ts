@@ -19,3 +19,10 @@ export async function loginOAuth({
     },
   });
 }
+
+export async function logout() {
+  return await fetchAPI({
+    method: "POST",
+    path: "auth/logout",
+  });
+}

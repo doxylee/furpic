@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 export default async function CharacterPage({
   params,
 }: {
-  params: { id: string };
+  params: { ident: string };
 }) {
-  redirect(`/users/${params.id}/drawings`);
+  redirect(`/users/${params.ident.replace(/%40/, "@")}/drawings`);
 }
