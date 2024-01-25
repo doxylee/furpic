@@ -22,7 +22,7 @@ export default async function PicturePage({
   }
 
   return (
-    <Container maxWidth="x2l" sx={{ p: 4 }}>
+    <Container maxWidth="xl" sx={{ p: { xs: 0, sm: 2, md: 4 } }}>
       <Stack spacing={2}>
         <Box
           component="img"
@@ -30,10 +30,12 @@ export default async function PicturePage({
           src={picture.imageURL}
           sx={{ width: 1 }}
         />
-        <Typography variant="h5">캐릭터</Typography>
-        <CharactersPart characters={picture.characters} />
-        <Typography variant="h5">작가</Typography>
-        <AuthorsPart authors={picture.authors} type={picture.type} />
+        <Stack spacing={2} sx={{ px: { xs: 1, sm: 0 } }}>
+          <Typography variant="h5">캐릭터</Typography>
+          <CharactersPart characters={picture.characters} />
+          <Typography variant="h5">작가</Typography>
+          <AuthorsPart authors={picture.authors} type={picture.type} />
+        </Stack>
       </Stack>
     </Container>
   );
