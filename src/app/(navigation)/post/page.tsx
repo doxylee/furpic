@@ -1,10 +1,8 @@
 "use client";
 
 import { uploadPicture } from "@/_interface/backend/api/pictures";
-import { DragDropFileUpload } from "@/components/dragDropFileUpload";
 import {
   Backdrop,
-  Box,
   Button,
   CircularProgress,
   Container,
@@ -21,6 +19,7 @@ import { AuthorItem, SelectAuthors } from "@/components/SelectAuthors";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { ImageUpload } from "@/components/ImageUpload";
 
 type FormFields = {
   image: File;
@@ -77,7 +76,12 @@ export default function PostPage() {
 
   return (
     <Container maxWidth="md" sx={{ px: { xs: 0, sm: 2, md: 4 } }}>
-      <Typography variant="h3" mx={1} mb={{ xs: 1, sm: 2 }} mt={{ xs: 2, sm: 4 }}>
+      <Typography
+        variant="h3"
+        mx={1}
+        mb={{ xs: 1, sm: 2 }}
+        mt={{ xs: 2, sm: 4 }}
+      >
         작품 올리기
       </Typography>
       <Stack
@@ -87,49 +91,11 @@ export default function PostPage() {
         sx={{ width: 1, padding: 1 }}
         justifyContent="center"
       >
-        <Controller
+        <ImageUpload
           control={control}
           name="image"
           rules={{ required: true }}
-          render={({
-            field: { onChange, onBlur, value, ref },
-            fieldState: { error },
-          }) => (
-            <div>
-              <DragDropFileUpload
-                onFileUpload={onChange}
-                sx={{ width: 1 }}
-                onBlur={onBlur}
-                ref={ref}
-                description="10MB, 8196x8196 이하 jpg, png, gif, webp, avif, tiff 이미지"
-                onImagePreview={onImagePreviewUpdate}
-                check={(file) => {
-                  if (file.size > 10 * 1024 * 1024) {
-                    enqueueSnackbar("10MB 이하의 이미지를 업로드 해주세요", {
-                      variant: "error",
-                    });
-                    return false;
-                  }
-                  // only jpg, png, gif
-                  if (
-                    !file.type.match(/image\/(jpeg|png|gif|webp|avif|tiff)/)
-                  ) {
-                    enqueueSnackbar(
-                      "jpg, png, gif, webp, avif, tiff 이미지만 업로드 해주세요",
-                      {
-                        variant: "error",
-                      },
-                    );
-                    return false;
-                  }
-                  return true;
-                }}
-              />
-              {error?.type === "required" && (
-                <Typography color="red">이미지를 업로드 해주세요</Typography>
-              )}
-            </div>
-          )}
+          onImagePreviewUpdate={onImagePreviewUpdate}
         />
         <Typography variant="h6">작품 종류</Typography>
 

@@ -16,10 +16,9 @@ import { useUser } from "@/utils/useUser";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
-import { DragDropFileUpload } from "@/components/dragDropFileUpload";
-import { enqueueSnackbar } from "notistack";
 import { createCharacter } from "@/_interface/backend/api/characters";
 import { useQueryClient } from "@tanstack/react-query";
+import { ImageUpload } from "@/components/ImageUpload";
 
 type FormFields = {
   image?: File;
@@ -102,46 +101,7 @@ export function CharacterAddButton({
           <DialogTitle>캐릭터 추가하기</DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Controller
-                control={control}
-                name="image"
-                render={({
-                  field: { onChange, onBlur, value, ref },
-                  fieldState: { error },
-                }) => (
-                  <div>
-                    <DragDropFileUpload
-                      onFileUpload={onChange}
-                      sx={{ width: 1 }}
-                      onBlur={onBlur}
-                      ref={ref}
-                      description="10MB 이하, jpg, png, gif 이미지"
-                      check={(file) => {
-                        if (file.size > 10 * 1024 * 1024) {
-                          enqueueSnackbar(
-                            "10MB 이하의 이미지를 업로드 해주세요",
-                            {
-                              variant: "error",
-                            },
-                          );
-                          return false;
-                        }
-                        // only jpg, png, gif
-                        if (!file.type.match(/image\/(jpeg|png|gif)/)) {
-                          enqueueSnackbar(
-                            "jpg, png, gif 이미지만 업로드 해주세요",
-                            {
-                              variant: "error",
-                            },
-                          );
-                          return false;
-                        }
-                        return true;
-                      }}
-                    />
-                  </div>
-                )}
-              />
+              <ImageUpload control={control} name="image" />
               <Controller
                 name="nameKo"
                 control={control}
