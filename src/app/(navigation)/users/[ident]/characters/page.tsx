@@ -11,11 +11,11 @@ import { getCharacters } from "@/_interface/backend/api/characters";
 export default async function UserCharactersPage({
   params,
 }: {
-  params: { id: string };
+  params: { ident: string };
 }) {
-  const userSearchQuery = params.id.startsWith("%40")
-    ? { username: params.id.slice(3) }
-    : { userId: params.id };
+  const userSearchQuery = params.ident.startsWith("%40")
+    ? { username: params.ident.slice(3) }
+    : { userId: params.ident };
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({

@@ -13,6 +13,7 @@ export async function searchUsers(query: string) {
   })) as User[];
 }
 
-export async function getUserById(id: string) {
-  return (await fetchAPI({ method: "GET", path: `users/${id}` })) as User;
+export async function getUserByIdent(ident: string) {
+  console.log(ident)
+  return (await fetchAPI({ method: "GET", path: `users/${ident}` })) as User;
 }

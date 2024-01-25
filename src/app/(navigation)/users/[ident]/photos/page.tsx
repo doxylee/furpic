@@ -7,11 +7,11 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 export default async function UserPhotosPage({
   params,
 }: {
-  params: { id: string };
+  params: { ident: string };
 }) {
-  const userSearchQuery = params.id.startsWith("%40")
-    ? { username: params.id.slice(3) }
-    : { userId: params.id };
+  const userSearchQuery = params.ident.startsWith("%40")
+    ? { username: params.ident.slice(3) }
+    : { userId: params.ident };
   const photos = await getPictures({
     limit: 36,
     type: "photo",

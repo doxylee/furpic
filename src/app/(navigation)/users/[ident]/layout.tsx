@@ -7,7 +7,7 @@ import React from "react";
 import { UserTabs } from "./UserTabs";
 import XIcon from "@mui/icons-material/X";
 import Link from "next/link";
-import { getUserById } from "@/_interface/backend/api/user";
+import { getUserByIdent } from "@/_interface/backend/api/user";
 import { FetchError } from "@/utils/fetch";
 
 export default async function UserLayout({
@@ -15,11 +15,11 @@ export default async function UserLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { id: string };
+  params: { ident: string };
 }) {
   let user;
   try {
-    user = await getUserById(params.id);
+    user = await getUserByIdent(params.ident);
   } catch (e) {
     if (e instanceof FetchError && e.status === 404)
       return <NotFoundComponent />;
