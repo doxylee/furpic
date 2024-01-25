@@ -31,7 +31,6 @@ export default function TwitterOauthCallbackPage() {
     try {
       userController.loginFromOAuthCallback(state, code, router.replace);
     } catch (e: any) {
-      if (e.message === "NEXT_REDIRECT") throw e;
       setError(e.message);
     }
   }, []);
