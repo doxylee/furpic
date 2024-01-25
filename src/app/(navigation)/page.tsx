@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@/utils/useUser";
-import { Button, Container, Fab } from "@mui/material";
+import { Button, Container, Fab, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useQuery } from "@tanstack/react-query";
 import { getRecentPictures } from "@/_interface/backend/api/pictures";
@@ -17,12 +17,9 @@ export default function IndexPage() {
 
   return (
     <Container maxWidth="x2l">
-      <p>
-        <Button variant="contained" onClick={() => userController.startOAuth()}>
-          트위터 로그인
-        </Button>
-      </p>
-      <p>{userController.user?.name}</p>
+      <Typography variant="h4" component="h1" sx={{ mt:4, ml:2 }}>
+        최신 작품
+      </Typography>
       <Grid2 container spacing={2} p={2}>
         {data?.map((picture) => (
           <Grid2 xs={6} sm={4} md={3} lg={2} key={picture.id}>
