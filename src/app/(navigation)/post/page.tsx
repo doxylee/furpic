@@ -3,10 +3,10 @@
 import { uploadPicture } from "@/_interface/backend/api/pictures";
 import { DragDropFileUpload } from "@/components/dragDropFileUpload";
 import {
+  Backdrop,
   Box,
   Button,
   CircularProgress,
-  Modal,
   Paper,
   Stack,
   ToggleButton,
@@ -214,16 +214,8 @@ export default function PostPage() {
           업로드
         </Button>
       </Stack>
-      <Modal open={mutation.isPending}>
-        <Paper
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            p: 4,
-          }}
-        >
+      <Backdrop open={mutation.isPending}>
+        <Paper sx={{ p: 4 }}>
           <Stack alignItems="center" spacing={4}>
             <CircularProgress />
             <Stack alignItems="center" spacing={0.5}>
@@ -232,7 +224,7 @@ export default function PostPage() {
             </Stack>
           </Stack>
         </Paper>
-      </Modal>
+      </Backdrop>
     </Box>
   );
 }
