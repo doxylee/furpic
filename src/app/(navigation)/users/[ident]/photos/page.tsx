@@ -10,8 +10,8 @@ export default async function UserPhotosPage({
   params: { ident: string };
 }) {
   const userSearchQuery = params.ident.startsWith("%40")
-    ? { username: params.ident.slice(3) }
-    : { userId: params.ident };
+    ? { authorUsername: params.ident.slice(3) }
+    : { authorId: params.ident };
   const photos = await getPictures({
     limit: 36,
     type: "photo",
