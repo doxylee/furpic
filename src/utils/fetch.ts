@@ -30,7 +30,7 @@ export async function fetchAPI({
               ? JSON.stringify(body)
               : undefined,
         credentials: "include",
-        cache: "no-cache",
+        cache: "no-cache", // TODO: Allow cache for short time
       },
     );
     if (res.status >= 400) throw new FetchError(await res.text(), res.status);
