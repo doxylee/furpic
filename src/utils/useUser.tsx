@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useMemo, useReducer } from "react";
 import { Base64 } from "js-base64";
 import { getMyUser } from "@/_interface/backend/api/user";
-import { loginOAuth } from "@/_interface/backend/api/oauth";
 import clientSettings from "clientSettings";
 import { User } from "@/_interface/backend/entities/user";
 import { setCookie } from "./cookie";
-import { RedirectType, redirect } from "next/navigation";
 
 const propertyFields: (keyof UserController)[] = ["user"];
 
@@ -106,7 +104,11 @@ class UserController {
     document.location = url;
   }
 
-  loginFromOAuthCallback(state: string, code: string) {
+  loginFromOAuthCallback(
+    state: string,
+    code: string,
+    redirect: (url: string) => void,
+  ) {
     const codeVerifier = localStorage.getItem("verifier");
 
     if (state !== localStorage.getItem("oauth_state") || !codeVerifier) {
@@ -117,7 +119,6 @@ class UserController {
     this.clearLocalStorage();
     redirect(
       `${clientSettings.BACKEND_URL}/oauth2/callback?code=${code}&codeVerifier=${codeVerifier}&redirectUri=${UserController.getOAuthRedirectUrl()}`,
-      RedirectType.replace,
     );
   }
 

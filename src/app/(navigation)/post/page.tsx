@@ -5,7 +5,9 @@ import { DragDropFileUpload } from "@/components/dragDropFileUpload";
 import {
   Box,
   Button,
-  ButtonGroup,
+  CircularProgress,
+  Modal,
+  Paper,
   Stack,
   ToggleButton,
   ToggleButtonGroup,
@@ -16,6 +18,8 @@ import { enqueueSnackbar } from "notistack";
 import { CharacterItem, SelectCharacters } from "@/components/selectCharacters";
 import { AuthorItem, SelectAuthors } from "@/components/SelectAuthors";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 type FormFields = {
   image: File;
@@ -33,8 +37,21 @@ export default function PostPage() {
     getValues,
     setValue,
   } = useForm<FormFields>();
+  const router = useRouter();
+  const mutation = useMutation({
+    mutationFn: uploadPicture,
+    onError: (e) => {
+      console.error(e);
+      enqueueSnackbar("업로드에 실패했습니다", { variant: "error" });
+    },
+    onSuccess: () => {
+      enqueueSnackbar("업로드에 성공했습니다", { variant: "success" });
+      router.push("/"); // TODO: Check if this should be replace
+    },
+  });
+
   const onSubmit = async ({ image, type, authors, characters }: FormFields) => {
-    await uploadPicture({
+    mutation.mutate({
       image,
       type,
       authors: authors.map(({ create, id, name, twitterUsername }) =>
@@ -44,11 +61,9 @@ export default function PostPage() {
         ({ create, id, nameKo, nameEn, species, mine, setImage }) =>
           create ? { nameKo, nameEn, species, mine, setImage } : { id },
       ),
-    }).catch((e) => {
-      console.error(e);
-      enqueueSnackbar("업로드에 실패했습니다", { variant: "error" });
     });
   };
+
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const onImagePreviewUpdate = (imagePreview: string) => {
     setImagePreview(imagePreview);
@@ -136,8 +151,12 @@ export default function PostPage() {
                 ref={ref}
                 sx={{ width: 1 }}
               >
-                <ToggleButton value="drawing" fullWidth>그림</ToggleButton>
-                <ToggleButton value="photo" fullWidth>사진</ToggleButton>
+                <ToggleButton value="drawing" fullWidth>
+                  그림
+                </ToggleButton>
+                <ToggleButton value="photo" fullWidth>
+                  사진
+                </ToggleButton>
               </ToggleButtonGroup>
               {error?.type === "required" && (
                 <Typography color="red">작품 종류를 선택해주세요</Typography>
@@ -195,6 +214,25 @@ export default function PostPage() {
           업로드
         </Button>
       </Stack>
+      <Modal open={mutation.isPending}>
+        <Paper
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            p: 4,
+          }}
+        >
+          <Stack alignItems="center" spacing={4}>
+            <CircularProgress />
+            <Stack alignItems="center" spacing={0.5}>
+              <Typography>업로드 중입니다...</Typography>
+              <Typography>잠시만 기다려주세요</Typography>
+            </Stack>
+          </Stack>
+        </Paper>
+      </Modal>
     </Box>
   );
 }
