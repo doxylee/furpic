@@ -162,14 +162,25 @@ export function UserEditButton({
               <Controller
                 name="bio"
                 control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="소개"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
+                rules={{
+                  maxLength: {
+                    value: 160,
+                    message: "소개는 160자 이내로 작성해주세요",
+                  },
+                }}
+                render={({ field, fieldState: { error } }) => (
+                  <>
+                    <TextField
+                      {...field}
+                      label="소개"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    {error && (
+                      <Typography color="red">{error.message}</Typography>
+                    )}
+                  </>
                 )}
               />
             </DialogContent>
