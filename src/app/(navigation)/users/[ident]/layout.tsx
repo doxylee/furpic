@@ -88,6 +88,9 @@ export default async function UserLayout({
             sx={{ ml: "auto", mr: { xs: 1, sm: 2 }, my: 1 }}
           />
         </Stack>
+        <Typography variant="body1" my={{xs:1, sm: 2}}>
+          {user.bio}
+        </Typography>
         <UserTabs />
       </Paper>
       {children}
