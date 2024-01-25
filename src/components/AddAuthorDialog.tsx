@@ -39,6 +39,7 @@ export function AddAuthorDialog({
         ? data.twitterUsername.slice(1)
         : data.twitterUsername,
       username: null,
+      bio: "",
       smImage: null,
       xsImage: null,
       create: true,

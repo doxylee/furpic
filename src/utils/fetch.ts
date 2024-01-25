@@ -33,7 +33,7 @@ export async function fetchAPI({
         cache: "no-cache", // TODO: Allow cache for short time
       },
     );
-    if (res.status >= 400) throw new FetchError(await res.text(), res.status);
+    if (res.status >= 400) throw new FetchError(await res.json(), res.status);
     return res.json();
   } catch (e) {
     throw e;
@@ -41,10 +41,13 @@ export async function fetchAPI({
 }
 
 export class FetchError extends Error {
+  error?: string;
   constructor(
-    message: string,
+    payload: { statusCode: number; message: string; error?: string },
     public status: number,
   ) {
-    super(message);
+    super(payload.message);
+    this.name = "FetchError";
+    this.error = payload.error;
   }
 }

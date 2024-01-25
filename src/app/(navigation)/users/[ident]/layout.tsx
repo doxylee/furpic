@@ -10,6 +10,7 @@ import Link from "next/link";
 import { getUserByIdent } from "@/_interface/backend/api/user";
 import { FetchError } from "@/utils/fetch";
 import { PicturePostFab } from "@/components/PicturePostFab";
+import { UserEditButton } from "./UserEditButton";
 
 export default async function UserLayout({
   children,
@@ -82,6 +83,10 @@ export default async function UserLayout({
               </Box>
             </Link>
           )}
+          <UserEditButton
+            pageUser={user}
+            sx={{ ml: "auto", mr: { xs: 1, sm: 2 }, my: 1 }}
+          />
         </Stack>
         <UserTabs />
       </Paper>
