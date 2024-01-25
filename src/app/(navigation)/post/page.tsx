@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Container,
   Paper,
   Stack,
   ToggleButton,
@@ -76,20 +77,13 @@ export default function PostPage() {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: 1,
-      }}
-    >
-      <h1>Post Page</h1>
+    <Container maxWidth="md" sx={{ p: { xs: 0, sm: 2, md: 4 } }}>
+      <Typography variant="h1" fontWeight="bold" m={2} fontSize={{xs: 28, sm: 32, md: 36}}>작품 올리기</Typography>
       <Stack
         component="form"
         onSubmit={handleSubmit(onSubmit)}
         spacing={2}
-        sx={{ width: 1, maxWidth: "800px", padding: 1 }}
+        sx={{ width: 1, padding: 1 }}
         justifyContent="center"
       >
         <Controller
@@ -230,6 +224,6 @@ export default function PostPage() {
           </Stack>
         </Paper>
       </Backdrop>
-    </Box>
+    </Container>
   );
 }

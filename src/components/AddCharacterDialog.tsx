@@ -141,7 +141,7 @@ export function AddCharacterDialog({
               render={({ field }) => (
                 <FormControlLabel
                   control={<Checkbox {...field} />}
-                  label="내 캐릭터로 추가하기"
+                  label="내 캐릭터에요"
                 />
               )}
             />
@@ -156,7 +156,7 @@ export function AddCharacterDialog({
                 render={({ field }) => (
                   <FormControlLabel
                     control={<Checkbox {...field} />}
-                    label="대표 이미지로 만들기"
+                    label="이 작품을 대표 이미지로 할래요"
                   />
                 )}
               />
