@@ -15,7 +15,7 @@ export default async function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <ClientLayout children={children} />
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
