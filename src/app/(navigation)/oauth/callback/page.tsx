@@ -28,11 +28,12 @@ export default function TwitterOauthCallbackPage() {
     }
     if (requestSent.current) return;
     requestSent.current = true;
-    userController.loginFromOAuthCallback(state, code);
-    // .catch((e) => {
-    //   console.error(e);
-    //   setError(e.message);
-    // });
+    try{
+      userController.loginFromOAuthCallback(state, code);
+    } catch(e: any){
+      if(e.message === "NEXT_REDIRECT") throw e;
+      setError(e.message);
+    }
   }, []);
 
   return (
