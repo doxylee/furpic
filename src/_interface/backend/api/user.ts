@@ -14,6 +14,5 @@ export async function searchUsers(query: string) {
 }
 
 export async function getUserByIdent(ident: string) {
-  console.log(ident)
   return (await fetchAPI({ method: "GET", path: `users/${ident}` })) as User;
 }
