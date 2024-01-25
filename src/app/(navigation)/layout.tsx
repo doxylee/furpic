@@ -34,7 +34,7 @@ export default function NavigationLayout({
     <>
       <AppBar position="sticky" sx={{ backgroundColor: "#222" }}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -42,7 +42,7 @@ export default function NavigationLayout({
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Link href="/">
             <Typography variant="h6" component="div" fontSize={28}>
               Furpic
