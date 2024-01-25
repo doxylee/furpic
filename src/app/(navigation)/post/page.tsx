@@ -70,15 +70,16 @@ export default function PostPage() {
     setImagePreview(imagePreview);
     const characters = getValues("characters")?.map((character) => ({
       ...character,
-      smImage:
-        character.smImage || (character.setImage ? imagePreview : null),
+      smImage: character.smImage || (character.setImage ? imagePreview : null),
     }));
     setValue("characters", characters);
   };
 
   return (
-    <Container maxWidth="md" sx={{ p: { xs: 0, sm: 2, md: 4 } }}>
-      <Typography variant="h1" fontWeight="bold" m={2} fontSize={{xs: 28, sm: 32, md: 36}}>작품 올리기</Typography>
+    <Container maxWidth="md" sx={{ px: { xs: 0, sm: 2, md: 4 } }}>
+      <Typography variant="h3" mx={1} mb={{ xs: 1, sm: 2 }} mt={{ xs: 2, sm: 4 }}>
+        작품 올리기
+      </Typography>
       <Stack
         component="form"
         onSubmit={handleSubmit(onSubmit)}

@@ -1,17 +1,48 @@
-import { createTheme } from "@mui/material";
+import { createTheme, responsiveFontSizes } from "@mui/material";
 
-export const theme = createTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 900,
-      lg: 1200,
-      xl: 1536,
-      x2l: 1920,
+export const theme = responsiveFontSizes(
+  createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+        x2l: 1920,
+      },
     },
-  },
-});
+    typography: {
+      h1: {
+        fontSize: "3.5rem",
+        fontWeight: 700,
+      },
+      h2: {
+        fontSize: "3rem",
+        fontWeight: 700,
+      },
+      h3: {
+        fontSize: "2.5rem",
+        fontWeight: 700,
+      },
+      h4: {
+        fontSize: "2rem",
+        fontWeight: 700,
+      },
+      h5: {
+        fontSize: "1.5rem",
+        fontWeight: 700,
+      },
+      h6: {
+        fontSize: "1.25rem",
+        fontWeight: 700,
+      },
+    },
+  }),
+  {},
+);
+
+// Check https://mui.com/material-ui/customization/typography/ for more info
 
 declare module "@mui/system/createTheme/createBreakpoints" {
   interface BreakpointOverrides {
