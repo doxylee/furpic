@@ -2,6 +2,7 @@
 
 import { CharacterWithUser } from "@/_interface/backend/entities/character";
 import {
+  Avatar,
   Card,
   CardContent,
   CardMedia,
@@ -25,10 +26,24 @@ export function CharacterCard({
       sx={{ cursor: onClick ? "pointer" : "auto", ...sx }}
     >
       <CardMedia
-        image={character.imageURL ?? undefined}
+        image={character.smImage ?? undefined}
         title={character.nameKo || character.nameEn || undefined}
-        sx={{ paddingTop: "100%" }}
-      />
+        sx={{ paddingTop: "100%", position: "relative" }}
+      >
+        {!character.smImage && (
+          <Avatar
+            variant="square"
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "100%",
+              height: "100%",
+            }}
+          />
+        )}
+      </CardMedia>
       <CardContent sx={{ p: 1, "&:last-child": { pb: 1 } }}>
         <Typography
           noWrap

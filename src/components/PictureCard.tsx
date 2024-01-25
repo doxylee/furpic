@@ -37,7 +37,7 @@ export function PictureCard({
       <Box sx={{ paddingTop: "100%" }}>
         <Box
           component="img"
-          src={picture.imageURL}
+          src={picture.smImage}
           sx={{
             position: "absolute",
             top: 0,
@@ -90,7 +90,7 @@ export function PictureCard({
                       key={character.id}
                       variant="square"
                       alt={character.nameKo || character.nameEn || undefined}
-                      src={character.imageURL ?? undefined}
+                      src={character.xsImage ?? undefined}
                       sx={{ width: 32, height: 32 }}
                     />
                   </Link>
@@ -99,7 +99,7 @@ export function PictureCard({
                     key={character.id}
                     variant="square"
                     alt={character.nameKo || character.nameEn || undefined}
-                    src={character.imageURL ?? undefined}
+                    src={character.xsImage ?? undefined}
                     sx={{ width: 32, height: 32 }}
                   />
                 ),
@@ -121,7 +121,7 @@ export function PictureCard({
                     <Avatar
                       key={author.id}
                       alt={author.name}
-                      src={author.imageURL ?? undefined}
+                      src={author.xsImage ?? undefined}
                       sx={{ width: 32, height: 32 }}
                     />
                   </Link>
@@ -129,7 +129,7 @@ export function PictureCard({
                   <Avatar
                     key={author.id}
                     alt={author.name}
-                    src={author.imageURL ?? undefined}
+                    src={author.xsImage ?? undefined}
                     sx={{ width: 32, height: 32 }}
                   />
                 ),

@@ -27,7 +27,7 @@ export default async function PicturePage({
         <Box
           component="img"
           alt={picture.id}
-          src={picture.imageURL}
+          src={picture.mdImage}
           sx={{ width: 1 }}
         />
         <Stack spacing={2} sx={{ px: { xs: 1, sm: 0 } }}>

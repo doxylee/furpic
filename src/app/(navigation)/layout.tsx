@@ -52,7 +52,7 @@ export default function NavigationLayout({
           {user ? (
             <>
               <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
-                <Avatar src={user.imageURL ?? undefined} />
+                <Avatar src={user.xsImage ?? undefined} />
               </IconButton>
               <Menu
                 anchorEl={anchorEl}

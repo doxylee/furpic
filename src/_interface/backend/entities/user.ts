@@ -3,5 +3,6 @@ export type User = {
   name: string;
   username: string | null;
   twitterUsername: string | null;
-  imageURL: string | null;
+  xsImage: string | null;
+  smImage: string | null;
 };

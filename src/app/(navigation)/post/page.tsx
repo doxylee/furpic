@@ -69,8 +69,8 @@ export default function PostPage() {
     setImagePreview(imagePreview);
     const characters = getValues("characters")?.map((character) => ({
       ...character,
-      imageURL:
-        character.imageURL || (character.setImage ? imagePreview : null),
+      smImage:
+        character.smImage || (character.setImage ? imagePreview : null),
     }));
     setValue("characters", characters);
   };
@@ -185,8 +185,8 @@ export default function PostPage() {
                   onChange(
                     characters?.map((character) => ({
                       ...character,
-                      imageURL:
-                        character.imageURL ||
+                      smImage:
+                        character.smImage ||
                         (character.setImage ? imagePreview : null),
                     })),
                   )

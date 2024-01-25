@@ -39,7 +39,8 @@ export function AddAuthorDialog({
         ? data.twitterUsername.slice(1)
         : data.twitterUsername,
       username: null,
-      imageURL: null,
+      smImage: null,
+      xsImage: null,
       create: true,
     });
   };
@@ -56,6 +57,7 @@ export function AddAuthorDialog({
           <Controller
             name="name"
             control={control}
+            defaultValue=""
             rules={{ required: true }}
             render={({ field, fieldState: { error } }) => (
               <>
@@ -78,6 +80,7 @@ export function AddAuthorDialog({
           <Controller
             name="twitterUsername"
             control={control}
+            defaultValue=""
             render={({ field }) => (
               <TextField
                 {...field}

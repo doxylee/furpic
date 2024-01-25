@@ -46,7 +46,8 @@ export function AddCharacterDialog({
       nameKo: data.nameKo || null,
       nameEn: data.nameEn || null,
       species: data.species || null,
-      imageURL: null,
+      smImage: null,
+      xsImage: null,
       create: true,
       mine: data.mine,
       setImage: data.profileImage || false,
@@ -65,6 +66,7 @@ export function AddCharacterDialog({
           <Controller
             name="nameKo"
             control={control}
+            defaultValue=""
             rules={{
               validate: {
                 required: (_, formValues) =>
@@ -91,6 +93,7 @@ export function AddCharacterDialog({
           <Controller
             name="nameEn"
             control={control}
+            defaultValue=""
             rules={{
               validate: {
                 required: (_, formValues) =>
@@ -118,6 +121,7 @@ export function AddCharacterDialog({
           <Controller
             name="species"
             control={control}
+            defaultValue=""
             render={({ field }) => (
               <TextField
                 {...field}
@@ -148,6 +152,7 @@ export function AddCharacterDialog({
               <Controller
                 name="profileImage"
                 control={control}
+                defaultValue={false}
                 render={({ field }) => (
                   <FormControlLabel
                     control={<Checkbox {...field} />}

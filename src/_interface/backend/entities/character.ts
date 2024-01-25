@@ -6,7 +6,8 @@ export type Character = {
   nameKo: string | null;
   nameEn: string | null;
   species: string | null;
-  imageURL: string | null;
+  xsImage: string | null;
+  smImage: string | null;
 };
 
 export type CharacterWithUser = Character & {

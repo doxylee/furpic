@@ -2,6 +2,7 @@
 
 import { User } from "@/_interface/backend/entities/user";
 import {
+  Avatar,
   Card,
   CardContent,
   CardMedia,
@@ -19,6 +20,7 @@ export function UserCard({
   onClick?: MouseEventHandler<HTMLDivElement>;
   sx?: SxProps;
 }) {
+  console.log(user)
   return (
     <Card
       onClick={onClick}
@@ -29,10 +31,23 @@ export function UserCard({
       }}
     >
       <CardMedia
-        image={user.imageURL ?? undefined}
+        image={user.smImage ?? undefined}
         title={user.name}
-        sx={{ paddingTop: "100%", borderRadius: "50%" }}
-      />
+        sx={{ paddingTop: "100%", borderRadius: "50%", position: "relative"}}
+      >
+        {!user.smImage && (
+          <Avatar
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "100%",
+              height: "100%",
+            }}
+          />
+        )}
+        </CardMedia>
       <CardContent sx={{ p: 1, "&:last-child": { pb: 1 } }}>
         <Typography
           noWrap

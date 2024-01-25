@@ -6,7 +6,8 @@ export type PictureType = "drawing" | "photo";
 export type PictureWithConnections = {
   id: string;
   type: PictureType;
-  imageURL: string;
+  smImage: string;
+  mdImage: string;
   uploaderId: string | null;
   uploader: User | null;
   createdAt: Date;
