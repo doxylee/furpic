@@ -1,9 +1,6 @@
-import {
-  ChangeEventHandler,
-  DragEventHandler,
-  useCallback,
-  useState,
-} from "react";
+"use client";
+
+import { ChangeEventHandler, DragEventHandler, useState } from "react";
 import {
   Box,
   Paper,

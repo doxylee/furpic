@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Accordion,
   AccordionDetails,
@@ -59,7 +61,7 @@ export function SelectAuthors({
 
   const [addDialogueOpen, setAddDialogueOpen] = useState<boolean>(false);
 
-  const authors = searchQuery ? data : user?[user]:[];
+  const authors = searchQuery ? data : user ? [user] : [];
 
   return (
     <Box>

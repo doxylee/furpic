@@ -7,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getRecentPictures } from "@/_interface/backend/api/pictures";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { PictureCard } from "@/components/PictureCard";
-import Link from "next/link";
 
 export default function IndexPage() {
   const userController = useUser();

@@ -28,10 +28,10 @@ export default function TwitterOauthCallbackPage() {
     }
     if (requestSent.current) return;
     requestSent.current = true;
-    try{
+    try {
       userController.loginFromOAuthCallback(state, code, router.replace);
-    } catch(e: any){
-      if(e.message === "NEXT_REDIRECT") throw e;
+    } catch (e: any) {
+      if (e.message === "NEXT_REDIRECT") throw e;
       setError(e.message);
     }
   }, []);

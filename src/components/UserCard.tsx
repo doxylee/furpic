@@ -1,3 +1,5 @@
+"use client";
+
 import { User } from "@/_interface/backend/entities/user";
 import {
   Card,
@@ -20,7 +22,11 @@ export function UserCard({
   return (
     <Card
       onClick={onClick}
-      sx={{ cursor: onClick ? "pointer" : "auto", borderRadius:"50em 50em 32px 32px", ...sx }}
+      sx={{
+        cursor: onClick ? "pointer" : "auto",
+        borderRadius: "50em 50em 32px 32px",
+        ...sx,
+      }}
     >
       <CardMedia
         image={user.imageURL ?? undefined}

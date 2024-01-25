@@ -13,8 +13,6 @@ import { theme } from "./theme";
 
 const queryClient = new QueryClient();
 
-
-
 export default function RootLayout({
   children,
 }: {

@@ -13,7 +13,6 @@ Install dependencies
 $ yarn
 ```
 
-
 ## Running the app
 
 Run backend together.

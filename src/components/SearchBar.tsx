@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ReactNode } from "react";
 
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -94,8 +96,8 @@ export const SearchBar = React.forwardRef(
         <CircularProgress
           size={loading ? 40 : 0}
           sx={{
-            p:1,
-            ml:-2,
+            p: 1,
+            ml: -2,
             opacity: loading ? 1 : 0,
             transition: "opacity 0.3s ease, width 0.3s ease, height 0.3s ease",
           }}
