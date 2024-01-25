@@ -44,7 +44,7 @@ export default function NavigationLayout({
             <MenuIcon />
           </IconButton> */}
           <Link href="/">
-            <Typography variant="h6" component="div" fontSize={28}>
+            <Typography variant="h4" component="div">
               FurPic
             </Typography>
           </Link>

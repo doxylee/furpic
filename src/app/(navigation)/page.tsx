@@ -1,11 +1,11 @@
 "use client";
 
 import { Container, Fab, Typography } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import { useQuery } from "@tanstack/react-query";
 import { getRecentPictures } from "@/_interface/backend/api/pictures";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { PictureCard } from "@/components/PictureCard";
+import { PicturePostFab } from "@/components/PicturePostFab";
 
 export default function IndexPage() {
   const { data } = useQuery({
@@ -25,15 +25,7 @@ export default function IndexPage() {
           </Grid2>
         ))}
       </Grid2>
-      <Fab
-        LinkComponent={"a"}
-        href="/post"
-        color="primary"
-        aria-label="post"
-        sx={{ position: "absolute", bottom: 16, right: 16 }}
-      >
-        <AddIcon />
-      </Fab>
+      <PicturePostFab />
     </Container>
   );
 }
