@@ -106,7 +106,7 @@ export default function PostPage() {
                 sx={{ width: 1 }}
                 onBlur={onBlur}
                 ref={ref}
-                description="10MB 이하, jpg, png, gif 이미지"
+                description="10MB, 8196x8196 이하 jpg, png, gif, webp, avif, tiff 이미지"
                 onImagePreview={onImagePreviewUpdate}
                 check={(file) => {
                   if (file.size > 10 * 1024 * 1024) {
@@ -116,10 +116,15 @@ export default function PostPage() {
                     return false;
                   }
                   // only jpg, png, gif
-                  if (!file.type.match(/image\/(jpeg|png|gif)/)) {
-                    enqueueSnackbar("jpg, png, gif 이미지만 업로드 해주세요", {
-                      variant: "error",
-                    });
+                  if (
+                    !file.type.match(/image\/(jpeg|png|gif|webp|avif|tiff)/)
+                  ) {
+                    enqueueSnackbar(
+                      "jpg, png, gif, webp, avif, tiff 이미지만 업로드 해주세요",
+                      {
+                        variant: "error",
+                      },
+                    );
                     return false;
                   }
                   return true;
