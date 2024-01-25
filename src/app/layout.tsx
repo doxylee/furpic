@@ -1,43 +1,21 @@
-"use client";
-
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
-import { UserContextProvider } from "@/utils/useUser";
-import Head from "next/head";
-import { SnackbarProvider } from "notistack";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider } from "@mui/material";
-import { theme } from "./theme";
 
-const queryClient = new QueryClient();
+import ClientLayout from "./clientLayout";
+import { Metadata } from "next";
 
-export default function RootLayout({
+export const metadata: Metadata = {
+  title: "FurPic",
+};
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <html lang="ko">
-      <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
       <body>
-        <QueryClientProvider client={queryClient}>
-          <UserContextProvider>
-            <ThemeProvider theme={theme}>
-              <AppRouterCacheProvider>
-                <SnackbarProvider
-                  anchorOrigin={{ horizontal: "center", vertical: "top" }}
-                />
-                {children}
-                <SpeedInsights />
-                <Analytics />
-              </AppRouterCacheProvider>
-            </ThemeProvider>
-          </UserContextProvider>
-        </QueryClientProvider>
+        <ClientLayout children={children} />
       </body>
     </html>
   );
