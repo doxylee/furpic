@@ -45,7 +45,7 @@ export default function NavigationLayout({
           </IconButton> */}
           <Link href="/">
             <Typography variant="h6" component="div" fontSize={28}>
-              Furpic
+              FurPic
             </Typography>
           </Link>
           <Box sx={{ flexGrow: 1 }} />
@@ -60,9 +60,7 @@ export default function NavigationLayout({
                 onClose={handleMenuClose}
               >
                 <MenuItem onClick={handleMenuClose}>
-                  <Link href={`/users/@${user.username}`}>
-                    내 프로필
-                  </Link>
+                  <Link href={`/users/@${user.username}`}>내 프로필</Link>
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
