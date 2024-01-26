@@ -20,6 +20,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ImageUpload } from "@/components/ImageUpload";
+import { NeedLoginModal } from "@/components/NeedLoginModal";
 
 type FormFields = {
   image: File;
@@ -76,6 +77,7 @@ export default function PostPage() {
 
   return (
     <Container maxWidth="md" sx={{ px: { xs: 0, sm: 2, md: 4 } }}>
+      <NeedLoginModal />
       <Typography
         variant="h3"
         mx={1}
