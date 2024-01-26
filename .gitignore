@@ -39,3 +39,5 @@ next-env.d.ts
 # Local DB files
 /volumes
 certificates
+# Sentry Config File
+.sentryclirc
