@@ -32,10 +32,31 @@ export async function uploadPicture({
 }: UploadPictureParams) {
   const formData = new FormData();
   formData.append("image", image.image!);
-  formData.append("data", JSON.stringify({ type, authors, characters, crop: image.crop }));
+  formData.append(
+    "data",
+    JSON.stringify({ type, authors, characters, crop: image.crop }),
+  );
   return (await fetchAPI({
     method: "POST",
     path: "pictures",
+    body: formData,
+  })) as PictureWithConnections;
+}
+
+export type UpdatePictureParams = {
+  id: string;
+  image?: ImageCrop;
+  type: "drawing" | "photo";
+};
+
+export async function updatePicture({ id, image, type }: UpdatePictureParams) {
+  const formData = new FormData();
+  if (image) formData.append("image", image.image!);
+  formData.append("data", JSON.stringify({ type, crop: image?.crop }));
+
+  return (await fetchAPI({
+    method: "PATCH",
+    path: `pictures/${id}`,
     body: formData,
   })) as PictureWithConnections;
 }

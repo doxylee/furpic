@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Box,
   Grid,
@@ -40,11 +40,13 @@ export function ImageUpload({
   sx?: SxProps;
   onBlur?: () => void;
   onImagePreview?: (imagePreview: string) => void;
-  defaultImage?: { url: string; crop: PercentCrop };
+  defaultImage?: { url: string; crop?: PercentCrop };
   circleCrop?: boolean;
 }) {
-  console.log(defaultImage)
-  const [imagePreview, setImagePreview] = useState<string | null>(defaultImage?.url ?? null);
+
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    defaultImage?.url ?? null,
+  );
   const isDirty = useRef(false);
 
   const previewImg = useRef<HTMLImageElement>(null);
@@ -52,22 +54,44 @@ export function ImageUpload({
 
   const previewLoaded = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const { width, height } = e.currentTarget;
-    const crop = centerAspectCrop(width, height);
+    const crop =
+      !isDirty.current && defaultImage?.crop
+        ? defaultImage.crop
+        : centerAspectCrop(width, height);
     setCrop(crop);
-    setCompletedCrop(convertToPixelCrop(crop, width, height), crop);
+    setCompletedCrop(
+      convertToPixelCrop(crop, width, height),
+      crop,
+      !isDirty.current,
+    );
   };
+
+  useEffect(() => {
+    if (!isDirty.current && previewImg.current?.complete)
+      previewLoaded({ currentTarget: previewImg.current! } as any);
+  }, []);
 
   const [cropDialogOpen, setCropDialogOpen] = useState(false);
   const [crop, setCrop] = useState<PercentCrop>();
 
-  const setCompletedCrop = (_: PixelCrop, percentCrop: PercentCrop) => {
+  const setCompletedCrop = (
+    _: PixelCrop,
+    percentCrop: PercentCrop,
+    skipChange = false,
+  ) => {
     if (!previewImg.current || !croppedCanvas.current) return;
-    const { width, height} = previewImg.current;
+    const { width, height } = previewImg.current;
     const pixelCrop = convertToPixelCrop(percentCrop, width, height);
     canvasPreview(previewImg.current, croppedCanvas.current, pixelCrop);
-    onImagePreview?.(croppedCanvas.current.toDataURL("image/jpeg"));
 
-    onCropChange(percentCrop);
+    if (!skipChange) {
+      try {
+        onImagePreview?.(croppedCanvas.current.toDataURL("image/jpeg"));
+      } catch (e) {
+        // Ignore tainted canvas error. No way to handle it.
+      }
+      onCropChange(percentCrop);
+    }
   };
 
   const handleFileUpload = (file: File) => {

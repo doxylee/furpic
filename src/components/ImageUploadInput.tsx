@@ -11,7 +11,7 @@ import { PercentCrop } from "react-image-crop";
 
 export type ImageCrop = {
   image?: File;
-  crop: PercentCrop;
+  crop?: PercentCrop;
 };
 
 export function ImageUploadInput<TFieldValues extends FieldValues>({
@@ -29,7 +29,7 @@ export function ImageUploadInput<TFieldValues extends FieldValues>({
     "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
   >;
   onImagePreviewUpdate?: (imagePreview: string) => void;
-  defaultImage?: { url: string; crop: PercentCrop };
+  defaultImage?: { url: string; crop?: PercentCrop };
   circleCrop?: boolean;
 }) {
   return (
@@ -47,6 +47,7 @@ export function ImageUploadInput<TFieldValues extends FieldValues>({
               onChange({ image: file, crop: value?.crop });
             }}
             onCropChange={(crop) => {
+              console.log("crop", crop)
               onChange({ image: value?.image, crop });
             }}
             sx={{ width: 1 }}

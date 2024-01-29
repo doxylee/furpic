@@ -1,6 +1,9 @@
 "use client";
 
-import { uploadPicture } from "@/_interface/backend/api/pictures";
+import {
+  updatePicture,
+  uploadPicture,
+} from "@/_interface/backend/api/pictures";
 import { PictureWithConnections } from "@/_interface/backend/entities/picture";
 import { ImageCrop, ImageUploadInput } from "@/components/ImageUploadInput";
 import { NeedLoginModal } from "@/components/NeedLoginModal";
@@ -26,8 +29,8 @@ import { Controller, useForm } from "react-hook-form";
 type FormFields = {
   image: ImageCrop;
   type: "drawing" | "photo";
-  addCharacters: CharacterItem[];
-  addAuthors: AuthorItem[];
+  // addCharacters: CharacterItem[];
+  // addAuthors: AuthorItem[];
 };
 
 export function PictureEditContainer({
@@ -46,7 +49,7 @@ export function PictureEditContainer({
 
   const router = useRouter();
   const mutation = useMutation({
-    mutationFn: uploadPicture,
+    mutationFn: updatePicture,
     onError: (e) => {
       console.error(e);
       enqueueSnackbar("작품 수정에 실패했어요", { variant: "error" });
@@ -54,22 +57,28 @@ export function PictureEditContainer({
     },
     onSuccess: () => {
       enqueueSnackbar("작품이 수정되었어요", { variant: "success" });
-      router.push(`/pictures/${picture.id}`); // TODO: Check if this should be replace
+      router.replace(`/pictures/${picture.id}`);
     },
   });
 
   const onSubmit = (data: FormFields) => {
-    console.log(data);
+    mutation.mutate({
+      id: picture.id,
+      image: data.image,
+      type: data.type,
+    });
   };
 
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    picture.smImage,
+  );
   const onImagePreviewUpdate = (imagePreview: string) => {
     setImagePreview(imagePreview);
-    const characters = getValues("addCharacters")?.map((character) => ({
-      ...character,
-      smImage: character.smImage || (character.setImage ? imagePreview : null),
-    }));
-    setValue("addCharacters", characters);
+    // const characters = getValues("addCharacters")?.map((character) => ({
+    //   ...character,
+    //   smImage: character.smImage || (character.setImage ? imagePreview : null),
+    // }));
+    // setValue("addCharacters", characters);
   };
 
   return (
@@ -93,11 +102,10 @@ export function PictureEditContainer({
         <ImageUploadInput
           control={control}
           name="image"
-          rules={{ required: true }}
           onImagePreviewUpdate={onImagePreviewUpdate}
           defaultImage={{
             url: picture.mdImage,
-            crop: picture.crop,
+            crop: picture.crop ?? undefined,
           }}
         />
         <Typography variant="h6">작품 종류</Typography>
