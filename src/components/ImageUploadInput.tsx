@@ -20,7 +20,7 @@ export function ImageUploadInput<TFieldValues extends FieldValues>({
   name,
   rules,
   onImagePreviewUpdate,
-  defaultValue,
+  defaultImage,
   circleCrop = false,
 }: {
   control: Control<TFieldValues>;
@@ -30,7 +30,7 @@ export function ImageUploadInput<TFieldValues extends FieldValues>({
     "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
   >;
   onImagePreviewUpdate?: (imagePreview: string) => void;
-  defaultValue?: ImageCrop;
+  defaultImage?: { url: string; crop: PixelCrop };
   circleCrop?: boolean;
 }) {
   return (
@@ -53,8 +53,8 @@ export function ImageUploadInput<TFieldValues extends FieldValues>({
             sx={{ width: 1 }}
             onBlur={onBlur}
             onImagePreview={onImagePreviewUpdate}
+            defaultImage={defaultImage}
             circleCrop={circleCrop}
-            
           />
           {error?.type === "required" && (
             <Typography color="red">이미지를 업로드 해주세요</Typography>

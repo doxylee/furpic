@@ -33,6 +33,7 @@ export function ImageUpload({
   sx,
   onBlur,
   onImagePreview,
+  defaultImage,
   circleCrop = false,
 }: {
   onFileUpload: (file: File) => void;
@@ -40,9 +41,12 @@ export function ImageUpload({
   sx?: SxProps;
   onBlur?: () => void;
   onImagePreview?: (imagePreview: string) => void;
+  defaultImage?: { url: string; crop: PixelCrop };
   circleCrop?: boolean;
 }) {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  console.log(defaultImage)
+  const [imagePreview, setImagePreview] = useState<string | null>(defaultImage?.url ?? null);
+  const isDirty = useRef(false);
 
   const previewImg = useRef<HTMLImageElement>(null);
   const croppedCanvas = useRef<HTMLCanvasElement>(null);
@@ -71,6 +75,11 @@ export function ImageUpload({
     onCropChange(originalCrop);
   };
 
+  const handleFileUpload = (file: File) => {
+    isDirty.current = true;
+    onFileUpload(file);
+  };
+
   return (
     <Box sx={sx}>
       <DragDropFileUpload
@@ -95,7 +104,7 @@ export function ImageUpload({
           }
           return true;
         }}
-        onFileUpload={onFileUpload}
+        onFileUpload={handleFileUpload}
         onImageURL={setImagePreview}
         onBlur={onBlur}
       />

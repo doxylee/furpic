@@ -1,3 +1,5 @@
+import { PercentCrop } from "react-image-crop";
+
 export type User = {
   id: string;
   name: string;
@@ -6,4 +8,5 @@ export type User = {
   bio: string;
   xsImage: string | null;
   smImage: string | null;
+  crop: PercentCrop | null;
 };

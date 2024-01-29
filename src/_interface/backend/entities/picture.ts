@@ -1,3 +1,4 @@
+import { PercentCrop } from "react-image-crop";
 import { CharacterWithUser } from "./character";
 import { User } from "./user";
 
@@ -8,6 +9,7 @@ export type PictureWithConnections = {
   type: PictureType;
   smImage: string;
   mdImage: string;
+  crop: PercentCrop | null;
   uploaderId: string | null;
   uploader: User | null;
   createdAt: Date;

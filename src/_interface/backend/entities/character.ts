@@ -1,3 +1,4 @@
+import { PercentCrop } from "react-image-crop";
 import { User } from "./user";
 
 export type Character = {
@@ -8,6 +9,7 @@ export type Character = {
   species: string | null;
   xsImage: string | null;
   smImage: string | null;
+  crop: PercentCrop | null;
 };
 
 export type CharacterWithUser = Character & {
