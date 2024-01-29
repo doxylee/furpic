@@ -62,7 +62,13 @@ export function AddCharacterDialog({
     <Dialog open={openModal} onClose={() => onFinish()}>
       <DialogTitle>캐릭터 추가하기</DialogTitle>
       <DialogContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleSubmit(onSubmit)(e);
+          }}
+        >
           <Controller
             name="nameKo"
             control={control}

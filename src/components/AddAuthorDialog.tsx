@@ -54,7 +54,11 @@ export function AddAuthorDialog({
     <Dialog open={openModal} onClose={() => onFinish()}>
       <DialogTitle>작가 추가하기</DialogTitle>
       <DialogContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={(e)=>{
+          e.preventDefault();
+          e.stopPropagation();
+          handleSubmit(onSubmit)(e);
+        }}>
           <Controller
             name="name"
             control={control}
