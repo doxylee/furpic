@@ -7,6 +7,7 @@ import AuthorsPart from "./AuthorsPart";
 import { getPictureById } from "@/_interface/backend/api/pictures";
 import { FetchError } from "@/utils/fetch";
 import { Metadata, ResolvingMetadata } from "next";
+import { PictureEditButton } from "./PictureEditButton";
 
 type Props = {
   params: { id: string };
@@ -50,6 +51,11 @@ export default async function PicturePage({ params }: Props) {
           sx={{ width: 1 }}
         />
         <Stack spacing={2} sx={{ px: { xs: 1, sm: 0 } }}>
+          <Stack direction="row" spacing={1}>
+            <Box>heart</Box>
+            <Box sx={{flex: "1"}}/>
+            <PictureEditButton picture={picture} size="small" />
+          </Stack>
           <Typography variant="h5">캐릭터</Typography>
           <CharactersPart characters={picture.characters} />
           <Typography variant="h5">작가</Typography>
