@@ -42,7 +42,7 @@ export function ImageUploadInput<TFieldValues extends FieldValues>({
         field: { onChange, onBlur, value, ref },
         fieldState: { error },
       }) => (
-        <div>
+        <div ref={ref}>
           <ImageUpload
             onFileUpload={(file) => {
               onChange({ image: file, crop: value?.crop });
@@ -52,29 +52,9 @@ export function ImageUploadInput<TFieldValues extends FieldValues>({
             }}
             sx={{ width: 1 }}
             onBlur={onBlur}
-            ref={ref}
-            description="10MB, 8196x8196 이하 jpg, png, gif, webp, avif, tiff 이미지"
             onImagePreview={onImagePreviewUpdate}
             circleCrop={circleCrop}
-            check={(file) => {
-              if (file.size > 10 * 1024 * 1024) {
-                enqueueSnackbar("10MB 이하의 이미지를 업로드 해주세요", {
-                  variant: "error",
-                });
-                return false;
-              }
-              // jpg, png, gif, webp, avif, tiff
-              if (!file.type.match(/image\/(jpeg|png|gif|webp|avif|tiff)/)) {
-                enqueueSnackbar(
-                  "jpg, png, gif, webp, avif, tiff 이미지만 업로드 해주세요",
-                  {
-                    variant: "error",
-                  },
-                );
-                return false;
-              }
-              return true;
-            }}
+            
           />
           {error?.type === "required" && (
             <Typography color="red">이미지를 업로드 해주세요</Typography>
