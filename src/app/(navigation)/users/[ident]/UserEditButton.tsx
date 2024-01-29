@@ -103,7 +103,7 @@ export function UserEditButton({
           <form onSubmit={handleSubmit(onSubmit)}>
             <DialogTitle>프로필 수정하기</DialogTitle>
             <DialogContent>
-              <ImageUpload control={control} name="image" />
+              <ImageUpload control={control} name="image" circleCrop />
               <Controller
                 name="name"
                 control={control}

@@ -39,6 +39,7 @@ export const DragDropFileUpload = React.forwardRef(
       description,
       check,
       onImagePreview,
+      circleCrop = false,
     }: {
       onFileUpload: (file: File) => void;
       onCropChange: (crop: PixelCrop) => void;
@@ -47,6 +48,7 @@ export const DragDropFileUpload = React.forwardRef(
       description?: string;
       check?: (file: File) => boolean;
       onImagePreview?: (imagePreview: string) => void;
+      circleCrop?: boolean;
     },
     ref,
   ) => {
@@ -213,6 +215,7 @@ export const DragDropFileUpload = React.forwardRef(
                         width: 1,
                         height: 1,
                         objectFit: "cover",
+                        borderRadius: circleCrop ? "50%" : 0,
                       }}
                     />
                   </Box>
@@ -237,6 +240,7 @@ export const DragDropFileUpload = React.forwardRef(
               onChange={(_, percentCrop) => setCrop(percentCrop)}
               onComplete={setCompletedCrop}
               aspect={1}
+              circularCrop={circleCrop}
             >
               <img src={imagePreview!} />
             </ReactCrop>

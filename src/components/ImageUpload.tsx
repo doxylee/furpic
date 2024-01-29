@@ -22,6 +22,7 @@ export function ImageUpload<TFieldValues extends FieldValues>({
   rules,
   onImagePreviewUpdate,
   defaultValue,
+  circleCrop = false,
 }: {
   control: Control<TFieldValues>;
   name: Path<TFieldValues>;
@@ -31,6 +32,7 @@ export function ImageUpload<TFieldValues extends FieldValues>({
   >;
   onImagePreviewUpdate?: (imagePreview: string) => void;
   defaultValue?: ImageCrop;
+  circleCrop?: boolean;
 }) {
   return (
     <Controller
@@ -54,6 +56,7 @@ export function ImageUpload<TFieldValues extends FieldValues>({
             ref={ref}
             description="10MB, 8196x8196 이하 jpg, png, gif, webp, avif, tiff 이미지"
             onImagePreview={onImagePreviewUpdate}
+            circleCrop={circleCrop}
             check={(file) => {
               if (file.size > 10 * 1024 * 1024) {
                 enqueueSnackbar("10MB 이하의 이미지를 업로드 해주세요", {
