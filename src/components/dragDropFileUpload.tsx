@@ -27,6 +27,7 @@ import ReactCrop, {
 
 import "react-image-crop/dist/ReactCrop.css";
 import { canvasPreview } from "@/utils/canvasPreview";
+import { convertToPixelCropFloored } from "@/utils/crop";
 
 export const DragDropFileUpload = React.forwardRef(
   (
@@ -106,11 +107,16 @@ export const DragDropFileUpload = React.forwardRef(
 
     const setCompletedCrop = (_: PixelCrop, percentCrop: PercentCrop) => {
       if (!previewImg.current || !croppedCanvas.current) return;
-      const { width, height } = previewImg.current;
+      const { width, height, naturalWidth, naturalHeight } = previewImg.current;
       const pixelCrop = convertToPixelCrop(percentCrop, width, height);
       canvasPreview(previewImg.current, croppedCanvas.current, pixelCrop);
       onImagePreview?.(croppedCanvas.current.toDataURL("image/jpeg"));
-      onCropChange(pixelCrop);
+      const originalCrop = convertToPixelCropFloored(
+        percentCrop,
+        naturalWidth,
+        naturalHeight,
+      );
+      onCropChange(originalCrop);
     };
 
     return (
