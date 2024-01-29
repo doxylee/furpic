@@ -18,10 +18,10 @@ import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import { createCharacter } from "@/_interface/backend/api/characters";
 import { useQueryClient } from "@tanstack/react-query";
-import { ImageUpload } from "@/components/ImageUpload";
+import { ImageCrop, ImageUpload } from "@/components/ImageUpload";
 
 type FormFields = {
-  image?: File;
+  image?: ImageCrop;
   nameKo?: string;
   nameEn?: string;
   species?: string;

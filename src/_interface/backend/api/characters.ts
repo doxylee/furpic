@@ -1,3 +1,4 @@
+import { ImageCrop } from "@/components/ImageUpload";
 import { CharacterWithUser } from "../entities/character";
 import { fetchAPI } from "@/utils/fetch";
 
@@ -26,11 +27,11 @@ export async function updateCharacter({
   nameKo?: string | null;
   nameEn?: string | null;
   species?: string | null;
-  image?: File;
+  image?: ImageCrop;
 }): Promise<CharacterWithUser> {
   const formData = new FormData();
-  if (image) formData.append("image", image);
-  formData.append("data", JSON.stringify({ nameKo, nameEn, species }));
+  if (image?.image) formData.append("image", image.image);
+  formData.append("data", JSON.stringify({ nameKo, nameEn, species, crop: image?.crop }));
   return await fetchAPI({
     method: "PATCH",
     path: `characters/${id}`,
@@ -47,11 +48,11 @@ export async function createCharacter({
   nameKo?: string | null;
   nameEn?: string | null;
   species?: string | null;
-  image?: File;
+  image?: ImageCrop;
 }): Promise<CharacterWithUser> {
   const formData = new FormData();
-  if (image) formData.append("image", image);
-  formData.append("data", JSON.stringify({ nameKo, nameEn, species }));
+  if (image?.image) formData.append("image", image.image);
+  formData.append("data", JSON.stringify({ nameKo, nameEn, species, crop: image?.crop}));
   return await fetchAPI({
     method: "POST",
     path: "characters",

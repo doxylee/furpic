@@ -1,3 +1,4 @@
+import { ImageCrop } from "@/components/ImageUpload";
 import { PictureWithConnections } from "../entities/picture";
 import { fetchAPI } from "@/utils/fetch";
 
@@ -21,7 +22,7 @@ export type UploadPictureData = {
 };
 
 export type UploadPictureParams = {
-  image: File;
+  image: ImageCrop;
 } & UploadPictureData;
 export async function uploadPicture({
   image,
@@ -30,8 +31,8 @@ export async function uploadPicture({
   characters,
 }: UploadPictureParams) {
   const formData = new FormData();
-  formData.append("image", image);
-  formData.append("data", JSON.stringify({ type, authors, characters }));
+  formData.append("image", image.image!);
+  formData.append("data", JSON.stringify({ type, authors, characters, crop: image.crop }));
   return (await fetchAPI({
     method: "POST",
     path: "pictures",

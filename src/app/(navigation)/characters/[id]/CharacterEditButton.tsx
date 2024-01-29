@@ -2,7 +2,7 @@
 
 import { updateCharacter } from "@/_interface/backend/api/characters";
 import { CharacterWithUser } from "@/_interface/backend/entities/character";
-import { ImageUpload } from "@/components/ImageUpload";
+import { ImageCrop, ImageUpload } from "@/components/ImageUpload";
 import { useUser } from "@/utils/useUser";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -16,7 +16,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 type FormFields = {
-  image?: File;
+  image?: ImageCrop;
   nameKo?: string;
   nameEn?: string;
   species?: string;

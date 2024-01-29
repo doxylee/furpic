@@ -1,3 +1,4 @@
+import { ImageCrop } from "@/components/ImageUpload";
 import { User } from "../entities/user";
 import { fetchAPI } from "@/utils/fetch";
 
@@ -14,11 +15,11 @@ export async function updateMyUser({
   name?: string;
   username?: string;
   bio?: string;
-  image?: File;
+  image?: ImageCrop;
 }): Promise<User> {
   const formData = new FormData();
-  if (image) formData.append("image", image);
-  formData.append("data", JSON.stringify({ name, username, bio }));
+  if (image?.image) formData.append("image", image.image);
+  formData.append("data", JSON.stringify({ name, username, bio, crop: image?.crop}));
   return await fetchAPI({
     method: "PATCH",
     path: `users/me`,

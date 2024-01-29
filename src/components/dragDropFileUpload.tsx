@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEventHandler, DragEventHandler, useState } from "react";
+import { ChangeEventHandler, DragEventHandler, useRef, useState } from "react";
 import {
   Box,
   Paper,
@@ -10,9 +10,24 @@ import {
   CircularProgress,
   SxProps,
   Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import ImageIcon from "@mui/icons-material/Image";
 import React from "react";
+import ReactCrop, {
+  centerCrop,
+  makeAspectCrop,
+  Crop,
+  PixelCrop,
+  convertToPixelCrop,
+  PercentCrop,
+} from "react-image-crop";
+
+import "react-image-crop/dist/ReactCrop.css";
+import { canvasPreview } from "@/utils/canvasPreview";
 
 export const DragDropFileUpload = React.forwardRef(
   (
@@ -36,7 +51,9 @@ export const DragDropFileUpload = React.forwardRef(
     const [dragOver, setDragOver] = useState(false);
     const [loading, setLoading] = useState(false);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
-    const [cropPreview, setCropPreview] = useState<string | null>(null);
+
+    const previewImg = useRef<HTMLImageElement>(null);
+    const croppedCanvas = useRef<HTMLCanvasElement>(null);
 
     const handleDragOver: DragEventHandler = (event) => {
       event.preventDefault();
@@ -65,10 +82,15 @@ export const DragDropFileUpload = React.forwardRef(
       reader.onloadend = () => {
         setLoading(false);
         setImagePreview(reader.result as string);
-        setCropPreview(reader.result as string);
-        onImagePreview?.(reader.result as string);
       };
       reader.readAsDataURL(file);
+    };
+
+    const previewLoaded = (e: React.SyntheticEvent<HTMLImageElement>) => {
+      const { width, height } = e.currentTarget;
+      const crop = centerAspectCrop(width, height);
+      setCrop(crop);
+      setCompletedCrop(convertToPixelCrop(crop, width, height), crop);
     };
 
     const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -76,6 +98,17 @@ export const DragDropFileUpload = React.forwardRef(
       if (files && files[0]) {
         handleFileChange(files[0]);
       }
+    };
+
+    const [cropDialogOpen, setCropDialogOpen] = useState(false);
+    const [crop, setCrop] = useState<Crop>();
+
+    const setCompletedCrop = (_: PixelCrop, percentCrop: PercentCrop) => {
+      if (!previewImg.current || !croppedCanvas.current) return;
+      const { width, height } = previewImg.current;
+      const pixelCrop = convertToPixelCrop(percentCrop, width, height);
+      canvasPreview(previewImg.current, croppedCanvas.current, pixelCrop);
+      onImagePreview?.(croppedCanvas.current.toDataURL("image/jpeg"));
     };
 
     return (
@@ -149,41 +182,80 @@ export const DragDropFileUpload = React.forwardRef(
           style={{ marginTop: 16 }}
         >
           {imagePreview && (
-            <Grid item xs={12} sm={6} md={4}>
-              <img
-                src={imagePreview}
-                alt="Image Preview"
-                style={{ width: "100%", height: "auto" }}
-              />
-            </Grid>
-          )}
-          {cropPreview && (
-            <Grid item xs={12} sm={6} md={4}>
-              <Box style={{ position: "relative" }}>
-                <Box sx={{ paddingTop: "100%" }}>
-                  <Box
-                    component="img"
-                    src={cropPreview}
-                    sx={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: 1,
-                      height: 1,
-                      objectFit: "cover",
-                    }}
-                  />
+            <>
+              <Grid item xs={12} sm={8} md={6}>
+                <img
+                  src={imagePreview}
+                  ref={previewImg}
+                  onLoad={previewLoaded}
+                  alt="Image Preview"
+                  style={{ width: "100%", height: "auto" }}
+                />
+              </Grid>
+              <Grid item xs={8} sm={4} md={3}>
+                <Box style={{ position: "relative" }}>
+                  <Box sx={{ paddingTop: "100%" }}>
+                    <Box
+                      component="canvas"
+                      ref={croppedCanvas}
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: 1,
+                        height: 1,
+                        objectFit: "cover",
+                      }}
+                    />
+                  </Box>
                 </Box>
-              </Box>
-              <Button variant="contained" fullWidth sx={{ mt: 2 }}>
-                썸네일 수정
-              </Button>
-            </Grid>
+                <Button
+                  variant="contained"
+                  onClick={() => setCropDialogOpen(true)}
+                  fullWidth
+                  sx={{ mt: 2 }}
+                >
+                  썸네일 수정
+                </Button>
+              </Grid>
+            </>
           )}
         </Grid>
+        <Dialog open={cropDialogOpen} onClose={() => setCropDialogOpen(false)}>
+          <DialogTitle>썸네일 수정하기</DialogTitle>
+          <DialogContent>
+            <ReactCrop
+              crop={crop}
+              onChange={(_, percentCrop) => setCrop(percentCrop)}
+              onComplete={setCompletedCrop}
+              aspect={1}
+            >
+              <img src={imagePreview!} />
+            </ReactCrop>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setCropDialogOpen(false)}>확인</Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     );
   },
 );
 
 DragDropFileUpload.displayName = "DragDropFileUpload";
+
+function centerAspectCrop(mediaWidth: number, mediaHeight: number) {
+  return centerCrop(
+    makeAspectCrop(
+      {
+        unit: "%",
+        width: 100,
+      },
+      1,
+      mediaWidth,
+      mediaHeight,
+    ),
+    mediaWidth,
+    mediaHeight,
+  );
+}

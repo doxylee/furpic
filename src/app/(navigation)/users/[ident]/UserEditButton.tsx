@@ -2,7 +2,7 @@
 
 import { updateMyUser } from "@/_interface/backend/api/user";
 import { User } from "@/_interface/backend/entities/user";
-import { ImageUpload } from "@/components/ImageUpload";
+import { ImageCrop, ImageUpload } from "@/components/ImageUpload";
 import { usernameRegex } from "@/utils/constants";
 import { FetchError } from "@/utils/fetch";
 import { useUser } from "@/utils/useUser";
@@ -22,7 +22,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 type FormFields = {
-  image?: File;
+  image?: ImageCrop;
   name?: string;
   username?: string;
   bio?: string;

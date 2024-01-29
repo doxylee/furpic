@@ -19,11 +19,11 @@ import { AuthorItem, SelectAuthors } from "@/components/SelectAuthors";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { ImageUpload } from "@/components/ImageUpload";
+import { ImageCrop, ImageUpload } from "@/components/ImageUpload";
 import { NeedLoginModal } from "@/components/NeedLoginModal";
 
 type FormFields = {
-  image: File;
+  image: ImageCrop;
   type: "drawing" | "photo";
   characters: CharacterItem[];
   authors: AuthorItem[];
