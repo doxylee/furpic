@@ -29,7 +29,7 @@ import "react-image-crop/dist/ReactCrop.css";
 import { canvasPreview } from "@/utils/canvasPreview";
 import { convertToPixelCropFloored } from "@/utils/crop";
 
-export const DragDropFileUpload = React.forwardRef(
+export const ImageUpload = React.forwardRef(
   (
     {
       onFileUpload,
@@ -254,7 +254,7 @@ export const DragDropFileUpload = React.forwardRef(
   },
 );
 
-DragDropFileUpload.displayName = "DragDropFileUpload";
+ImageUpload.displayName = "ImageUpload";
 
 function centerAspectCrop(mediaWidth: number, mediaHeight: number) {
   return centerCrop(

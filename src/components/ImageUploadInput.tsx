@@ -5,7 +5,7 @@ import {
   Path,
   RegisterOptions,
 } from "react-hook-form";
-import { DragDropFileUpload } from "./dragDropFileUpload";
+import { ImageUpload } from "./ImageUpload";
 import { Typography } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { PixelCrop } from "react-image-crop";
@@ -43,7 +43,7 @@ export function ImageUploadInput<TFieldValues extends FieldValues>({
         fieldState: { error },
       }) => (
         <div>
-          <DragDropFileUpload
+          <ImageUpload
             onFileUpload={(file) => {
               onChange({ image: file, crop: value?.crop });
             }}
