@@ -2,7 +2,7 @@
 
 import { updateCharacter } from "@/_interface/backend/api/characters";
 import { CharacterWithUser } from "@/_interface/backend/entities/character";
-import { ImageCrop, ImageUploadInput } from "@/components/ImageUpload";
+import { ImageCrop, ImageUploadInput } from "@/components/ImageUploadInput";
 import { useUser } from "@/utils/useUser";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";

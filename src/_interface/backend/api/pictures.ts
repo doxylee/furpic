@@ -1,4 +1,4 @@
-import { ImageCrop } from "@/components/ImageUpload";
+import { ImageCrop } from "@/components/ImageUploadInput";
 import { PictureWithConnections } from "../entities/picture";
 import { fetchAPI } from "@/utils/fetch";
 

@@ -2,7 +2,7 @@
 
 import { updateMyUser } from "@/_interface/backend/api/user";
 import { User } from "@/_interface/backend/entities/user";
-import { ImageCrop, ImageUploadInput } from "@/components/ImageUpload";
+import { ImageCrop, ImageUploadInput } from "@/components/ImageUploadInput";
 import { usernameRegex } from "@/utils/constants";
 import { FetchError } from "@/utils/fetch";
 import { useUser } from "@/utils/useUser";

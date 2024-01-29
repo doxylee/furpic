@@ -18,7 +18,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import { createCharacter } from "@/_interface/backend/api/characters";
 import { useQueryClient } from "@tanstack/react-query";
-import { ImageCrop, ImageUploadInput } from "@/components/ImageUpload";
+import { ImageCrop, ImageUploadInput } from "@/components/ImageUploadInput";
 
 type FormFields = {
   image?: ImageCrop;

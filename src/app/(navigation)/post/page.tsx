@@ -19,7 +19,7 @@ import { AuthorItem, SelectAuthors } from "@/components/SelectAuthors";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { ImageCrop, ImageUploadInput } from "@/components/ImageUpload";
+import { ImageCrop, ImageUploadInput } from "@/components/ImageUploadInput";
 import { NeedLoginModal } from "@/components/NeedLoginModal";
 
 type FormFields = {
