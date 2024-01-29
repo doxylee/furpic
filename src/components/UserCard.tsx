@@ -20,7 +20,6 @@ export function UserCard({
   onClick?: MouseEventHandler<HTMLDivElement>;
   sx?: SxProps;
 }) {
-  console.log(user)
   return (
     <Card
       onClick={onClick}
