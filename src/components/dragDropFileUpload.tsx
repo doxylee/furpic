@@ -9,6 +9,7 @@ import {
   Grid,
   CircularProgress,
   SxProps,
+  Button,
 } from "@mui/material";
 import ImageIcon from "@mui/icons-material/Image";
 import React from "react";
@@ -35,6 +36,7 @@ export const DragDropFileUpload = React.forwardRef(
     const [dragOver, setDragOver] = useState(false);
     const [loading, setLoading] = useState(false);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [cropPreview, setCropPreview] = useState<string | null>(null);
 
     const handleDragOver: DragEventHandler = (event) => {
       event.preventDefault();
@@ -63,6 +65,7 @@ export const DragDropFileUpload = React.forwardRef(
       reader.onloadend = () => {
         setLoading(false);
         setImagePreview(reader.result as string);
+        setCropPreview(reader.result as string);
         onImagePreview?.(reader.result as string);
       };
       reader.readAsDataURL(file);
@@ -138,8 +141,14 @@ export const DragDropFileUpload = React.forwardRef(
           )}
         </Paper>
 
-        {imagePreview && (
-          <Grid container justifyContent="center" style={{ marginTop: 16 }}>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+          style={{ marginTop: 16 }}
+        >
+          {imagePreview && (
             <Grid item xs={12} sm={6} md={4}>
               <img
                 src={imagePreview}
@@ -147,8 +156,31 @@ export const DragDropFileUpload = React.forwardRef(
                 style={{ width: "100%", height: "auto" }}
               />
             </Grid>
-          </Grid>
-        )}
+          )}
+          {cropPreview && (
+            <Grid item xs={12} sm={6} md={4}>
+              <Box style={{ position: "relative" }}>
+                <Box sx={{ paddingTop: "100%" }}>
+                  <Box
+                    component="img"
+                    src={cropPreview}
+                    sx={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: 1,
+                      height: 1,
+                      objectFit: "cover",
+                    }}
+                  />
+                </Box>
+              </Box>
+              <Button variant="contained" fullWidth sx={{ mt: 2 }}>
+                썸네일 수정
+              </Button>
+            </Grid>
+          )}
+        </Grid>
       </Box>
     );
   },
