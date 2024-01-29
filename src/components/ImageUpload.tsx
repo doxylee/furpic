@@ -23,7 +23,6 @@ import ReactCrop, {
 
 import "react-image-crop/dist/ReactCrop.css";
 import { canvasPreview } from "@/utils/canvasPreview";
-import { convertToPixelCropFloored } from "@/utils/crop";
 import { DragDropFileUpload } from "./DragDropFileUpload";
 import { enqueueSnackbar } from "notistack";
 
@@ -37,11 +36,11 @@ export function ImageUpload({
   circleCrop = false,
 }: {
   onFileUpload: (file: File) => void;
-  onCropChange: (crop: PixelCrop) => void;
+  onCropChange: (crop: PercentCrop) => void;
   sx?: SxProps;
   onBlur?: () => void;
   onImagePreview?: (imagePreview: string) => void;
-  defaultImage?: { url: string; crop: PixelCrop };
+  defaultImage?: { url: string; crop: PercentCrop };
   circleCrop?: boolean;
 }) {
   console.log(defaultImage)
@@ -63,16 +62,12 @@ export function ImageUpload({
 
   const setCompletedCrop = (_: PixelCrop, percentCrop: PercentCrop) => {
     if (!previewImg.current || !croppedCanvas.current) return;
-    const { width, height, naturalWidth, naturalHeight } = previewImg.current;
+    const { width, height} = previewImg.current;
     const pixelCrop = convertToPixelCrop(percentCrop, width, height);
     canvasPreview(previewImg.current, croppedCanvas.current, pixelCrop);
     onImagePreview?.(croppedCanvas.current.toDataURL("image/jpeg"));
-    const originalCrop = convertToPixelCropFloored(
-      percentCrop,
-      naturalWidth,
-      naturalHeight,
-    );
-    onCropChange(originalCrop);
+
+    onCropChange(percentCrop);
   };
 
   const handleFileUpload = (file: File) => {

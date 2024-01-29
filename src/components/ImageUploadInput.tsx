@@ -7,12 +7,11 @@ import {
 } from "react-hook-form";
 import { ImageUpload } from "./ImageUpload";
 import { Typography } from "@mui/material";
-import { enqueueSnackbar } from "notistack";
-import { PixelCrop } from "react-image-crop";
+import { PercentCrop } from "react-image-crop";
 
 export type ImageCrop = {
   image?: File;
-  crop: PixelCrop;
+  crop: PercentCrop;
 };
 
 export function ImageUploadInput<TFieldValues extends FieldValues>({
@@ -30,7 +29,7 @@ export function ImageUploadInput<TFieldValues extends FieldValues>({
     "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
   >;
   onImagePreviewUpdate?: (imagePreview: string) => void;
-  defaultImage?: { url: string; crop: PixelCrop };
+  defaultImage?: { url: string; crop: PercentCrop };
   circleCrop?: boolean;
 }) {
   return (
