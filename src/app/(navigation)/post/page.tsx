@@ -19,7 +19,7 @@ import { AuthorItem, SelectAuthors } from "@/components/SelectAuthors";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { ImageCrop, ImageUpload } from "@/components/ImageUpload";
+import { ImageCrop, ImageUploadInput } from "@/components/ImageUpload";
 import { NeedLoginModal } from "@/components/NeedLoginModal";
 
 type FormFields = {
@@ -93,7 +93,7 @@ export default function PostPage() {
         sx={{ width: 1, padding: 1 }}
         justifyContent="center"
       >
-        <ImageUpload
+        <ImageUploadInput
           control={control}
           name="image"
           rules={{ required: true }}

@@ -2,7 +2,7 @@
 
 import { updateMyUser } from "@/_interface/backend/api/user";
 import { User } from "@/_interface/backend/entities/user";
-import { ImageCrop, ImageUpload } from "@/components/ImageUpload";
+import { ImageCrop, ImageUploadInput } from "@/components/ImageUpload";
 import { usernameRegex } from "@/utils/constants";
 import { FetchError } from "@/utils/fetch";
 import { useUser } from "@/utils/useUser";
@@ -103,7 +103,7 @@ export function UserEditButton({
           <form onSubmit={handleSubmit(onSubmit)}>
             <DialogTitle>프로필 수정하기</DialogTitle>
             <DialogContent>
-              <ImageUpload control={control} name="image" circleCrop />
+              <ImageUploadInput control={control} name="image" circleCrop />
               <Controller
                 name="name"
                 control={control}

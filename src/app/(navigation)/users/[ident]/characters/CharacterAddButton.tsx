@@ -18,7 +18,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import { createCharacter } from "@/_interface/backend/api/characters";
 import { useQueryClient } from "@tanstack/react-query";
-import { ImageCrop, ImageUpload } from "@/components/ImageUpload";
+import { ImageCrop, ImageUploadInput } from "@/components/ImageUpload";
 
 type FormFields = {
   image?: ImageCrop;
@@ -101,7 +101,7 @@ export function CharacterAddButton({
           <DialogTitle>캐릭터 추가하기</DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <ImageUpload control={control} name="image" />
+              <ImageUploadInput control={control} name="image" />
               <Controller
                 name="nameKo"
                 control={control}

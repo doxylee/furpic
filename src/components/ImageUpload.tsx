@@ -9,14 +9,13 @@ import { DragDropFileUpload } from "./dragDropFileUpload";
 import { Typography } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { PixelCrop } from "react-image-crop";
-import { useState } from "react";
 
 export type ImageCrop = {
   image?: File;
   crop: PixelCrop;
 };
 
-export function ImageUpload<TFieldValues extends FieldValues>({
+export function ImageUploadInput<TFieldValues extends FieldValues>({
   control,
   name,
   rules,

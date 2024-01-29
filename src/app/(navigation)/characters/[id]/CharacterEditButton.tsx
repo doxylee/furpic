@@ -2,7 +2,7 @@
 
 import { updateCharacter } from "@/_interface/backend/api/characters";
 import { CharacterWithUser } from "@/_interface/backend/entities/character";
-import { ImageCrop, ImageUpload } from "@/components/ImageUpload";
+import { ImageCrop, ImageUploadInput } from "@/components/ImageUpload";
 import { useUser } from "@/utils/useUser";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -78,7 +78,7 @@ export function CharacterEditButton({
           <form onSubmit={handleSubmit(onSubmit)}>
             <DialogTitle>캐릭터 수정하기</DialogTitle>
             <DialogContent>
-              <ImageUpload
+              <ImageUploadInput
                 control={control}
                 name="image"
                 rules={{ required: false }}
