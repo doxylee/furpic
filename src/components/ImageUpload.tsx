@@ -9,17 +9,19 @@ import { DragDropFileUpload } from "./dragDropFileUpload";
 import { Typography } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { PixelCrop } from "react-image-crop";
+import { useState } from "react";
 
 export type ImageCrop = {
   image?: File;
   crop: PixelCrop;
-}
+};
 
 export function ImageUpload<TFieldValues extends FieldValues>({
   control,
   name,
   rules,
   onImagePreviewUpdate,
+  defaultValue,
 }: {
   control: Control<TFieldValues>;
   name: Path<TFieldValues>;
@@ -28,6 +30,7 @@ export function ImageUpload<TFieldValues extends FieldValues>({
     "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
   >;
   onImagePreviewUpdate?: (imagePreview: string) => void;
+  defaultValue?: ImageCrop;
 }) {
   return (
     <Controller
@@ -40,7 +43,12 @@ export function ImageUpload<TFieldValues extends FieldValues>({
       }) => (
         <div>
           <DragDropFileUpload
-            onFileUpload={onChange}
+            onFileUpload={(file) => {
+              onChange({ image: file, crop: value?.crop });
+            }}
+            onCropChange={(crop) => {
+              onChange({ image: value?.image, crop });
+            }}
             sx={{ width: 1 }}
             onBlur={onBlur}
             ref={ref}

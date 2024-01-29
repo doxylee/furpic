@@ -20,7 +20,6 @@ import React from "react";
 import ReactCrop, {
   centerCrop,
   makeAspectCrop,
-  Crop,
   PixelCrop,
   convertToPixelCrop,
   PercentCrop,
@@ -33,6 +32,7 @@ export const DragDropFileUpload = React.forwardRef(
   (
     {
       onFileUpload,
+      onCropChange,
       sx,
       onBlur,
       description,
@@ -40,6 +40,7 @@ export const DragDropFileUpload = React.forwardRef(
       onImagePreview,
     }: {
       onFileUpload: (file: File) => void;
+      onCropChange: (crop: PixelCrop) => void;
       sx?: SxProps;
       onBlur?: () => void;
       description?: string;
@@ -101,7 +102,7 @@ export const DragDropFileUpload = React.forwardRef(
     };
 
     const [cropDialogOpen, setCropDialogOpen] = useState(false);
-    const [crop, setCrop] = useState<Crop>();
+    const [crop, setCrop] = useState<PercentCrop>();
 
     const setCompletedCrop = (_: PixelCrop, percentCrop: PercentCrop) => {
       if (!previewImg.current || !croppedCanvas.current) return;
@@ -109,6 +110,7 @@ export const DragDropFileUpload = React.forwardRef(
       const pixelCrop = convertToPixelCrop(percentCrop, width, height);
       canvasPreview(previewImg.current, croppedCanvas.current, pixelCrop);
       onImagePreview?.(croppedCanvas.current.toDataURL("image/jpeg"));
+      onCropChange(pixelCrop);
     };
 
     return (
