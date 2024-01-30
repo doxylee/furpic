@@ -47,12 +47,34 @@ export type UpdatePictureParams = {
   id: string;
   image?: ImageCrop;
   type: "drawing" | "photo";
+  addAuthors: AuthorLink[];
+  removeSelf: boolean;
+  addCharacters: CharacterLink[];
+  removeCharacterIds: string[];
 };
 
-export async function updatePicture({ id, image, type }: UpdatePictureParams) {
+export async function updatePicture({
+  id,
+  image,
+  type,
+  addAuthors,
+  removeSelf,
+  addCharacters,
+  removeCharacterIds,
+}: UpdatePictureParams) {
   const formData = new FormData();
   if (image) formData.append("image", image.image!);
-  formData.append("data", JSON.stringify({ type, crop: image?.crop }));
+  formData.append(
+    "data",
+    JSON.stringify({
+      type,
+      crop: image?.crop,
+      addAuthors,
+      removeSelf,
+      addCharacters,
+      removeCharacterIds,
+    }),
+  );
 
   return (await fetchAPI({
     method: "PATCH",

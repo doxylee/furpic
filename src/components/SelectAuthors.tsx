@@ -30,9 +30,11 @@ export type AuthorItem = User & { create: boolean };
 export function SelectAuthors({
   value,
   onChange,
+  previousIds = [],
 }: {
   value: AuthorItem[] | undefined;
   onChange: (users: AuthorItem[] | undefined) => void;
+  previousIds?: string[];
 }) {
   const { user } = useUser();
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -73,21 +75,29 @@ export function SelectAuthors({
         >
           <Stack width={1}>
             <Grid2 container spacing={1}>
-              {value?.map((user) => (
-                <Grid2
-                  key={user.id}
-                  xs={4}
-                  sm={3}
-                  sx={{ position: "relative" }}
-                >
-                  <UserCard user={user} />
-                  <div style={{ position: "absolute", top: 8, right: 8 }}>
-                    <IconButton onClick={() => removeAuthor(user)}>
-                      <ClearIcon />
-                    </IconButton>
-                  </div>
-                </Grid2>
-              ))}
+              {value?.map((userItem) => {
+                const removable =
+                  userItem.create ||
+                  userItem.id === user?.id ||
+                  !previousIds.includes(userItem.id);
+                return (
+                  <Grid2
+                    key={userItem.id}
+                    xs={4}
+                    sm={3}
+                    sx={{ position: "relative" }}
+                  >
+                    <UserCard user={userItem} />
+                    {removable && (
+                      <div style={{ position: "absolute", top: 8, right: 8 }}>
+                        <IconButton onClick={() => removeAuthor(userItem)}>
+                          <ClearIcon />
+                        </IconButton>
+                      </div>
+                    )}
+                  </Grid2>
+                );
+              })}
             </Grid2>
             <Box
               sx={{ display: "flex", justifyContent: "flex-end" }}

@@ -42,6 +42,7 @@ export function AddAuthorDialog({
       bio: "",
       smImage: null,
       xsImage: null,
+      crop: null,
       create: true,
     });
   };

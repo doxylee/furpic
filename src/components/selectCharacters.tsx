@@ -26,6 +26,7 @@ import {
   fullSearchCharacters,
   getMyCharacters,
 } from "@/_interface/backend/api/characters";
+import { useUser } from "@/utils/useUser";
 
 export type CharacterItem = CharacterWithUser & {
   create: boolean;
@@ -36,10 +37,13 @@ export type CharacterItem = CharacterWithUser & {
 export function SelectCharacters({
   value,
   onChange,
+  previousIds = [],
 }: {
   value: CharacterItem[] | undefined;
   onChange: (characters: CharacterItem[] | undefined) => void;
+  previousIds?: string[];
 }) {
+  const { user } = useUser();
   const [expanded, setExpanded] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -86,21 +90,26 @@ export function SelectCharacters({
         >
           <Stack width={1}>
             <Grid2 container spacing={1}>
-              {value?.map((character) => (
-                <Grid2
-                  key={character.id}
-                  xs={4}
-                  sm={3}
-                  sx={{ position: "relative" }}
-                >
-                  <CharacterCard character={character} />
-                  <div style={{ position: "absolute", top: 8, right: 8 }}>
-                    <IconButton onClick={() => removeCharacter(character)}>
-                      <ClearIcon />
-                    </IconButton>
-                  </div>
-                </Grid2>
-              ))}
+              {value?.map((character) => {
+                const removable =
+                  (user && character.userId === user.id) ||
+                  !previousIds.includes(character.id);
+                return (
+                  <Grid2
+                    key={character.id}
+                    xs={4}
+                    sm={3}
+                    sx={{ position: "relative" }}
+                  >
+                    <CharacterCard character={character} />
+                    {removable && <div style={{ position: "absolute", top: 8, right: 8 }}>
+                      <IconButton onClick={() => removeCharacter(character)}>
+                        <ClearIcon />
+                      </IconButton>
+                    </div>}
+                  </Grid2>
+                );
+              })}
             </Grid2>
             <Box
               sx={{ display: "flex", justifyContent: "flex-end" }}

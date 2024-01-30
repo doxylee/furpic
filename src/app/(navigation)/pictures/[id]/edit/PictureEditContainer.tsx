@@ -7,8 +7,9 @@ import {
 import { PictureWithConnections } from "@/_interface/backend/entities/picture";
 import { ImageCrop, ImageUploadInput } from "@/components/ImageUploadInput";
 import { NeedLoginModal } from "@/components/NeedLoginModal";
-import { AuthorItem } from "@/components/SelectAuthors";
-import { CharacterItem } from "@/components/selectCharacters";
+import { AuthorItem, SelectAuthors } from "@/components/SelectAuthors";
+import { CharacterItem, SelectCharacters } from "@/components/selectCharacters";
+import { useUser } from "@/utils/useUser";
 import {
   Backdrop,
   Button,
@@ -20,17 +21,19 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { DeleteInstructionButton } from "./DeleteInstructionButton";
 
 type FormFields = {
   image: ImageCrop;
   type: "drawing" | "photo";
-  // addCharacters: CharacterItem[];
-  // addAuthors: AuthorItem[];
+  characters: CharacterItem[];
+  authors: AuthorItem[];
 };
 
 export function PictureEditContainer({
@@ -38,6 +41,11 @@ export function PictureEditContainer({
 }: {
   picture: PictureWithConnections;
 }) {
+  const prevCharacterIds = picture.characters.map((c) => c.id);
+  const prevAuthorIds = picture.authors.map((a) => a.id);
+
+  const { user } = useUser();
+
   const {
     register,
     handleSubmit,
@@ -62,10 +70,30 @@ export function PictureEditContainer({
   });
 
   const onSubmit = (data: FormFields) => {
+    if (!user) return;
+    const addCharacters = data.characters.filter(
+      (c) => !prevCharacterIds.includes(c.id),
+    );
+    const curCharacterIds = data.characters.map((c) => c.id);
+    const removeCharacterIds = prevCharacterIds.filter(
+      (id) => !curCharacterIds.includes(id),
+    );
+
+    const addAuthors = data.authors.filter(
+      (a) => !prevAuthorIds.includes(a.id),
+    );
+    const curAuthorIds = data.authors.map((a) => a.id);
+    const removeSelf =
+      prevAuthorIds.includes(user.id) && !curAuthorIds.includes(user.id);
+
     mutation.mutate({
       id: picture.id,
       image: data.image,
       type: data.type,
+      addCharacters,
+      removeCharacterIds,
+      addAuthors,
+      removeSelf,
     });
   };
 
@@ -74,11 +102,11 @@ export function PictureEditContainer({
   );
   const onImagePreviewUpdate = (imagePreview: string) => {
     setImagePreview(imagePreview);
-    // const characters = getValues("addCharacters")?.map((character) => ({
-    //   ...character,
-    //   smImage: character.smImage || (character.setImage ? imagePreview : null),
-    // }));
-    // setValue("addCharacters", characters);
+    const characters = getValues("characters")?.map((character) => ({
+      ...character,
+      smImage: character.smImage || (character.setImage ? imagePreview : null),
+    }));
+    setValue("characters", characters);
   };
 
   return (
@@ -143,7 +171,7 @@ export function PictureEditContainer({
           )}
         />
         <Typography variant="h6">캐릭터</Typography>
-        {/* <Controller
+        <Controller
           control={control}
           name="characters"
           rules={{ required: true }}
@@ -154,6 +182,7 @@ export function PictureEditContainer({
             <div>
               <SelectCharacters
                 value={value}
+                previousIds={prevCharacterIds}
                 onChange={(characters) =>
                   onChange(
                     characters?.map((character) => ({
@@ -170,9 +199,9 @@ export function PictureEditContainer({
               )}
             </div>
           )}
-        /> */}
+        />
         <Typography variant="h6">작가</Typography>
-        {/* <Controller
+        <Controller
           control={control}
           name="authors"
           rules={{ required: true }}
@@ -181,16 +210,27 @@ export function PictureEditContainer({
             fieldState: { error },
           }) => (
             <div>
-              <SelectAuthors value={value} onChange={onChange} />
+              <SelectAuthors
+                value={value}
+                previousIds={prevAuthorIds}
+                onChange={onChange}
+              />
               {error?.type === "required" && (
                 <Typography color="red">작가를 선택해주세요</Typography>
               )}
             </div>
           )}
-        /> */}
-        <Button type="submit" variant="contained">
-          완료
-        </Button>
+        />
+        <Grid2 container>
+          <Grid2>
+            <Button type="submit" variant="contained">
+              완료
+            </Button>
+          </Grid2>
+          <Grid2>
+            <DeleteInstructionButton />
+          </Grid2>
+        </Grid2>
       </Stack>
       <Backdrop open={mutation.isPending}>
         <Paper sx={{ p: 4 }}>
