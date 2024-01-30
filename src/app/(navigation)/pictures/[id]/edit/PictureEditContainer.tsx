@@ -175,6 +175,12 @@ export function PictureEditContainer({
           control={control}
           name="characters"
           rules={{ required: true }}
+          defaultValue={picture.characters.map((c) => ({
+            ...c,
+            create: false,
+            mine: false,
+            setImage: false,
+          }))}
           render={({
             field: { onChange, onBlur, value, ref },
             fieldState: { error },
@@ -205,6 +211,7 @@ export function PictureEditContainer({
           control={control}
           name="authors"
           rules={{ required: true }}
+          defaultValue={picture.authors.map((a) => ({ ...a, create: false }))}
           render={({
             field: { onChange, onBlur, value, ref },
             fieldState: { error },
