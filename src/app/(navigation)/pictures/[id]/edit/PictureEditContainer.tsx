@@ -228,14 +228,14 @@ export function PictureEditContainer({
             </div>
           )}
         />
-        <Grid2 container>
-          <Grid2>
-            <Button type="submit" variant="contained">
+        <Grid2 container spacing={1}>
+          <Grid2 xs={12} sm={8}>
+            <Button type="submit" variant="contained" fullWidth>
               완료
             </Button>
           </Grid2>
-          <Grid2>
-            <DeleteInstructionButton />
+          <Grid2 xs={12} sm={4}>
+            <DeleteInstructionButton fullWidth />
           </Grid2>
         </Grid2>
       </Stack>
