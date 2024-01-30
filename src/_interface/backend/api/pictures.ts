@@ -46,11 +46,11 @@ export async function uploadPicture({
 export type UpdatePictureParams = {
   id: string;
   image?: ImageCrop;
-  type: "drawing" | "photo";
-  addAuthors: AuthorLink[];
-  removeSelf: boolean;
-  addCharacters: CharacterLink[];
-  removeCharacterIds: string[];
+  type?: "drawing" | "photo";
+  addAuthors?: AuthorLink[];
+  removeSelf?: boolean;
+  addCharacters?: CharacterLink[];
+  removeCharacterIds?: string[];
 };
 
 export async function updatePicture({

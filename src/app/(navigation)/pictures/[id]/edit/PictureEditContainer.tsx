@@ -32,8 +32,8 @@ import { DeleteInstructionButton } from "./DeleteInstructionButton";
 type FormFields = {
   image: ImageCrop;
   type: "drawing" | "photo";
-  characters: CharacterItem[];
-  authors: AuthorItem[];
+  characters?: CharacterItem[];
+  authors?: AuthorItem[];
 };
 
 export function PictureEditContainer({
@@ -71,18 +71,18 @@ export function PictureEditContainer({
 
   const onSubmit = (data: FormFields) => {
     if (!user) return;
-    const addCharacters = data.characters.filter(
+    const addCharacters = data.characters?.filter(
       (c) => !prevCharacterIds.includes(c.id),
     );
-    const curCharacterIds = data.characters.map((c) => c.id);
+    const curCharacterIds = data.characters?.map((c) => c.id) || [];
     const removeCharacterIds = prevCharacterIds.filter(
       (id) => !curCharacterIds.includes(id),
     );
 
-    const addAuthors = data.authors.filter(
+    const addAuthors = data.authors?.filter(
       (a) => !prevAuthorIds.includes(a.id),
     );
-    const curAuthorIds = data.authors.map((a) => a.id);
+    const curAuthorIds = data.authors?.map((a) => a.id) || [];
     const removeSelf =
       prevAuthorIds.includes(user.id) && !curAuthorIds.includes(user.id);
 
@@ -174,7 +174,6 @@ export function PictureEditContainer({
         <Controller
           control={control}
           name="characters"
-          rules={{ required: true }}
           defaultValue={picture.characters.map((c) => ({
             ...c,
             create: false,
@@ -210,7 +209,6 @@ export function PictureEditContainer({
         <Controller
           control={control}
           name="authors"
-          rules={{ required: true }}
           defaultValue={picture.authors.map((a) => ({ ...a, create: false }))}
           render={({
             field: { onChange, onBlur, value, ref },
