@@ -48,6 +48,7 @@ export function AddCharacterDialog({
       species: data.species || null,
       smImage: null,
       xsImage: null,
+      crop: null,
       create: true,
       mine: data.mine,
       setImage: data.profileImage || false,
