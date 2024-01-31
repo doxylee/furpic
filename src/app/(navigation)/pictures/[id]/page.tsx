@@ -52,7 +52,7 @@ export default async function PicturePage({ params }: Props) {
         />
         <Stack spacing={2} sx={{ px: { xs: 1, sm: 0 } }}>
           <Stack direction="row" spacing={1}>
-            <Box>heart</Box>
+            {/* <Box>heart</Box> */}
             <Box sx={{flex: "1"}}/>
             <PictureEditButton picture={picture} size="small" />
           </Stack>
