@@ -12,13 +12,6 @@ export async function fullSearchCharacters(
   });
 }
 
-export async function getMyCharacters(): Promise<{
-  count: number;
-  results: CharacterWithUser[];
-}> {
-  return await fetchAPI({ method: "GET", path: "characters/mine" });
-}
-
 export async function updateCharacter({
   id,
   nameKo,

@@ -24,7 +24,7 @@ import { AddCharacterDialog } from "./AddCharacterDialog";
 import { useQuery } from "@tanstack/react-query";
 import {
   fullSearchCharacters,
-  getMyCharacters,
+  getCharacters,
 } from "@/_interface/backend/api/characters";
 import { useUser } from "@/utils/useUser";
 
@@ -75,7 +75,8 @@ export function SelectCharacters({
 
   const { data: myCharacters } = useQuery({
     queryKey: ["characters", "mine"],
-    queryFn: () => getMyCharacters(),
+    enabled: !!user,
+    queryFn: () => getCharacters({ userId: user?.id }),
   });
 
   const characters = searchQuery ? data : myCharacters?.results;
