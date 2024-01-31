@@ -21,7 +21,7 @@ export default async function IndexPage({
   });
 
   return (
-    <Container maxWidth="xl" sx={{ px: { xs: 1, sm: 2, md: 4 } }}>
+    <Container maxWidth="xl" sx={{ px: { xs: 1, sm: 2, md: 4 }, pb: 2 }}>
       <Typography variant="h2" mt={4}>
         최신 그림
       </Typography>

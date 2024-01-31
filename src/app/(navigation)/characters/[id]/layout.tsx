@@ -28,7 +28,7 @@ export default async function UserLayout({
   }
 
   return (
-    <Container maxWidth="x2l">
+    <Container maxWidth="x2l" sx={{pb: 2}}>
       <Paper
         elevation={3}
         sx={{

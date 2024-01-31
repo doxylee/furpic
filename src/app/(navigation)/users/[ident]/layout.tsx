@@ -31,7 +31,7 @@ export default async function UserLayout({
   const username = user.username || user.twitterUsername;
 
   return (
-    <Container maxWidth="x2l">
+    <Container maxWidth="x2l" sx={{ pb: 2 }}>
       <Paper
         elevation={3}
         sx={{
