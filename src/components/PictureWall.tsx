@@ -3,7 +3,7 @@
 import { PictureWithConnections } from "@/_interface/backend/entities/picture";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { PictureCard } from "./PictureCard";
-import { Pagination, PaginationItem } from "@mui/material";
+import { Box, Pagination, PaginationItem } from "@mui/material";
 import Link from "next/link";
 
 export function PictureWall({
@@ -26,18 +26,19 @@ export function PictureWall({
           </Grid2>
         ))}
       </Grid2>
-      <Pagination
-        page={page}
-        count={data ? Math.ceil(data.count / perPage) : 1}
-        
-        renderItem={(item) => (
-          <PaginationItem
-            component={Link}
-            href={href + `page=${item.page}`}
-            {...item}
-          />
-        )}
-      />
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+        <Pagination
+          page={page}
+          count={data ? Math.ceil(data.count / perPage) : 1}
+          renderItem={(item) => (
+            <PaginationItem
+              component={Link}
+              href={href + `page=${item.page}`}
+              {...item}
+            />
+          )}
+        />
+      </Box>
     </>
   );
 }
