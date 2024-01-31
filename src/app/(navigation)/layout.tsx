@@ -134,7 +134,7 @@ export default function NavigationLayout({
                   }}
                 >
                   {icon}
-                  <Typography variant="h5" component="div" ml={2}>
+                  <Typography variant="h5" component="div" ml={2} pt="3px">
                     {name}
                   </Typography>
                 </ListItem>
@@ -144,6 +144,26 @@ export default function NavigationLayout({
         </Box>
       </Drawer>
       <div>{children}</div>
+      <Stack
+        direction="row"
+        justifyContent="center"
+        spacing={4}
+        sx={{ mt: 4, color: "gray", fontSize: 12 }}
+        flexWrap="wrap"
+      >
+        <Link href="https://astydragon.notion.site/astydragon/12925efcb7654158b6eb11fea3279e19">
+          이용약관
+        </Link>
+        <Link href="https://plip.kr/pcc/a033ddb5-9da4-4f2d-b563-5952518e4f31/privacy/1.html">
+          개인정보 처리방침
+        </Link>
+        <div>
+          Made by{" "}
+          <Link href="https://twitter.com/AstyDragon" target="_blank">
+            @AstyDragon
+          </Link>
+        </div>
+      </Stack>
     </>
   );
 }
