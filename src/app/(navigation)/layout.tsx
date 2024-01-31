@@ -60,6 +60,11 @@ export default function NavigationLayout({
                 사진
               </Typography>
             </Link>
+            <Link href="/characters">
+              <Typography variant="h5" component="div">
+                캐릭터
+              </Typography>
+            </Link>
           </Stack>
           <Box sx={{ flexGrow: 1 }} />
           {user ? (

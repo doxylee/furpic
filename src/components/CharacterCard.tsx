@@ -23,12 +23,10 @@ export function CharacterCard({
   link?: boolean;
   sx?: SxProps;
 }) {
-  return (
+  const card = (
     <Card
-      component={link ? Link : "div"}
       onClick={onClick}
       sx={{ cursor: link || onClick ? "pointer" : "auto", ...sx }}
-      href={link ? `/characters/${character.id}` : undefined}
     >
       <CardMedia
         image={character.smImage ?? undefined}
@@ -57,17 +55,22 @@ export function CharacterCard({
           {character.nameKo || character.nameEn}
         </Typography>
         {character.user && (
-          <Typography
-            fontSize={12}
-            color="gray"
-            noWrap
-            sx={{ overflow: "hidden", textOverflow: "ellipsis" }}
-          >
-            {character.user.name} @
-            {character.user.username || character.user.twitterUsername}
-          </Typography>
+          <Link href={`/users/@${character.user.username}`}>
+            <Typography
+              fontSize={12}
+              color="gray"
+              noWrap
+              sx={{ overflow: "hidden", textOverflow: "ellipsis" }}
+            >
+              {character.user.name} @
+              {character.user.username || character.user.twitterUsername}
+            </Typography>
+          </Link>
         )}
       </CardContent>
     </Card>
   );
+
+  if (link) return <Link href={`/characters/${character.id}`}>{card}</Link>;
+  else return card;
 }
