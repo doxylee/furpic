@@ -123,7 +123,7 @@ export default function NavigationLayout({
               { icon: <CameraAltIcon />, name: "사진", href: "/photos" },
               { icon: <PetsIcon />, name: "캐릭터", href: "/characters" },
             ].map(({ icon, name, href }) => (
-              <Link href={href} onClick={() => setDrawerOpen(false)}>
+              <Link href={href} onClick={() => setDrawerOpen(false)} key={href}>
                 <ListItem
                   sx={{
                     px: 4,
