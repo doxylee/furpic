@@ -1,16 +1,22 @@
-"use client";
+"use server";
 
 import { Container, Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import { getPictures } from "@/_interface/backend/api/pictures";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import { PictureCard } from "@/components/PictureCard";
 import { PicturePostFab } from "@/components/PicturePostFab";
+import { getPictures } from "@/_interface/backend/api/pictures";
+import { PictureWall } from "@/components/PictureWall";
 
-export default function IndexPage() {
-  const { data } = useQuery({
-    queryKey: ["pictures", "recent"],
-    queryFn: () => getPictures({ limit: 60 }),
+const PER_PAGE = 60;
+
+export default async function IndexPage({
+  searchParams,
+}: {
+  searchParams: { page: string };
+}) {
+  const page = searchParams.page ? parseInt(searchParams.page) : 1;
+
+  const data = await getPictures({
+    limit: PER_PAGE,
+    offset: (page - 1) * PER_PAGE,
   });
 
   return (
@@ -18,13 +24,7 @@ export default function IndexPage() {
       <Typography variant="h2" mt={4}>
         최신 작품
       </Typography>
-      <Grid2 container spacing={{ xs: 1, sm: 2 }} pt={2}>
-        {data?.results.map((picture) => (
-          <Grid2 xs={6} sm={4} md={3} lg={2} key={picture.id}>
-            <PictureCard picture={picture} sx={{ cursor: "pointer" }} link />
-          </Grid2>
-        ))}
-      </Grid2>
+      <PictureWall page={page} perPage={PER_PAGE} href={"/?"} data={data} />
       <PicturePostFab />
     </Container>
   );
