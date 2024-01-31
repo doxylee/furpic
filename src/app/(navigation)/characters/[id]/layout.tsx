@@ -32,14 +32,15 @@ export default async function UserLayout({
       <Paper
         elevation={3}
         sx={{
-          position: "sticky",
+          position: { xs: "static", sm: "sticky" },
           top: 64,
           zIndex: 100,
           backgroundColor: "white",
-          my: 2,
+          mb: 2,
+          mx: -1,
           p: 2,
           pb: 0,
-          borderRadius: 8,
+          borderRadius: "0 0 32px 32px",
         }}
       >
         <Stack direction="row" alignItems="center" flexWrap="wrap">

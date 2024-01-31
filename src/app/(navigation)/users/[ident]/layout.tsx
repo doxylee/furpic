@@ -35,14 +35,15 @@ export default async function UserLayout({
       <Paper
         elevation={3}
         sx={{
-          position: "sticky",
+          position: { xs: "static", sm: "sticky" },
           top: 64,
           zIndex: 100,
           backgroundColor: "white",
-          my: 2,
+          mb: 2,
+          mx: -1,
           p: 2,
           pb: 0,
-          borderRadius: 8,
+          borderRadius: "0 0 32px 32px",
         }}
       >
         <Stack direction="row" alignItems="center" flexWrap="wrap">
@@ -88,7 +89,7 @@ export default async function UserLayout({
             sx={{ ml: "auto", mr: { xs: 1, sm: 2 }, my: 1 }}
           />
         </Stack>
-        <Typography variant="body1" my={{xs:1, sm: 2}}>
+        <Typography variant="body1" my={{ xs: 1, sm: 2 }}>
           {user.bio}
         </Typography>
         <UserTabs />
