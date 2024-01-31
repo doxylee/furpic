@@ -83,10 +83,16 @@ export async function updatePicture({
   })) as PictureWithConnections;
 }
 
-export async function getRecentPictures() {
+export async function getRecentPictures(
+  query: {
+    limit?: number;
+    offset?: number;
+  } = {},
+) {
   return (await fetchAPI({
     method: "GET",
     path: "pictures/recent",
+    query,
   })) as PictureWithConnections[];
 }
 

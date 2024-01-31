@@ -10,7 +10,7 @@ import { PicturePostFab } from "@/components/PicturePostFab";
 export default function IndexPage() {
   const { data } = useQuery({
     queryKey: ["pictures", "recent"],
-    queryFn: () => getRecentPictures(),
+    queryFn: () => getRecentPictures({ limit: 60 }),
   });
 
   return (
@@ -18,7 +18,7 @@ export default function IndexPage() {
       <Typography variant="h2" mt={4}>
         최신 작품
       </Typography>
-      <Grid2 container spacing={{xs:1, sm: 2}} pt={2}>
+      <Grid2 container spacing={{ xs: 1, sm: 2 }} pt={2}>
         {data?.map((picture) => (
           <Grid2 xs={6} sm={4} md={3} lg={2} key={picture.id}>
             <PictureCard picture={picture} sx={{ cursor: "pointer" }} link />
