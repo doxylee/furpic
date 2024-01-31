@@ -12,7 +12,10 @@ export async function fullSearchCharacters(
   });
 }
 
-export async function getMyCharacters(): Promise<CharacterWithUser[]> {
+export async function getMyCharacters(): Promise<{
+  count: number;
+  results: CharacterWithUser[];
+}> {
   return await fetchAPI({ method: "GET", path: "characters/mine" });
 }
 
@@ -31,7 +34,10 @@ export async function updateCharacter({
 }): Promise<CharacterWithUser> {
   const formData = new FormData();
   if (image?.image) formData.append("image", image.image);
-  formData.append("data", JSON.stringify({ nameKo, nameEn, species, crop: image?.crop }));
+  formData.append(
+    "data",
+    JSON.stringify({ nameKo, nameEn, species, crop: image?.crop }),
+  );
   return await fetchAPI({
     method: "PATCH",
     path: `characters/${id}`,
@@ -52,7 +58,10 @@ export async function createCharacter({
 }): Promise<CharacterWithUser> {
   const formData = new FormData();
   if (image?.image) formData.append("image", image.image);
-  formData.append("data", JSON.stringify({ nameKo, nameEn, species, crop: image?.crop}));
+  formData.append(
+    "data",
+    JSON.stringify({ nameKo, nameEn, species, crop: image?.crop }),
+  );
   return await fetchAPI({
     method: "POST",
     path: "characters",
@@ -70,7 +79,8 @@ export async function getCharacters({
   username?: string;
   limit?: number;
   offset?: number;
-}): Promise<CharacterWithUser[]> {
+}): Promise<{ count: number; results: CharacterWithUser[] }> {
+  console.log({ userId, username, limit, offset })
   return await fetchAPI({
     method: "GET",
     path: "characters",

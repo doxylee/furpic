@@ -9,21 +9,26 @@ import {
   SxProps,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 import { MouseEventHandler } from "react";
 
 export function CharacterCard({
   character,
   onClick,
+  link = false,
   sx,
 }: {
   character: CharacterWithUser;
   onClick?: MouseEventHandler<HTMLDivElement>;
+  link?: boolean;
   sx?: SxProps;
 }) {
   return (
     <Card
+      component={link ? Link : "div"}
       onClick={onClick}
-      sx={{ cursor: onClick ? "pointer" : "auto", ...sx }}
+      sx={{ cursor: link || onClick ? "pointer" : "auto", ...sx }}
+      href={link ? `/characters/${character.id}` : undefined}
     >
       <CardMedia
         image={character.smImage ?? undefined}

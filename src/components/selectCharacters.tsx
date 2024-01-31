@@ -78,7 +78,7 @@ export function SelectCharacters({
     queryFn: () => getMyCharacters(),
   });
 
-  const characters = searchQuery ? data : myCharacters;
+  const characters = searchQuery ? data : myCharacters?.results;
 
   return (
     <Box>
@@ -102,11 +102,13 @@ export function SelectCharacters({
                     sx={{ position: "relative" }}
                   >
                     <CharacterCard character={character} />
-                    {removable && <div style={{ position: "absolute", top: 8, right: 8 }}>
-                      <IconButton onClick={() => removeCharacter(character)}>
-                        <ClearIcon />
-                      </IconButton>
-                    </div>}
+                    {removable && (
+                      <div style={{ position: "absolute", top: 8, right: 8 }}>
+                        <IconButton onClick={() => removeCharacter(character)}>
+                          <ClearIcon />
+                        </IconButton>
+                      </div>
+                    )}
                   </Grid2>
                 );
               })}

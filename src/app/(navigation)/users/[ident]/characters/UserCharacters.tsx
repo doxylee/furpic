@@ -1,32 +1,35 @@
 "use client";
 
-import { CharacterCard } from "@/components/CharacterCard";
-import Grid2 from "@mui/material/Unstable_Grid2";
-import Link from "next/link";
-import { CharacterAddButton } from "./CharacterAddButton";
-import { useQuery } from "@tanstack/react-query";
-import { getCharacters } from "@/_interface/backend/api/characters";
+import { CharacterWall } from "@/components/CharacterWall";
+import { CharacterWithUser } from "@/_interface/backend/entities/character";
+import { useUser } from "@/utils/useUser";
 
 export function UserCharacters({
+  data,
   userSearchQuery,
+  page,
+  perPage,
 }: {
+  data: { count: number; results: CharacterWithUser[] };
   userSearchQuery: { userId: string } | { username: string };
+  page: number;
+  perPage: number;
 }) {
-  const { data: characters } = useQuery({
-    queryKey: ["characters", "getCharactersOfUser", userSearchQuery],
-    queryFn: () => getCharacters({ limit: 60, ...userSearchQuery }),
-  });
+  const { user } = useUser();
+
+  const isMyPage =
+    !!user &&
+    ("userId" in userSearchQuery
+      ? userSearchQuery.userId === user.id
+      : userSearchQuery.username === user.username);
 
   return (
-    <Grid2 container spacing={2}>
-      {characters?.map((character) => (
-        <Grid2 xs={6} sm={4} md={3} lg={2} key={character.id}>
-          <Link href={`/characters/${character.id}`}>
-            <CharacterCard character={character} sx={{ cursor: "pointer" }} />
-          </Link>
-        </Grid2>
-      ))}
-      <CharacterAddButton userSearchQuery={userSearchQuery} />
-    </Grid2>
+    <CharacterWall
+      page={page}
+      perPage={perPage}
+      href={`/users/${"userId" in userSearchQuery ? userSearchQuery.userId : "@" + userSearchQuery.username}/characters?`}
+      data={data}
+      characterAddButton={isMyPage}
+    />
   );
 }
