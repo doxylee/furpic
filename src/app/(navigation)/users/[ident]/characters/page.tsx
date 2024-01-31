@@ -20,7 +20,7 @@ export default async function UserCharactersPage({
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["characters", "getCharactersOfUser", userSearchQuery],
-    queryFn: () => getCharacters({ limit: 36, ...userSearchQuery }),
+    queryFn: () => getCharacters({ limit: 60, ...userSearchQuery }),
   });
 
   const dehydratedState = dehydrate(queryClient);

@@ -14,7 +14,7 @@ export function UserCharacters({
 }) {
   const { data: characters } = useQuery({
     queryKey: ["characters", "getCharactersOfUser", userSearchQuery],
-    queryFn: () => getCharacters({ limit: 36, ...userSearchQuery }),
+    queryFn: () => getCharacters({ limit: 60, ...userSearchQuery }),
   });
 
   return (

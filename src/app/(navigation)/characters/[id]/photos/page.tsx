@@ -1,27 +1,31 @@
 "use server";
 
 import { getPictures } from "@/_interface/backend/api/pictures";
-import { PictureCard } from "@/components/PictureCard";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import { PictureWall } from "@/components/PictureWall";
 
-export default async function UserPhotosPage({
+const PER_PAGE = 30;
+
+export default async function UserDrawingsPage({
   params,
+  searchParams,
 }: {
   params: { id: string };
+  searchParams: { page: string };
 }) {
-  const photos = await getPictures({
-    characterId: params.id,
+  const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const data = await getPictures({
     type: "photo",
-    limit: 36,
+    limit: PER_PAGE,
+    offset: (page - 1) * PER_PAGE,
+    characterId: params.id,
   });
 
   return (
-    <Grid2 container spacing={2}>
-      {photos?.results.map((picture) => (
-        <Grid2 xs={6} sm={4} md={3} lg={2} key={picture.id}>
-          <PictureCard picture={picture} sx={{ cursor: "pointer" }} link />
-        </Grid2>
-      ))}
-    </Grid2>
+    <PictureWall
+      page={page}
+      perPage={PER_PAGE}
+      href={`/characters/${params.id}/photos?`}
+      data={data}
+    />
   );
 }
