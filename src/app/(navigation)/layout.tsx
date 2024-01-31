@@ -8,6 +8,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -43,11 +44,23 @@ export default function NavigationLayout({
           >
             <MenuIcon />
           </IconButton> */}
-          <Link href="/">
-            <Typography variant="h4" component="div">
-              FurPic
-            </Typography>
-          </Link>
+          <Stack direction="row" alignItems="baseline" spacing={4}>
+            <Link href="/">
+              <Typography variant="h4" component="div">
+                FurPic
+              </Typography>
+            </Link>
+            <Link href="/drawings">
+              <Typography variant="h5" component="div">
+                그림
+              </Typography>
+            </Link>
+            <Link href="/photos">
+              <Typography variant="h5" component="div">
+                사진
+              </Typography>
+            </Link>
+          </Stack>
           <Box sx={{ flexGrow: 1 }} />
           {user ? (
             <>
