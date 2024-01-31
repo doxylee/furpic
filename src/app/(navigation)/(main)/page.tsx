@@ -1,8 +1,8 @@
 "use client";
 
-import { Container, Fab, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { getRecentPictures } from "@/_interface/backend/api/pictures";
+import { getPictures } from "@/_interface/backend/api/pictures";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { PictureCard } from "@/components/PictureCard";
 import { PicturePostFab } from "@/components/PicturePostFab";
@@ -10,7 +10,7 @@ import { PicturePostFab } from "@/components/PicturePostFab";
 export default function IndexPage() {
   const { data } = useQuery({
     queryKey: ["pictures", "recent"],
-    queryFn: () => getRecentPictures({ limit: 60 }),
+    queryFn: () => getPictures({ limit: 60 }),
   });
 
   return (

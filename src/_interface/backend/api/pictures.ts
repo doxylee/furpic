@@ -83,19 +83,6 @@ export async function updatePicture({
   })) as PictureWithConnections;
 }
 
-export async function getRecentPictures(
-  query: {
-    limit?: number;
-    offset?: number;
-  } = {},
-) {
-  return (await fetchAPI({
-    method: "GET",
-    path: "pictures/recent",
-    query,
-  })) as PictureWithConnections[];
-}
-
 export async function getPictureById(id: string) {
   return (await fetchAPI({
     method: "GET",
@@ -110,6 +97,7 @@ export async function getPictures({
   type,
   limit,
   offset,
+  order,
 }: {
   authorId?: string;
   authorUsername?: string;
@@ -117,10 +105,19 @@ export async function getPictures({
   type?: "drawing" | "photo";
   limit?: number;
   offset?: number;
+  order?: string;
 }) {
   return (await fetchAPI({
     method: "GET",
     path: "pictures",
-    query: { authorId, authorUsername, characterId, type, limit, offset },
+    query: {
+      authorId,
+      authorUsername,
+      characterId,
+      type,
+      limit,
+      offset,
+      order,
+    },
   })) as PictureWithConnections[];
 }
