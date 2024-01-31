@@ -20,7 +20,7 @@ export default async function UserPhotosPage({
 
   return (
     <Grid2 container spacing={2}>
-      {photos?.map((picture) => (
+      {photos?.results.map((picture) => (
         <Grid2 xs={6} sm={4} md={3} lg={2} key={picture.id}>
           <PictureCard picture={picture} sx={{ cursor: "pointer" }} link />
         </Grid2>

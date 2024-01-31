@@ -119,5 +119,5 @@ export async function getPictures({
       offset,
       order,
     },
-  })) as PictureWithConnections[];
+  })) as { count: number; results: PictureWithConnections[] };
 }
