@@ -5,7 +5,10 @@ import {
   Avatar,
   Box,
   Button,
+  Drawer,
   IconButton,
+  List,
+  ListItem,
   Menu,
   MenuItem,
   Stack,
@@ -17,6 +20,11 @@ import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
 import { useUser } from "@/utils/useUser";
+
+import HomeIcon from "@mui/icons-material/Home";
+import ImageIcon from "@mui/icons-material/Image";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import PetsIcon from "@mui/icons-material/Pets";
 
 export default function NavigationLayout({
   children,
@@ -31,40 +39,49 @@ export default function NavigationLayout({
     setAnchorEl(null);
   };
 
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+
   return (
     <>
       <AppBar position="sticky" sx={{ backgroundColor: "#222" }}>
         <Toolbar>
-          {/* <IconButton
+          <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={() => setDrawerOpen(true)}
           >
             <MenuIcon />
-          </IconButton> */}
-          <Stack direction="row" alignItems="baseline" spacing={4}>
+          </IconButton>
+          <Stack direction="row" spacing={4} alignItems="baseline">
             <Link href="/">
               <Typography variant="h4" component="div">
                 FurPic
               </Typography>
             </Link>
-            <Link href="/drawings">
-              <Typography variant="h5" component="div">
-                그림
-              </Typography>
-            </Link>
-            <Link href="/photos">
-              <Typography variant="h5" component="div">
-                사진
-              </Typography>
-            </Link>
-            <Link href="/characters">
-              <Typography variant="h5" component="div">
-                캐릭터
-              </Typography>
-            </Link>
+            <Stack
+              direction="row"
+              spacing={4}
+              display={{ xs: "none", sm: "flex" }}
+            >
+              <Link href="/drawings">
+                <Typography variant="h5" component="div">
+                  그림
+                </Typography>
+              </Link>
+              <Link href="/photos">
+                <Typography variant="h5" component="div">
+                  사진
+                </Typography>
+              </Link>
+              <Link href="/characters">
+                <Typography variant="h5" component="div">
+                  캐릭터
+                </Typography>
+              </Link>
+            </Stack>
           </Stack>
           <Box sx={{ flexGrow: 1 }} />
           {user ? (
@@ -97,6 +114,35 @@ export default function NavigationLayout({
           )}
         </Toolbar>
       </AppBar>
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        <Box sx={{ backgroundColor: "#222", height: "100%", color: "white" }}>
+          <List>
+            {[
+              { icon: <HomeIcon />, name: "홈", href: "/" },
+              { icon: <ImageIcon />, name: "그림", href: "/drawings" },
+              { icon: <CameraAltIcon />, name: "사진", href: "/photos" },
+              { icon: <PetsIcon />, name: "캐릭터", href: "/characters" },
+            ].map(({ icon, name, href }) => (
+              <Link href={href} onClick={() => setDrawerOpen(false)}>
+                <ListItem
+                  sx={{
+                    px: 4,
+                    "&:hover": {
+                      backgroundColor: "#111",
+                      transition: "background-color 0.3s",
+                    },
+                  }}
+                >
+                  {icon}
+                  <Typography variant="h5" component="div" ml={2}>
+                    {name}
+                  </Typography>
+                </ListItem>
+              </Link>
+            ))}
+          </List>
+        </Box>
+      </Drawer>
       <div>{children}</div>
     </>
   );
