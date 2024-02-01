@@ -28,6 +28,7 @@ type FormFields = {
   image?: ImageCrop;
   nameKo?: string;
   nameEn?: string;
+  alias?: string;
   species?: string;
   bio: string;
   designers: UserItem[];
@@ -74,11 +75,7 @@ export function CharacterAddButton({ sx }: { sx?: SxProps }) {
 
   const onSubmit = (data: FormFields) => {
     mutation.mutate({
-      image: data.image,
-      nameKo: data.nameKo,
-      nameEn: data.nameEn,
-      species: data.species,
-      bio: data.bio,
+      ...data,
       designers: data.designers.map(({ create, id, name, twitterUsername }) =>
         create ? { name, twitterUsername: twitterUsername || null } : { id },
       ),
@@ -158,6 +155,32 @@ export function CharacterAddButton({ sx }: { sx?: SxProps }) {
                     <Typography color="red">
                       캐릭터의 이름을 입력해주세요
                     </Typography>
+                  )}
+                </>
+              )}
+            />
+
+            <Controller
+              name="alias"
+              control={control}
+              defaultValue=""
+              rules={{
+                maxLength: {
+                  value: 50,
+                  message: "별칭은 50자 이내로 작성해주세요",
+                },
+              }}
+              render={({ field, fieldState: { error } }) => (
+                <>
+                  <TextField
+                    {...field}
+                    label="별칭 (이 이름으로도 검색돼요)"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                  />
+                  {error && (
+                    <Typography color="red">{error.message}</Typography>
                   )}
                 </>
               )}

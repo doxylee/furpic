@@ -25,6 +25,7 @@ type FormFields = {
   image?: ImageCrop;
   name?: string;
   username?: string;
+  alias?: string;
   bio?: string;
 };
 
@@ -49,6 +50,7 @@ export function UserEditButton({
     defaultValues: {
       name: pageUser?.name ?? "",
       username: pageUser?.username ?? "",
+      alias: pageUser?.alias,
       bio: pageUser?.bio ?? "",
     },
   });
@@ -88,6 +90,7 @@ export function UserEditButton({
     mutation.mutate({
       name: data.name,
       username: data.username,
+      alias: data.alias,
       bio: data.bio,
       image: data.image,
     });
@@ -148,6 +151,28 @@ export function UserEditButton({
                     <TextField
                       {...field}
                       label="유저네임"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    {error && (
+                      <Typography color="red">{error.message}</Typography>
+                    )}
+                  </>
+                )}
+              />
+
+              <Controller
+                name="alias"
+                control={control}
+                rules={{
+                  maxLength: {value:50, message:"별칭은 50자 이내로 작성해주세요"}
+                }}
+                render={({ field, fieldState: { error } }) => (
+                  <>
+                    <TextField
+                      {...field}
+                      label="별칭 (이 이름으로도 검색돼요)"
                       variant="outlined"
                       fullWidth
                       margin="normal"

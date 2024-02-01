@@ -5,6 +5,7 @@ export type User = {
   name: string;
   username: string | null;
   twitterUsername: string | null;
+  alias: string;
   bio: string;
   xsImage: string | null;
   smImage: string | null;

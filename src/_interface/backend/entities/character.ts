@@ -6,8 +6,9 @@ export type Character = {
   userId: string | null;
   nameKo: string | null;
   nameEn: string | null;
+  alias: string;
   species: string | null;
-  bio: string | null;
+  bio: string;
   xsImage: string | null;
   smImage: string | null;
   crop: PercentCrop | null;

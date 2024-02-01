@@ -9,17 +9,22 @@ export async function getMyUser() {
 export async function updateMyUser({
   name,
   username,
+  alias,
   bio,
   image,
 }: {
   name?: string;
   username?: string;
+  alias?: string;
   bio?: string;
   image?: ImageCrop;
 }): Promise<User> {
   const formData = new FormData();
   if (image?.image) formData.append("image", image.image);
-  formData.append("data", JSON.stringify({ name, username, bio, crop: image?.crop}));
+  formData.append(
+    "data",
+    JSON.stringify({ name, username, alias, bio, crop: image?.crop }),
+  );
   return await fetchAPI({
     method: "PATCH",
     path: `users/me`,
