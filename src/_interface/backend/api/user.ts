@@ -9,12 +9,14 @@ export async function getMyUser() {
 export async function updateMyUser({
   name,
   username,
+  twitterUsername,
   alias,
   bio,
   image,
 }: {
   name?: string;
   username?: string;
+  twitterUsername?: string;
   alias?: string;
   bio?: string;
   image?: ImageCrop;
@@ -23,7 +25,14 @@ export async function updateMyUser({
   if (image?.image) formData.append("image", image.image);
   formData.append(
     "data",
-    JSON.stringify({ name, username, alias, bio, crop: image?.crop }),
+    JSON.stringify({
+      name,
+      username,
+      twitterUsername,
+      alias,
+      bio,
+      crop: image?.crop,
+    }),
   );
   return await fetchAPI({
     method: "PATCH",

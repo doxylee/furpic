@@ -25,6 +25,7 @@ type FormFields = {
   image?: ImageCrop;
   name?: string;
   username?: string;
+  twitterUsername?: string;
   alias?: string;
   bio?: string;
 };
@@ -50,6 +51,7 @@ export function UserEditButton({
     defaultValues: {
       name: pageUser?.name ?? "",
       username: pageUser?.username ?? "",
+      twitterUsername: pageUser?.twitterUsername ?? "",
       alias: pageUser?.alias,
       bio: pageUser?.bio ?? "",
     },
@@ -90,6 +92,7 @@ export function UserEditButton({
     mutation.mutate({
       name: data.name,
       username: data.username,
+      twitterUsername: data.twitterUsername,
       alias: data.alias,
       bio: data.bio,
       image: data.image,
@@ -163,10 +166,39 @@ export function UserEditButton({
               />
 
               <Controller
+                name="twitterUsername"
+                control={control}
+                rules={{
+                  required: { value: true, message: "트위터 유저네임을 입력해주세요" },
+                  pattern: {
+                    value: usernameRegex,
+                    message: "트위터 유저네임은 영어, 숫자, _로 4~15자만 가능해요",
+                  },
+                }}
+                render={({ field, fieldState: { error } }) => (
+                  <>
+                    <TextField
+                      {...field}
+                      label="트위터 유저네임"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    {error && (
+                      <Typography color="red">{error.message}</Typography>
+                    )}
+                  </>
+                )}
+              />
+
+              <Controller
                 name="alias"
                 control={control}
                 rules={{
-                  maxLength: {value:50, message:"별칭은 50자 이내로 작성해주세요"}
+                  maxLength: {
+                    value: 50,
+                    message: "별칭은 50자 이내로 작성해주세요",
+                  },
                 }}
                 render={({ field, fieldState: { error } }) => (
                   <>
