@@ -3,7 +3,7 @@ import { PictureWithConnections } from "../entities/picture";
 import { fetchAPI } from "@/utils/fetch";
 
 export type TempUserData = { name: string; twitterUsername: string | null };
-export type AuthorLink = { id: string } | TempUserData;
+export type UserLink = { id: string } | TempUserData;
 
 export type TempCharacterData = {
   nameKo: string | null;
@@ -17,7 +17,7 @@ export type CharacterLink = { id: string } | TempCharacterData;
 
 export type UploadPictureData = {
   type: "drawing" | "photo";
-  authors: AuthorLink[];
+  authors: UserLink[];
   characters: CharacterLink[];
 };
 
@@ -47,7 +47,7 @@ export type UpdatePictureParams = {
   id: string;
   image?: ImageCrop;
   type?: "drawing" | "photo";
-  addAuthors?: AuthorLink[];
+  addAuthors?: UserLink[];
   removeSelf?: boolean;
   addCharacters?: CharacterLink[];
   removeCharacterIds?: string[];

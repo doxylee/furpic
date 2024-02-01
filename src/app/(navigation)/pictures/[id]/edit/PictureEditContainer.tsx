@@ -7,7 +7,7 @@ import {
 import { PictureWithConnections } from "@/_interface/backend/entities/picture";
 import { ImageCrop, ImageUploadInput } from "@/components/ImageUploadInput";
 import { NeedLoginModal } from "@/components/NeedLoginModal";
-import { AuthorItem, SelectAuthors } from "@/components/SelectAuthors";
+import { UserItem, SelectUsers } from "@/components/SelectUsers";
 import { CharacterItem, SelectCharacters } from "@/components/selectCharacters";
 import { useUser } from "@/utils/useUser";
 import {
@@ -33,7 +33,7 @@ type FormFields = {
   image: ImageCrop;
   type: "drawing" | "photo";
   characters?: CharacterItem[];
-  authors?: AuthorItem[];
+  authors?: UserItem[];
 };
 
 export function PictureEditContainer({
@@ -215,7 +215,7 @@ export function PictureEditContainer({
             fieldState: { error },
           }) => (
             <div>
-              <SelectAuthors
+              <SelectUsers
                 value={value}
                 previousIds={prevAuthorIds}
                 onChange={onChange}

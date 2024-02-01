@@ -7,6 +7,7 @@ export type Character = {
   nameKo: string | null;
   nameEn: string | null;
   species: string | null;
+  bio: string | null;
   xsImage: string | null;
   smImage: string | null;
   crop: PercentCrop | null;
@@ -14,4 +15,5 @@ export type Character = {
 
 export type CharacterWithUser = Character & {
   user?: User | null;
+  designers: User[];
 };

@@ -15,7 +15,7 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { enqueueSnackbar } from "notistack";
 import { CharacterItem, SelectCharacters } from "@/components/selectCharacters";
-import { AuthorItem, SelectAuthors } from "@/components/SelectAuthors";
+import { UserItem, SelectUsers } from "@/components/SelectUsers";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -26,7 +26,7 @@ type FormFields = {
   image: ImageCrop;
   type: "drawing" | "photo";
   characters: CharacterItem[];
-  authors: AuthorItem[];
+  authors: UserItem[];
 };
 
 export default function PostPage() {
@@ -171,7 +171,7 @@ export default function PostPage() {
             fieldState: { error },
           }) => (
             <div>
-              <SelectAuthors value={value} onChange={onChange} />
+              <SelectUsers value={value} onChange={onChange} />
               {error?.type === "required" && (
                 <Typography color="red">작가를 선택해주세요</Typography>
               )}

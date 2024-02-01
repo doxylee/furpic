@@ -1,6 +1,8 @@
 import { ImageCrop } from "@/components/ImageUploadInput";
 import { CharacterWithUser } from "../entities/character";
 import { fetchAPI } from "@/utils/fetch";
+import { UserItem } from "@/components/SelectUsers";
+import { UserLink } from "./pictures";
 
 export async function fullSearchCharacters(
   query: string,
@@ -17,19 +19,30 @@ export async function updateCharacter({
   nameKo,
   nameEn,
   species,
+  bio,
   image,
+  designers,
 }: {
   id: string;
   nameKo?: string | null;
   nameEn?: string | null;
   species?: string | null;
+  bio?: string;
   image?: ImageCrop;
+  designers?: UserLink[];
 }): Promise<CharacterWithUser> {
   const formData = new FormData();
   if (image?.image) formData.append("image", image.image);
   formData.append(
     "data",
-    JSON.stringify({ nameKo, nameEn, species, crop: image?.crop }),
+    JSON.stringify({
+      nameKo,
+      nameEn,
+      species,
+      crop: image?.crop,
+      bio,
+      designers,
+    }),
   );
   return await fetchAPI({
     method: "PATCH",
@@ -42,18 +55,29 @@ export async function createCharacter({
   nameKo,
   nameEn,
   species,
+  bio,
   image,
+  designers,
 }: {
   nameKo?: string | null;
   nameEn?: string | null;
   species?: string | null;
+  bio?: string;
   image?: ImageCrop;
+  designers?: UserLink[];
 }): Promise<CharacterWithUser> {
   const formData = new FormData();
   if (image?.image) formData.append("image", image.image);
   formData.append(
     "data",
-    JSON.stringify({ nameKo, nameEn, species, crop: image?.crop }),
+    JSON.stringify({
+      nameKo,
+      nameEn,
+      species,
+      crop: image?.crop,
+      bio,
+      designers,
+    }),
   );
   return await fetchAPI({
     method: "POST",
@@ -73,7 +97,7 @@ export async function getCharacters({
   limit?: number;
   offset?: number;
 }): Promise<{ count: number; results: CharacterWithUser[] }> {
-  console.log({ userId, username, limit, offset })
+  console.log({ userId, username, limit, offset });
   return await fetchAPI({
     method: "GET",
     path: "characters",

@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { AuthorItem } from "./SelectAuthors";
+import { UserItem } from "./SelectUsers";
 import { Controller, useForm } from "react-hook-form";
 import { useEffect } from "react";
 
@@ -17,12 +17,14 @@ type FormFields = {
   name: string;
   twitterUsername: string;
 };
-export function AddAuthorDialog({
+export function AddUserDialog({
   openModal,
   onFinish,
+  target = "작가",
 }: {
   openModal: boolean;
-  onFinish: (author?: AuthorItem) => void;
+  onFinish: (author?: UserItem) => void;
+  target?: string;
 }) {
   const {
     handleSubmit,
@@ -53,7 +55,7 @@ export function AddAuthorDialog({
 
   return (
     <Dialog open={openModal} onClose={() => onFinish()}>
-      <DialogTitle>작가 추가하기</DialogTitle>
+      <DialogTitle>{target} 추가하기</DialogTitle>
       <DialogContent>
         <form onSubmit={(e)=>{
           e.preventDefault();
@@ -76,7 +78,7 @@ export function AddAuthorDialog({
                 />
                 {error?.type === "required" && (
                   <Typography color="red">
-                    작가의 닉네임을 입력해주세요
+                    {target}의 닉네임을 입력해주세요
                   </Typography>
                 )}
               </>

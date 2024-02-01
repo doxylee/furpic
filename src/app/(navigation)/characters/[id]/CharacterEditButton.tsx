@@ -3,7 +3,9 @@
 import { updateCharacter } from "@/_interface/backend/api/characters";
 import { CharacterWithUser } from "@/_interface/backend/entities/character";
 import { ImageCrop, ImageUploadInput } from "@/components/ImageUploadInput";
+import { SelectUsers, UserItem } from "@/components/SelectUsers";
 import { useUser } from "@/utils/useUser";
+import { CircularProgress, Paper, Stack } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -12,6 +14,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { SxProps } from "@mui/material/styles";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -20,6 +25,8 @@ type FormFields = {
   nameKo?: string;
   nameEn?: string;
   species?: string;
+  bio?: string;
+  designers?: UserItem[];
 };
 
 export function CharacterEditButton({
@@ -44,6 +51,27 @@ export function CharacterEditButton({
       nameKo: character.nameKo ?? undefined,
       nameEn: character.nameEn ?? undefined,
       species: character.species ?? undefined,
+      bio: character.bio ?? undefined,
+      designers: character.designers.map((designer) => ({
+        ...designer,
+        create: false,
+      })),
+    },
+  });
+
+  const router = useRouter();
+  const mutation = useMutation({
+    mutationFn: updateCharacter,
+    onError: (e) => {
+      console.error(e);
+      enqueueSnackbar(`캐릭터 수정에 실패했어요 (${e.message})`, {
+        variant: "error",
+      });
+    },
+    onSuccess: (user) => {
+      enqueueSnackbar("캐릭터를 수정했어요", { variant: "success" });
+      setModalOpen(false);
+      router.refresh();
     },
   });
 
@@ -57,14 +85,17 @@ export function CharacterEditButton({
     else setModalOpen(false);
   };
 
-  const onSubmit = async (data: FormFields) => {
-    setModalOpen(false);
-    await updateCharacter({
+  const onSubmit = (data: FormFields) => {
+    mutation.mutate({
       id: character.id,
       image: data.image,
       nameKo: data.nameKo,
       nameEn: data.nameEn,
       species: data.species,
+      bio: data.bio,
+      designers: data.designers?.map(({ create, id, name, twitterUsername }) =>
+        create ? { name, twitterUsername: twitterUsername || null } : { id },
+      ),
     });
   };
 
@@ -149,6 +180,43 @@ export function CharacterEditButton({
                   />
                 )}
               />
+
+              <Controller
+                name="bio"
+                control={control}
+                defaultValue=""
+                rules={{
+                  maxLength: {
+                    value: 160,
+                    message: "소개는 160자 이내로 입력해주세요",
+                  },
+                }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="소개 (선택)"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                  />
+                )}
+              />
+
+              <Typography variant="h6">디자이너</Typography>
+              <Controller
+                control={control}
+                name="designers"
+                render={({
+                  field: { onChange, onBlur, value, ref },
+                  fieldState: { error },
+                }) => (
+                  <SelectUsers
+                    value={value}
+                    onChange={onChange}
+                    target="디자이너"
+                  />
+                )}
+              />
             </DialogContent>
             <DialogActions>
               <Button type="submit">저장</Button>
@@ -175,6 +243,18 @@ export function CharacterEditButton({
             </Button>
             <Button onClick={() => setCloseDialogOpen(false)}>취소</Button>
           </DialogActions>
+        </Dialog>
+        {/* Use Dialog instead of Backdrop due to z-index issue */}
+        <Dialog open={mutation.isPending}>
+          <Paper sx={{ p: 4, zIndex: 10 }}>
+            <Stack alignItems="center" spacing={4}>
+              <CircularProgress />
+              <Stack alignItems="center" spacing={0.5}>
+                <Typography>업데이트 중입니다...</Typography>
+                <Typography>잠시만 기다려주세요</Typography>
+              </Stack>
+            </Stack>
+          </Paper>
         </Dialog>
       </>
     );

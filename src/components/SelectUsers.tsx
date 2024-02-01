@@ -22,19 +22,21 @@ import { searchUsers } from "@/_interface/backend/api/user";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { UserCard } from "./UserCard";
 import { User } from "@/_interface/backend/entities/user";
-import { AddAuthorDialog } from "./AddAuthorDialog";
+import { AddUserDialog } from "./AddAuthorDialog";
 import { useUser } from "@/utils/useUser";
 
-export type AuthorItem = User & { create: boolean };
+export type UserItem = User & { create: boolean };
 
-export function SelectAuthors({
+export function SelectUsers({
   value,
   onChange,
   previousIds = [],
+  target = "작가",
 }: {
-  value: AuthorItem[] | undefined;
-  onChange: (users: AuthorItem[] | undefined) => void;
+  value: UserItem[] | undefined;
+  onChange: (users: UserItem[] | undefined) => void;
   previousIds?: string[];
+  target?: string;
 }) {
   const { user } = useUser();
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -53,11 +55,11 @@ export function SelectAuthors({
     }
   };
 
-  const removeAuthor = (author: AuthorItem) => {
+  const removeAuthor = (author: UserItem) => {
     onChange(value?.filter((u) => u !== author));
   };
 
-  const createAuthor = (author: AuthorItem) => {
+  const createAuthor = (author: UserItem) => {
     onChange([...(value || []), author]);
   };
 
@@ -129,19 +131,20 @@ export function SelectAuthors({
             {data && (
               <div>
                 <Typography fontSize={14} textAlign="center">
-                  작가를 찾을 수 없나요? 작가님께 가입을 요청드리거나
+                  {target}를 찾을 수 없나요? {target}님께 가입을 요청드리거나
                 </Typography>
                 <Button fullWidth onClick={() => setAddDialogueOpen(true)}>
-                  작가 직접 추가하기
+                  {target} 직접 추가하기
                 </Button>
               </div>
             )}
-            <AddAuthorDialog
+            <AddUserDialog
               openModal={addDialogueOpen}
               onFinish={(author) => {
                 if (author) createAuthor(author);
                 setAddDialogueOpen(false);
               }}
+              target={target}
             />
           </Stack>
         </AccordionDetails>
