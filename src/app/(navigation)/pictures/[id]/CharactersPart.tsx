@@ -20,12 +20,7 @@ export default function CharactersPart({
           return (
             <Grid2 key={character.id} xs={6} sm={4} md={3} lg={2}>
               {/* TODO: Make a function for creating href if want to put character page under user page. */}
-              <Link href={`/characters/${character.id}`}>
-                <CharacterCard
-                  character={character}
-                  sx={{ cursor: "pointer" }}
-                />
-              </Link>
+              <CharacterCard character={character} sx={{ cursor: "pointer" }} link />
             </Grid2>
           );
         })}
