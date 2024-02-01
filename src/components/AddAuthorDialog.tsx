@@ -41,6 +41,7 @@ export function AddUserDialog({
         ? data.twitterUsername.slice(1)
         : data.twitterUsername,
       username: null,
+      alias: "",
       bio: "",
       smImage: null,
       xsImage: null,
