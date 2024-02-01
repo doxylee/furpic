@@ -170,14 +170,19 @@ export function CharacterEditButton({
               <Controller
                 name="species"
                 control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="종족 (선택)"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
+                render={({ field, fieldState: { error } }) => (
+                  <>
+                    <TextField
+                      {...field}
+                      label="종족 (선택)"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    {error && (
+                      <Typography color="red">{error.message}</Typography>
+                    )}
+                  </>
                 )}
               />
 
@@ -191,14 +196,19 @@ export function CharacterEditButton({
                     message: "소개는 160자 이내로 입력해주세요",
                   },
                 }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="소개 (선택)"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                  />
+                render={({ field, fieldState: { error } }) => (
+                  <>
+                    <TextField
+                      {...field}
+                      label="소개 (선택)"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    {error && (
+                      <Typography color="red">{error.message}</Typography>
+                    )}
+                  </>
                 )}
               />
 
