@@ -47,7 +47,6 @@ export function ImageUploadInput<TFieldValues extends FieldValues>({
               onChange({ image: file, crop: value?.crop });
             }}
             onCropChange={(crop) => {
-              console.log("crop", crop)
               onChange({ image: value?.image, crop });
             }}
             sx={{ width: 1 }}

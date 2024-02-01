@@ -97,7 +97,6 @@ export async function getCharacters({
   limit?: number;
   offset?: number;
 }): Promise<{ count: number; results: CharacterWithUser[] }> {
-  console.log({ userId, username, limit, offset });
   return await fetchAPI({
     method: "GET",
     path: "characters",
