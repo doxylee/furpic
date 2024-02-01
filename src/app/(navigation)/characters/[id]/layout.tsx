@@ -74,28 +74,38 @@ export default async function UserLayout({
             sx={{ ml: "auto", mr: { xs: 1, sm: 2 }, my: 1 }}
           />
         </Stack>
-        {character.designers.length > 0 && (
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Typography fontSize={14} color="#aaa">
-              디자이너:
+        <Stack direction="row" flexWrap="wrap" alignItems="center">
+          {character.species && (
+            <Typography fontSize={14} color="#aaa" mr={2}>
+              종족: {character.species}
             </Typography>
-            <Tooltip
-              title={character.designers.map((a) => a.name).join(", ")}
-              placement="bottom"
-            >
-              <AvatarGroup max={4}>
-                {character.designers.map((designer) => (
-                  <Link href={`/users/@${designer.username}`} key={designer.id}>
-                    <Avatar
-                      src={designer.xsImage ?? undefined}
-                      sx={{ cursor: "pointer", height: 20, width: 20 }}
-                    />
-                  </Link>
-                ))}
-              </AvatarGroup>
-            </Tooltip>
-          </Stack>
-        )}
+          )}
+          {character.designers.length > 0 && (
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography fontSize={14} color="#aaa">
+                디자이너:
+              </Typography>
+              <Tooltip
+                title={character.designers.map((a) => a.name).join(", ")}
+                placement="bottom"
+              >
+                <AvatarGroup max={4}>
+                  {character.designers.map((designer) => (
+                    <Link
+                      href={`/users/@${designer.username}`}
+                      key={designer.id}
+                    >
+                      <Avatar
+                        src={designer.xsImage ?? undefined}
+                        sx={{ cursor: "pointer", height: 20, width: 20 }}
+                      />
+                    </Link>
+                  ))}
+                </AvatarGroup>
+              </Tooltip>
+            </Stack>
+          )}
+        </Stack>
         <Typography variant="body1" my={{ xs: 1, sm: 2 }}>
           {character.bio}
         </Typography>
