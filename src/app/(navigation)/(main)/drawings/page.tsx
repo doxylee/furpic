@@ -29,6 +29,7 @@ export default async function IndexPage({
     queryKey,
     queryFn: () => getPictures(queryParams, getAuthCookies()),
   });
+  queryClient.invalidateQueries({ queryKey });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

@@ -27,12 +27,9 @@ export default async function IndexPage({
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey,
-    queryFn: () =>
-      getPictures(
-        queryParams,
-        getAuthCookies(),
-      ),
+    queryFn: () => getPictures(queryParams, getAuthCookies()),
   });
+  queryClient.invalidateQueries({ queryKey });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

@@ -35,6 +35,7 @@ export default async function UserPhotosPage({
     queryKey,
     queryFn: () => getPictures(queryParams, getAuthCookies()),
   });
+  queryClient.invalidateQueries({ queryKey });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
