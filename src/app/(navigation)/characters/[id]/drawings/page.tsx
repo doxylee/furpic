@@ -7,6 +7,7 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import { CharacterDrawingsContainer } from "./container";
+import { getAuthCookies } from "@/utils/authCookie";
 
 const PER_PAGE = 30;
 
@@ -18,8 +19,8 @@ export default async function CharacterDrawingsPage({
   searchParams: { page: string };
 }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
-
-  const queryParam: Parameters<typeof getPictures>[0] = {
+  const queryKey = ["pictures", params.id, "drawings", page];
+  const queryParams: Parameters<typeof getPictures>[0] = {
     limit: PER_PAGE,
     offset: (page - 1) * PER_PAGE,
     type: "drawing",
@@ -28,9 +29,10 @@ export default async function CharacterDrawingsPage({
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ["pictures", params.id, "drawings", page],
-    queryFn: () => getPictures(queryParam),
+    queryKey,
+    queryFn: () => getPictures(queryParams, getAuthCookies()),
   });
+  queryClient.invalidateQueries({ queryKey });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
@@ -38,7 +40,8 @@ export default async function CharacterDrawingsPage({
         id={params.id}
         page={page}
         perPage={PER_PAGE}
-        queryParam={queryParam}
+        queryKey={queryKey}
+        queryParams={queryParams}
       />
     </HydrationBoundary>
   );

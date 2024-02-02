@@ -9,23 +9,21 @@ export function CharacterDrawingsContainer({
   id,
   page,
   perPage,
-  queryParam,
+  queryKey,
+  queryParams,
 }: {
   id: string;
   page: number;
   perPage: number;
-  queryParam: Parameters<typeof getPictures>[0];
+  queryKey: any[];
+  queryParams: Parameters<typeof getPictures>[0];
 }) {
   const queryClient = useQueryClient();
   const { data } = useQuery({
-    queryKey: ["pictures", id, "drawings", page],
-    queryFn: () => getPictures(queryParam),
+    queryKey,
+    queryFn: () => getPictures(queryParams),
   });
-
-  const onLike = pictureWallOnLike(
-    ["pictures", id, "drawings", page],
-    queryClient,
-  );
+  const onLike = pictureWallOnLike(queryKey, queryClient);
 
   return (
     <PictureWall
