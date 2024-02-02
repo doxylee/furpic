@@ -1,25 +1,35 @@
 "use client";
 
-import { PictureWithConnections } from "@/_interface/backend/entities/picture";
+import {
+  PictureWithConnections,
+  PictureWithConnectionsAndLiked,
+} from "@/_interface/backend/entities/picture";
 import {
   Avatar,
   AvatarGroup,
   Box,
   Paper,
+  Stack,
   SxProps,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import Link from "next/link";
 import { MouseEventHandler } from "react";
 
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+
 export function PictureCard({
   picture,
   onClick,
+  onLike,
   link = false,
   sx,
 }: {
-  picture: PictureWithConnections;
+  picture: PictureWithConnectionsAndLiked;
   onClick?: MouseEventHandler<HTMLDivElement>;
+  onLike?: (id: string, liked: boolean) => void;
   link?: boolean;
   sx?: SxProps;
 }) {
@@ -56,8 +66,7 @@ export function PictureCard({
             left: 0,
             width: 1,
             height: 1,
-            background:
-              "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4))",
+            background: "rgba(0, 0, 0, 0.4)",
           }}
         >
           {link ? (
@@ -73,6 +82,33 @@ export function PictureCard({
               />
             </Link>
           ) : null}
+          <Stack
+            direction="row"
+            spacing={0.5}
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              color: "white",
+              p: 1,
+            }}
+          >
+            {picture.liked ? (
+              <FavoriteIcon
+                onClick={() =>
+                  picture.liked !== undefined && onLike?.(picture.id, false)
+                }
+              />
+            ) : (
+              <FavoriteBorderIcon
+                onClick={() =>
+                  picture.liked !== undefined && onLike?.(picture.id, true)
+                }
+              />
+            )}
+            <Typography fontSize={18}>{picture.likeCount}</Typography>
+          </Stack>
+
           <Tooltip
             title={picture.characters
               .map((a) => a.nameKo || a.nameEn)
