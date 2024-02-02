@@ -16,12 +16,12 @@ export default async function IndexPage({
   searchParams: { page: string };
 }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const queryKey = ["pictures", "photos", page];
   const queryParams: Parameters<typeof getPictures>[0] = {
     type: "photo",
     limit: PER_PAGE,
     offset: (page - 1) * PER_PAGE,
   };
-  const queryKey = ["pictures", "photos", page];
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
@@ -36,8 +36,8 @@ export default async function IndexPage({
       <IndexPageContainer
         page={page}
         perPage={PER_PAGE}
-        queryParams={queryParams}
         queryKey={queryKey}
+        queryParams={queryParams}
       />
     </HydrationBoundary>
   );

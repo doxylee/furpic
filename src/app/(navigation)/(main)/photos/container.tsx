@@ -10,19 +10,18 @@ import { pictureWallOnLike } from "@/utils/like";
 export function IndexPageContainer({
   page,
   perPage,
-  queryParams,
   queryKey,
+  queryParams,
 }: {
   page: number;
   perPage: number;
-  queryParams: Parameters<typeof getPictures>[0];
   queryKey: any[];
+  queryParams: Parameters<typeof getPictures>[0];
 }) {
   const queryClient = useQueryClient();
   const { data } = useQuery({
     queryKey,
-    queryFn: () =>
-      getPictures(queryParams),
+    queryFn: () => getPictures(queryParams),
   });
   const onLike = pictureWallOnLike(queryKey, queryClient);
 
