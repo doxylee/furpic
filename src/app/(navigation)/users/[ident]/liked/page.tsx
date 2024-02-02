@@ -1,6 +1,6 @@
 "use server";
 
-import { getPictures } from "@/_interface/backend/api/pictures";
+import { getLikedPictures, getPictures } from "@/_interface/backend/api/pictures";
 import {
   HydrationBoundary,
   QueryClient,
@@ -23,7 +23,7 @@ export default async function UserLikedPage({
   const userSearchQuery = params.ident.startsWith("%40")
     ? { likedByUsername: params.ident.slice(3) }
     : { likedById: params.ident };
-  const queryParams: Parameters<typeof getPictures>[0] = {
+  const queryParams: Parameters<typeof getLikedPictures>[0] = {
     limit: PER_PAGE,
     offset: (page - 1) * PER_PAGE,
     ...userSearchQuery,
@@ -32,7 +32,7 @@ export default async function UserLikedPage({
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey,
-    queryFn: () => getPictures(queryParams, getAuthCookies()),
+    queryFn: () => getLikedPictures(queryParams, getAuthCookies()),
   });
   queryClient.invalidateQueries({ queryKey });
 

@@ -99,8 +99,6 @@ export async function getPictures(
     authorUsername?: string;
     characterId?: string;
     type?: "drawing" | "photo";
-    likedById?: string;
-    likedByUsername?: string;
     limit?: number;
     offset?: number;
     order?: string;
@@ -110,6 +108,28 @@ export async function getPictures(
   return (await fetchAPI({
     method: "GET",
     path: "pictures",
+    query,
+    cookie,
+  })) as { count: number; results: PictureWithConnectionsAndLiked[] };
+}
+
+export async function getLikedPictures(
+  query: {
+    likedById?: string;
+    likedByUsername?: string;
+    authorId?: string;
+    authorUsername?: string;
+    characterId?: string;
+    type?: "drawing" | "photo";
+    limit?: number;
+    offset?: number;
+    order?: string;
+  },
+  cookie?: string,
+) {
+  return (await fetchAPI({
+    method: "GET",
+    path: "pictures/liked",
     query,
     cookie,
   })) as { count: number; results: PictureWithConnectionsAndLiked[] };
