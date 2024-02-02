@@ -52,7 +52,11 @@ export function PicturePageContainer({ id }: { id: string }) {
           <Stack direction="row" spacing={1}>
             <Stack direction="row" alignItems="center">
               <IconButton onClick={onLike}>
-                {picture.liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                {picture.liked ? (
+                  <FavoriteIcon color="heart" />
+                ) : (
+                  <FavoriteBorderIcon />
+                )}
               </IconButton>
               <Typography fontSize={18}>{picture.likeCount}</Typography>
             </Stack>

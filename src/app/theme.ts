@@ -1,5 +1,7 @@
 import { createTheme, responsiveFontSizes } from "@mui/material";
 
+const baseTheme = createTheme();
+
 export const theme = responsiveFontSizes(
   createTheme({
     breakpoints: {
@@ -38,6 +40,12 @@ export const theme = responsiveFontSizes(
         fontWeight: 700,
       },
     },
+    palette: {
+      heart: baseTheme.palette.augmentColor({
+        color: { main: "#ff2277" },
+        name: "heart",
+      }),
+    },
   }),
   {},
 );
@@ -75,5 +83,19 @@ declare module "@mui/material/styles" {
         x2l?: number;
       };
     };
+  }
+
+  interface Palette {
+    heart: Palette["primary"];
+  }
+
+  interface PaletteOptions {
+    heart?: PaletteOptions["primary"];
+  }
+}
+
+declare module "@mui/material/SvgIcon" {
+  interface SvgIconPropsColorOverrides {
+    heart: true;
   }
 }
