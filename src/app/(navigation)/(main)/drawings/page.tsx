@@ -26,7 +26,7 @@ export default async function DrawingsPage({
         limit: PER_PAGE,
         offset: (page - 1) * PER_PAGE,
       }),
-    staleTime: 0,
+    staleTime: 1,
   });
 
   return (
