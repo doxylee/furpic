@@ -5,6 +5,7 @@ import {
   Avatar,
   Box,
   Button,
+  Divider,
   Drawer,
   IconButton,
   List,
@@ -86,6 +87,11 @@ export default function NavigationLayout({
           <Box sx={{ flexGrow: 1 }} />
           {user ? (
             <>
+              <Box display={{ xs: "none", md: "block" }} mr={1}>
+                <Link href="/post">
+                  <Button variant="contained">작품 올리기</Button>
+                </Link>
+              </Box>
               <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
                 <Avatar src={user.xsImage ?? undefined} />
               </IconButton>
@@ -140,6 +146,14 @@ export default function NavigationLayout({
                 </ListItem>
               </Link>
             ))}
+            <Divider />
+            <ListItem>
+              <Link href="/post" style={{ width: "100%" }}>
+                <Button variant="contained" fullWidth>
+                  작품 올리기
+                </Button>
+              </Link>
+            </ListItem>
           </List>
         </Box>
       </Drawer>
