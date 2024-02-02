@@ -26,6 +26,7 @@ export default async function PhotosPage({
         limit: PER_PAGE,
         offset: (page - 1) * PER_PAGE,
       }),
+    staleTime: 0,
   });
 
   return (
