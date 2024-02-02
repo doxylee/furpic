@@ -21,9 +21,9 @@ export function DrawingsPageContainer({ page }: { page: number }) {
         offset: (page - 1) * PER_PAGE,
       }),
   });
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["pictures", "drawings", page] });
-  }, []);
+  // useEffect(() => {
+  //   queryClient.invalidateQueries({ queryKey: ["pictures", "drawings", page] });
+  // }, []);
 
   const onLike = pictureWallOnLike(["pictures", "drawings", page], queryClient);
 
