@@ -1,5 +1,8 @@
 import { ImageCrop } from "@/components/ImageUploadInput";
-import { PictureWithConnections, PictureWithConnectionsAndLiked } from "../entities/picture";
+import {
+  PictureWithConnections,
+  PictureWithConnectionsAndLiked,
+} from "../entities/picture";
 import { fetchAPI } from "@/utils/fetch";
 
 export type TempUserData = { name: string; twitterUsername: string | null };
@@ -90,19 +93,13 @@ export async function getPictureById(id: string) {
   })) as PictureWithConnectionsAndLiked;
 }
 
-export async function getPictures({
-  authorId,
-  authorUsername,
-  characterId,
-  type,
-  limit,
-  offset,
-  order,
-}: {
+export async function getPictures(query: {
   authorId?: string;
   authorUsername?: string;
   characterId?: string;
   type?: "drawing" | "photo";
+  likedById?: string;
+  likedByUsername?: string;
   limit?: number;
   offset?: number;
   order?: string;
@@ -110,15 +107,7 @@ export async function getPictures({
   return (await fetchAPI({
     method: "GET",
     path: "pictures",
-    query: {
-      authorId,
-      authorUsername,
-      characterId,
-      type,
-      limit,
-      offset,
-      order,
-    },
+    query,
   })) as { count: number; results: PictureWithConnectionsAndLiked[] };
 }
 

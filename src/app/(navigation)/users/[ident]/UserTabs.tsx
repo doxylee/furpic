@@ -11,7 +11,7 @@ export function UserTabs({ sx }: { sx?: SxProps }) {
   const value = regex.exec(pathname)?.[1];
 
   return (
-    <Tabs value={value} sx={sx} centered>
+    <Tabs value={value || false} sx={sx} centered>
       <Tab
         component="a"
         label="그림"
@@ -29,6 +29,12 @@ export function UserTabs({ sx }: { sx?: SxProps }) {
         label="캐릭터"
         value="characters"
         href={`/users/${pathname.split("/")[2]}/characters`}
+      />
+      <Tab
+        component="a"
+        label="좋아요"
+        value="liked"
+        href={`/users/${pathname.split("/")[2]}/liked`}
       />
     </Tabs>
   );
