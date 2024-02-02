@@ -5,11 +5,13 @@ export async function fetchAPI({
   path,
   query,
   body,
+  cookie,
 }: {
   method: string;
   path: string;
   query?: Record<string, any>;
   body?: Record<string, any> | FormData;
+  cookie?: string;
 }) {
   try {
     const queryString = query
@@ -31,6 +33,7 @@ export async function fetchAPI({
               : undefined,
         credentials: "include",
         cache: "no-cache", // TODO: Allow cache for short time
+        headers: cookie ? { cookie } : undefined,
       },
     );
     if (res.status >= 400) throw new FetchError(await res.json(), res.status);

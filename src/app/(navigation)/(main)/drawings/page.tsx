@@ -7,6 +7,7 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import { IndexPageContainer } from "./container";
+import { getAuthCookies } from "@/utils/authCookie";
 
 const PER_PAGE = 60;
 
@@ -26,10 +27,8 @@ export default async function IndexPage({
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey,
-    queryFn: () =>
-      getPictures({ limit: PER_PAGE, offset: (page - 1) * PER_PAGE }),
+    queryFn: () => getPictures(queryParams, getAuthCookies()),
   });
-  queryClient.invalidateQueries({ queryKey });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

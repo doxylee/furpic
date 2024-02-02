@@ -7,6 +7,7 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import { UserPhotosContainer } from "./container";
+import { getAuthCookies } from "@/utils/authCookie";
 
 const PER_PAGE = 30;
 
@@ -32,9 +33,8 @@ export default async function UserPhotosPage({
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey,
-    queryFn: () => getPictures(queryParams),
+    queryFn: () => getPictures(queryParams, getAuthCookies()),
   });
-  queryClient.invalidateQueries({ queryKey });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
