@@ -1,5 +1,5 @@
 import { ImageCrop } from "@/components/ImageUploadInput";
-import { PictureWithConnections } from "../entities/picture";
+import { PictureWithConnections, PictureWithConnectionsAndLiked } from "../entities/picture";
 import { fetchAPI } from "@/utils/fetch";
 
 export type TempUserData = { name: string; twitterUsername: string | null };
@@ -40,7 +40,7 @@ export async function uploadPicture({
     method: "POST",
     path: "pictures",
     body: formData,
-  })) as PictureWithConnections;
+  })) as PictureWithConnectionsAndLiked;
 }
 
 export type UpdatePictureParams = {
@@ -87,7 +87,7 @@ export async function getPictureById(id: string) {
   return (await fetchAPI({
     method: "GET",
     path: `pictures/${id}`,
-  })) as PictureWithConnections;
+  })) as PictureWithConnectionsAndLiked;
 }
 
 export async function getPictures({
@@ -119,5 +119,19 @@ export async function getPictures({
       offset,
       order,
     },
-  })) as { count: number; results: PictureWithConnections[] };
+  })) as { count: number; results: PictureWithConnectionsAndLiked[] };
+}
+
+export async function likePicture(id: string) {
+  return (await fetchAPI({
+    method: "POST",
+    path: `pictures/${id}/like`,
+  })) as PictureWithConnectionsAndLiked;
+}
+
+export async function unlikePicture(id: string) {
+  return (await fetchAPI({
+    method: "DELETE",
+    path: `pictures/${id}/like`,
+  })) as PictureWithConnectionsAndLiked;
 }

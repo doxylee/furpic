@@ -18,4 +18,9 @@ export type PictureWithConnections = {
   viewCount: number;
   authors: User[];
   characters: CharacterWithUser[];
+  liked?: boolean;
+};
+
+export type PictureWithConnectionsAndLiked = PictureWithConnections & {
+  liked?: boolean;
 };
