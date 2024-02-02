@@ -22,7 +22,10 @@ export function PhotosPageContainer({ page }: { page: number }) {
       }),
   });
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["pictures", "photos", page] });
+    queryClient.invalidateQueries({
+      queryKey: ["pictures", "photos", page],
+      stale: true,
+    });
   }, []);
 
   const onLike = pictureWallOnLike(["pictures", "photos", page], queryClient);

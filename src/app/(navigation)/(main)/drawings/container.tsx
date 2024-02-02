@@ -22,7 +22,7 @@ export function DrawingsPageContainer({ page }: { page: number }) {
       }),
   });
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["pictures", "drawings", page] });
+    queryClient.invalidateQueries({ queryKey: ["pictures", "drawings", page], stale: true });
   }, []);
 
   const onLike = pictureWallOnLike(["pictures", "drawings", page], queryClient);
