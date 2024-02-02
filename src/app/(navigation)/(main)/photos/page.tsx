@@ -27,6 +27,8 @@ export default async function PhotosPage({
         offset: (page - 1) * PER_PAGE,
       }),
   });
+    queryClient.invalidateQueries({ queryKey: ["pictures", "photo", page] });
+
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

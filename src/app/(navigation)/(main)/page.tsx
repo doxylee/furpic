@@ -23,6 +23,7 @@ export default async function IndexPage({
     queryFn: () =>
       getPictures({ limit: PER_PAGE, offset: (page - 1) * PER_PAGE }),
   });
+  queryClient.invalidateQueries({ queryKey: ["pictures", "recent", page] });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
