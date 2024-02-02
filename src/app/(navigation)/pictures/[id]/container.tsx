@@ -17,10 +17,16 @@ import { NeedLoginModal } from "@/components/NeedLoginModal";
 import { useState } from "react";
 import { useUser } from "@/utils/useUser";
 
-export function PicturePageContainer({ id }: { id: string }) {
+export function PicturePageContainer({
+  id,
+  queryKey,
+}: {
+  id: string;
+  queryKey: any[];
+}) {
   const queryClient = useQueryClient();
   const { data: picture } = useQuery({
-    queryKey: ["pictures", id],
+    queryKey,
     queryFn: () => getPictureById(id),
   });
   const { user } = useUser();
@@ -34,7 +40,7 @@ export function PicturePageContainer({ id }: { id: string }) {
       return;
     }
     (picture.liked ? unlikePicture(id) : likePicture(id)).then((res) => {
-      queryClient.setQueryData(["pictures", id], res);
+      queryClient.setQueryData(queryKey, res);
     });
   };
 

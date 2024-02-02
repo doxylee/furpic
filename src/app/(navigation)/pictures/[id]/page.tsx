@@ -1,6 +1,5 @@
 "use server";
 
-import { NotFoundComponent } from "@/components/404";
 import { getPictureById } from "@/_interface/backend/api/pictures";
 import { FetchError } from "@/utils/fetch";
 import { Metadata, ResolvingMetadata } from "next";
@@ -35,6 +34,7 @@ export async function generateMetadata(
 
 export default async function PicturePage({ params }: Props) {
   const queryClient = new QueryClient();
+  const queryKey = ["pictures", params.id];
 
   await queryClient.prefetchQuery({
     queryKey: ["pictures", params.id],
@@ -43,7 +43,7 @@ export default async function PicturePage({ params }: Props) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <PicturePageContainer id={params.id} />
+      <PicturePageContainer id={params.id} queryKey={queryKey} />
     </HydrationBoundary>
   );
 }
