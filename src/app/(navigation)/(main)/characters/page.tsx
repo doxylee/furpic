@@ -27,7 +27,7 @@ export default async function IndexPage({
       <CharacterWall
         page={page}
         perPage={PER_PAGE}
-        href={"/photos?"}
+        href={"/characters?"}
         data={data}
       />
       <PicturePostFab />
