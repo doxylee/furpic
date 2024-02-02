@@ -6,6 +6,7 @@ import { getPictures } from "@/_interface/backend/api/pictures";
 import { PictureWall } from "@/components/PictureWall";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { pictureWallOnLike } from "@/utils/like";
+import { useEffect } from "react";
 
 const PER_PAGE = 60;
 
@@ -20,6 +21,9 @@ export function PhotosPageContainer({ page }: { page: number }) {
         offset: (page - 1) * PER_PAGE,
       }),
   });
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["pictures", "photos", page] });
+  }, []);
 
   const onLike = pictureWallOnLike(["pictures", "photos", page], queryClient);
 
