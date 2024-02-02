@@ -36,14 +36,10 @@ export async function generateMetadata(
 export default async function PicturePage({ params }: Props) {
   const queryClient = new QueryClient();
 
-  const picture = await getPictureById(params.id);
-
   await queryClient.prefetchQuery({
     queryKey: ["pictures", params.id],
     queryFn: () => getPictureById(params.id),
   });
-
-  if (!picture) return <NotFoundComponent />;
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
