@@ -40,6 +40,7 @@ export default async function PicturePage({ params }: Props) {
     queryKey: ["pictures", params.id],
     queryFn: () => getPictureById(params.id),
   });
+  queryClient.invalidateQueries({ queryKey });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
