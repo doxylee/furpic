@@ -11,7 +11,7 @@ import { getCharacterById } from "@/_interface/backend/api/characters";
 import { FetchError } from "@/utils/fetch";
 import { PicturePostFab } from "@/components/PicturePostFab";
 
-export default async function UserLayout({
+export default async function CharacterLayout({
   children,
   params,
 }: {
