@@ -18,11 +18,11 @@ export default async function UserLikedPage({
   searchParams: { page: string };
 }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const queryKey = ["pictures", params.ident, "liked", page];
   const userSearchQuery = params.ident.startsWith("%40")
     ? { likedByUsername: params.ident.slice(3) }
     : { likedById: params.ident };
-
-  const queryParam: Parameters<typeof getPictures>[0] = {
+  const queryParams: Parameters<typeof getPictures>[0] = {
     limit: PER_PAGE,
     offset: (page - 1) * PER_PAGE,
     ...userSearchQuery,
@@ -30,9 +30,10 @@ export default async function UserLikedPage({
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ["pictures", params.ident, "liked", page],
-    queryFn: () => getPictures(queryParam),
+    queryKey,
+    queryFn: () => getPictures(queryParams),
   });
+  queryClient.invalidateQueries({ queryKey });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
@@ -40,7 +41,8 @@ export default async function UserLikedPage({
         ident={params.ident}
         page={page}
         perPage={PER_PAGE}
-        queryParam={queryParam}
+        queryKey={queryKey}
+        queryParams={queryParams}
       />
     </HydrationBoundary>
   );
