@@ -18,10 +18,7 @@ export function IndexPageContainer({ page }: { page: number }) {
       getPictures({ limit: PER_PAGE, offset: (page - 1) * PER_PAGE }),
   });
   useEffect(() => {
-    queryClient.invalidateQueries({
-      queryKey: ["pictures", "recent", page],
-      stale: true,
-    });
+    queryClient.invalidateQueries({ queryKey: ["pictures", "recent", page] });
   }, []);
 
   const onLike = pictureWallOnLike(["pictures", "recent", page], queryClient);
