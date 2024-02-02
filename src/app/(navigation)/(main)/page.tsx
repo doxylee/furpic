@@ -16,18 +16,28 @@ export default async function IndexPage({
   searchParams: { page: string };
 }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const queryParams: Parameters<typeof getPictures>[0] = {
+    limit: PER_PAGE,
+    offset: (page - 1) * PER_PAGE,
+  };
+  const queryKey = ["pictures", "recent", page];
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ["pictures", "recent", page],
+    queryKey,
     queryFn: () =>
       getPictures({ limit: PER_PAGE, offset: (page - 1) * PER_PAGE }),
   });
-  queryClient.invalidateQueries({ queryKey: ["pictures", "recent", page] });
+  queryClient.invalidateQueries({ queryKey });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <IndexPageContainer page={page} />
+      <IndexPageContainer
+        page={page}
+        perPage={PER_PAGE}
+        queryParams={queryParams}
+        queryKey={queryKey}
+      />
     </HydrationBoundary>
   );
 }

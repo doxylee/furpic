@@ -6,33 +6,39 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import { PhotosPageContainer } from "./container";
+import { IndexPageContainer } from "./container";
 
 const PER_PAGE = 60;
 
-export default async function PhotosPage({
+export default async function IndexPage({
   searchParams,
 }: {
   searchParams: { page: string };
 }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const queryParams: Parameters<typeof getPictures>[0] = {
+    type: "photo",
+    limit: PER_PAGE,
+    offset: (page - 1) * PER_PAGE,
+  };
+  const queryKey = ["pictures", "photos", page];
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
-    queryKey: ["pictures", "photos", page],
+    queryKey,
     queryFn: () =>
-      getPictures({
-        type: "photo",
-        limit: PER_PAGE,
-        offset: (page - 1) * PER_PAGE,
-      }),
+      getPictures({ limit: PER_PAGE, offset: (page - 1) * PER_PAGE }),
   });
-    queryClient.invalidateQueries({ queryKey: ["pictures", "photos", page] });
-
+  queryClient.invalidateQueries({ queryKey });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <PhotosPageContainer page={page} />
+      <IndexPageContainer
+        page={page}
+        perPage={PER_PAGE}
+        queryParams={queryParams}
+        queryKey={queryKey}
+      />
     </HydrationBoundary>
   );
 }
