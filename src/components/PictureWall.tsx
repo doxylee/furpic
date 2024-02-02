@@ -11,18 +11,20 @@ export function PictureWall({
   perPage = 60,
   href,
   data,
+  onLike,
 }: {
   page: number;
   perPage?: number;
   href: string;
   data: { results: PictureWithConnections[]; count: number } | undefined;
+  onLike?: (id: string, liked: boolean) => void;
 }) {
   return (
     <>
       <Grid2 container spacing={{ xs: 1, sm: 2 }} pt={2}>
         {data?.results.map((picture) => (
           <Grid2 xs={6} sm={4} md={3} lg={2} key={picture.id}>
-            <PictureCard picture={picture} sx={{ cursor: "pointer" }} link />
+            <PictureCard picture={picture} sx={{ cursor: "pointer" }} link onLike={onLike} />
           </Grid2>
         ))}
       </Grid2>

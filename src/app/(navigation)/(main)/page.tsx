@@ -1,9 +1,12 @@
 "use server";
 
-import { Container, Typography } from "@mui/material";
-import { PicturePostFab } from "@/components/PicturePostFab";
 import { getPictures } from "@/_interface/backend/api/pictures";
-import { PictureWall } from "@/components/PictureWall";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
+import { IndexPageContainer } from "./container";
 
 const PER_PAGE = 60;
 
@@ -14,18 +17,16 @@ export default async function IndexPage({
 }) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
 
-  const data = await getPictures({
-    limit: PER_PAGE,
-    offset: (page - 1) * PER_PAGE,
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["pictures", "recent", page],
+    queryFn: () =>
+      getPictures({ limit: PER_PAGE, offset: (page - 1) * PER_PAGE }),
   });
 
   return (
-    <Container maxWidth="xl" sx={{ px: { xs: 1, sm: 2, md: 4 }, pb:2 }}>
-      <Typography variant="h2" mt={4}>
-        전체 작품
-      </Typography>
-      <PictureWall page={page} perPage={PER_PAGE} href={"/?"} data={data} />
-      <PicturePostFab />
-    </Container>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <IndexPageContainer page={page} />
+    </HydrationBoundary>
   );
 }
