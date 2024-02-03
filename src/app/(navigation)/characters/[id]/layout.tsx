@@ -45,7 +45,7 @@ export default async function CharacterLayout({
       >
         <Stack direction="row" alignItems="center" flexWrap="wrap">
           <Avatar
-            src={character.xsImage ?? undefined}
+            src={character.smImage ?? undefined}
             variant="square"
             sx={{
               width: { xs: 100, md: 120 },
