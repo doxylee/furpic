@@ -98,6 +98,7 @@ export function PictureCard({
                 onClick={() =>
                   picture.liked !== undefined && onLike?.(picture.id, false)
                 }
+                color="heart"
               />
             ) : (
               <FavoriteBorderIcon
