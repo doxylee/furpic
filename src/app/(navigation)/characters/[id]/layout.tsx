@@ -12,47 +12,47 @@ import { FetchError } from "@/utils/fetch";
 import { PicturePostFab } from "@/components/PicturePostFab";
 import { Metadata, ResolvingMetadata } from "next";
 
-// export async function generateMetadata(
-//   { params }: { params: { id: string } },
-//   parent: ResolvingMetadata,
-// ): Promise<Metadata> {
-//   let character;
-//   try {
-//     character = await getCharacterById(params.id);
-//   } catch (e) {
-//     if (e instanceof FetchError && e.status === 404) return {};
-//     throw e;
-//   }
+export async function generateMetadata(
+  { params }: { params: { id: string } },
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  let character;
+  try {
+    character = await getCharacterById(params.id);
+  } catch (e) {
+    if (e instanceof FetchError && e.status === 404) return {};
+    throw e;
+  }
 
-//   const title = character.nameKo || character.nameEn;
-//   const keywordsDuplicate = [
-//     character.nameKo,
-//     character.nameEn,
-//     character.user?.name,
-//     character.user?.username,
-//     character.user?.twitterUsername,
-//   ].filter((s) => s) as string[];
-//   const keywords = Array.from(new Set(keywordsDuplicate));
+  const title = character.nameKo || character.nameEn;
+  const keywordsDuplicate = [
+    character.nameKo,
+    character.nameEn,
+    character.user?.name,
+    character.user?.username,
+    character.user?.twitterUsername,
+  ].filter((s) => s) as string[];
+  const keywords = Array.from(new Set(keywordsDuplicate));
 
-//   return {
-//     title,
-//     description: character.bio,
-//     keywords,
-//     twitter: {
-//       card: "summary",
-//       site: "@AstyDragon",
-//       title: title || undefined,
-//       description: character.bio,
-//       creator: character.user?.twitterUsername || undefined,
-//     },
-//     openGraph: {
-//       images: character.smImage ? [character.smImage] : undefined,
-//       title: title || undefined,
-//       description: character.bio,
-//     },
-//     metadataBase: (await parent).metadataBase,
-//   };
-// }
+  return {
+    title,
+    description: character.bio,
+    keywords,
+    twitter: {
+      card: "summary",
+      site: "@AstyDragon",
+      title: title || undefined,
+      description: character.bio,
+      creator: character.user?.twitterUsername || undefined,
+    },
+    openGraph: {
+      images: character.smImage ? [character.smImage] : undefined,
+      title: title || undefined,
+      description: character.bio,
+    },
+    metadataBase: (await parent).metadataBase,
+  };
+}
 
 export default async function CharacterLayout({
   children,

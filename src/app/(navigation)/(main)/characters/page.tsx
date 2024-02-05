@@ -1,6 +1,7 @@
 "use server";
 
-import { Container, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import { Container } from "@mui/system";
 import { PicturePostFab } from "@/components/PicturePostFab";
 import { getCharacters } from "@/_interface/backend/api/characters";
 import { CharacterWall } from "@/components/CharacterWall";
