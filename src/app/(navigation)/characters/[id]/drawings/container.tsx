@@ -26,13 +26,12 @@ export function CharacterDrawingsContainer({
   const onLike = pictureWallOnLike(queryKey, queryClient);
 
   return (
-    <div>helloworld</div>
-    // <PictureWall
-    //   page={page}
-    //   perPage={perPage}
-    //   href={`/characters/${id}/drawings?`}
-    //   data={data}
-    //   onLike={onLike}
-    // />
+    <PictureWall
+      page={page}
+      perPage={perPage}
+      href={`/characters/${id}/drawings?`}
+      data={data}
+      onLike={onLike}
+    />
   );
 }

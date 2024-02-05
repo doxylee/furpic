@@ -128,7 +128,7 @@ export default async function CharacterLayout({
               <Typography fontSize={14} color="#aaa">
                 디자이너:
               </Typography>
-              <Tooltip
+              {/* <Tooltip
                 title={character.designers.map((a) => a.name).join(", ")}
                 placement="bottom"
               >
@@ -145,7 +145,7 @@ export default async function CharacterLayout({
                     </Link>
                   ))}
                 </AvatarGroup>
-              </Tooltip>
+              </Tooltip> */}
             </Stack>
           )}
         </Stack>
