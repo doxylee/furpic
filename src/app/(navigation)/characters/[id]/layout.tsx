@@ -25,13 +25,14 @@ export async function generateMetadata(
   }
 
   const title = character.nameKo || character.nameEn;
-  const keywords = [
+  const keywordsDuplicate = [
     character.nameKo,
     character.nameEn,
     character.user?.name,
     character.user?.username,
     character.user?.twitterUsername,
   ].filter((s) => s) as string[];
+  const keywords = Array.from(new Set(keywordsDuplicate));
 
   return {
     title,

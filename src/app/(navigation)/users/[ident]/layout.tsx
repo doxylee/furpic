@@ -26,9 +26,12 @@ export async function generateMetadata(
   }
 
   const title = user.name || user.username || user.twitterUsername;
-  const keywords = [user.name, user.username, user.twitterUsername].filter(
-    (s) => s,
-  ) as string[];
+  const keywordsDuplicate = [
+    user.name,
+    user.username,
+    user.twitterUsername,
+  ].filter((s) => s) as string[];
+  const keywords = Array.from(new Set(keywordsDuplicate));
 
   return {
     title,
