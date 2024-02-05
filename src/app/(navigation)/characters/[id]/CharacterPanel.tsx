@@ -1,3 +1,5 @@
+"use client";
+
 import { CharacterWithUser } from "@/_interface/backend/entities/character";
 import { Avatar, AvatarGroup, Paper, Stack, Tooltip, Typography } from "@mui/material";
 import Link from "next/link";
