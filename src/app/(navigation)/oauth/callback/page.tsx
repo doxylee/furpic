@@ -2,7 +2,6 @@
 
 import { useUser, userSingleton } from "@/utils/useUser";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
-import Head from "next/head";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -45,9 +44,6 @@ export default function TwitterOauthCallbackPage() {
         minHeight: "100vh",
       }}
     >
-      <Head>
-        <title>트위터 로그인</title>
-      </Head>
       {error ? (
         <div>
           <Typography variant="h2" fontSize={36} mb={4}>
