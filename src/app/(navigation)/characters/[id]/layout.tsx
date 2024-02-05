@@ -128,24 +128,22 @@ export default async function CharacterLayout({
               <Typography fontSize={14} color="#aaa">
                 디자이너:
               </Typography>
-              {/* <Tooltip
+              <Tooltip
                 title={character.designers.map((a) => a.name).join(", ")}
                 placement="bottom"
               >
                 <AvatarGroup max={4}>
                   {character.designers.map((designer) => (
-                    <Link
+                    <Avatar
+                      component={Link}
                       href={`/users/@${designer.username}`}
                       key={designer.id}
-                    >
-                      <Avatar
-                        src={designer.xsImage ?? undefined}
-                        sx={{ cursor: "pointer", height: 20, width: 20 }}
-                      />
-                    </Link>
+                      src={designer.xsImage ?? undefined}
+                      sx={{ cursor: "pointer", height: 20, width: 20 }}
+                    />
                   ))}
                 </AvatarGroup>
-              </Tooltip> */}
+              </Tooltip>
             </Stack>
           )}
         </Stack>
