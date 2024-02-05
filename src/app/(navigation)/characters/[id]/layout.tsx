@@ -132,7 +132,8 @@ export default async function CharacterLayout({
                 title={character.designers.map((a) => a.name).join(", ")}
                 placement="bottom"
               >
-                <AvatarGroup max={4}>
+                <div>asdf</div>
+                {/* <AvatarGroup max={4}>
                   {character.designers.map((designer) => (
                     <Avatar
                       component={Link}
@@ -142,7 +143,7 @@ export default async function CharacterLayout({
                       sx={{ cursor: "pointer", height: 20, width: 20 }}
                     />
                   ))}
-                </AvatarGroup>
+                </AvatarGroup> */}
               </Tooltip>
             </Stack>
           )}
