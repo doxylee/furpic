@@ -53,11 +53,11 @@ export async function generateMetadata(
       card: "summary_large_image",
       site: "@AstyDragon",
       creator: picture?.authors?.[0].twitterUsername || undefined,
-      description,
+      title: description,
     },
     openGraph: {
       images: [picture!.mdImage],
-      description,
+      title: description,
     },
     metadataBase: (await parent).metadataBase,
   };
