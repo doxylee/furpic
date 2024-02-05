@@ -11,6 +11,44 @@ import { getUserByIdent } from "@/_interface/backend/api/user";
 import { FetchError } from "@/utils/fetch";
 import { PicturePostFab } from "@/components/PicturePostFab";
 import { UserEditButton } from "./UserEditButton";
+import { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(
+  { params }: { params: { ident: string } },
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  let user;
+  try {
+    user = await getUserByIdent(params.ident);
+  } catch (e) {
+    if (e instanceof FetchError && e.status === 404) return {};
+    throw e;
+  }
+
+  const title = user.name || user.username || user.twitterUsername;
+  const keywords = [user.name, user.username, user.twitterUsername].filter(
+    (s) => s,
+  ) as string[];
+
+  return {
+    title,
+    description: user.bio,
+    keywords,
+    twitter: {
+      card: "summary",
+      site: "@AstyDragon",
+      title: title || undefined,
+      description: user.bio,
+      creator: user.twitterUsername || undefined,
+    },
+    openGraph: {
+      images: user.smImage ? [user.smImage] : undefined,
+      title: title || undefined,
+      description: user.bio,
+    },
+    metadataBase: (await parent).metadataBase,
+  };
+}
 
 export default async function UserLayout({
   children,

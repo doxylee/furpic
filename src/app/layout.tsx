@@ -5,6 +5,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "FurPic",
+  metadataBase: new URL("https://furpic.net"),
 };
 
 export default async function RootLayout({

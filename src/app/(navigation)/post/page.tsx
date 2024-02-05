@@ -21,6 +21,11 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ImageCrop, ImageUploadInput } from "@/components/ImageUploadInput";
 import { NeedLoginModal } from "@/components/NeedLoginModal";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "작품 올리기",
+};
 
 type FormFields = {
   image: ImageCrop;

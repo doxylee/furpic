@@ -25,10 +25,41 @@ export async function generateMetadata(
     if (e instanceof FetchError && e.status === 404) return {};
   }
 
+  const characters = picture?.characters
+    .map((c) => c.nameKo || c.nameEn)
+    .join(", ");
+  const authors = picture?.authors.map((a) => a.name).join(", ");
+  const description = `캐릭터: ${characters} \n작가: ${authors}`;
+  const keywordsDuplicate = [
+    ...(picture?.characters.flatMap((c) => [
+      c.nameKo,
+      c.nameEn,
+      c.user?.name,
+      c.user?.username,
+      c.user?.twitterUsername,
+    ]) || []),
+    ...(picture?.authors.flatMap((a) => [
+      a.name,
+      a.username,
+      a.twitterUsername,
+    ]) || []),
+  ].filter((k) => k) as string[];
+  const keywords = Array.from(new Set(keywordsDuplicate));
+
   return {
+    description,
+    keywords,
+    twitter: {
+      card: "summary_large_image",
+      site: "@AstyDragon",
+      creator: picture?.authors?.[0].twitterUsername || undefined,
+      description,
+    },
     openGraph: {
       images: [picture!.mdImage],
+      description,
     },
+    metadataBase: (await parent).metadataBase,
   };
 }
 
