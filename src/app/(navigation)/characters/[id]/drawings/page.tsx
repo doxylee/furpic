@@ -35,14 +35,15 @@ export default async function CharacterDrawingsPage({
   queryClient.invalidateQueries({ queryKey });
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <CharacterDrawingsContainer
-        id={params.id}
-        page={page}
-        perPage={PER_PAGE}
-        queryKey={queryKey}
-        queryParams={queryParams}
-      />
-    </HydrationBoundary>
+    <div>helloworld</div>
+    // <HydrationBoundary state={dehydrate(queryClient)}>
+    //   <CharacterDrawingsContainer
+    //     id={params.id}
+    //     page={page}
+    //     perPage={PER_PAGE}
+    //     queryKey={queryKey}
+    //     queryParams={queryParams}
+    //   />
+    // </HydrationBoundary>
   );
 }

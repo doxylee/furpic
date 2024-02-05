@@ -154,7 +154,7 @@ export default async function CharacterLayout({
         </Typography>
         <CharacterTabs />
       </Paper>
-      {/* {children} */}
+      {children}
       <PicturePostFab />
     </Container>
   );
