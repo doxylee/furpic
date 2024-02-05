@@ -31,21 +31,32 @@ export async function generateMetadata(
   ].filter((s) => s) as string[];
   const keywords = Array.from(new Set(keywordsDuplicate));
 
+  let descriptionFirstLine = [];
+  if (character.species)
+    descriptionFirstLine.push(`종족: ${character.species}`);
+  if (character.designers.length > 0)
+    descriptionFirstLine.push(
+      `디자이너: ${character.designers.map((d) => d.name).join(", ")}`,
+    );
+  const description = descriptionFirstLine.length
+    ? `${descriptionFirstLine.join("  ")} \n${character.bio}`
+    : character.bio;
+
   return {
     title,
-    description: character.bio,
+    description,
     keywords,
     twitter: {
       card: "summary",
       site: "@AstyDragon",
       title: title || undefined,
-      description: character.bio,
+      description,
       creator: character.user?.twitterUsername || undefined,
     },
     openGraph: {
       images: character.smImage ? [character.smImage] : undefined,
       title: title || undefined,
-      description: character.bio,
+      description,
     },
     metadataBase: (await parent).metadataBase,
   };
