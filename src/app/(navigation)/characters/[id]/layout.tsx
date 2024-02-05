@@ -123,12 +123,12 @@ export default async function CharacterLayout({
               종족: {character.species}
             </Typography>
           )}
-          {character.designers.length > 0 && (
+          {/* {character.designers.length > 0 && (
             <Stack direction="row" alignItems="center" spacing={1}>
               <Typography fontSize={14} color="#aaa">
                 디자이너:
               </Typography>
-              {/* <Tooltip
+              <Tooltip
                 title={character.designers.map((a) => a.name).join(", ")}
                 placement="bottom"
               >
@@ -145,9 +145,9 @@ export default async function CharacterLayout({
                     </Link>
                   ))}
                 </AvatarGroup>
-              </Tooltip> */}
+              </Tooltip>
             </Stack>
-          )}
+          )} */}
         </Stack>
         <Typography variant="body1" my={{ xs: 1, sm: 2 }}>
           {character.bio}
