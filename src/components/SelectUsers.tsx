@@ -18,7 +18,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { useState } from "react";
 import { SearchBar } from "./SearchBar";
 import { useQuery } from "@tanstack/react-query";
-import { searchUsers } from "@/_interface/backend/api/user";
+import { getUsers } from "@/_interface/backend/api/user";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { UserCard } from "./UserCard";
 import { User } from "@/_interface/backend/entities/user";
@@ -46,7 +46,7 @@ export function SelectUsers({
   const { data, isFetching } = useQuery({
     queryKey: ["users", "search", searchQuery],
     enabled: !!searchQuery,
-    queryFn: () => searchUsers(searchQuery),
+    queryFn: () => getUsers({ query: searchQuery, limit: 12 }),
   });
 
   const onAuthorClick = (user: User) => {

@@ -41,11 +41,13 @@ export async function updateMyUser({
   });
 }
 
-export async function searchUsers(query: string) {
+export async function getUsers(
+  args: { query?: string; limit?: number; offset?: number } = {},
+) {
   return (await fetchAPI({
     method: "GET",
     path: "users",
-    query: { query },
+    query: args,
   })) as User[];
 }
 
