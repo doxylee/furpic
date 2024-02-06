@@ -58,6 +58,8 @@ export function AddCharacterDialog({
       smImage: null,
       xsImage: null,
       crop: null,
+      createdAt: "",
+      updatedAt: "",
       create: true,
       mine: isMine || data.mine,
       setImage: data.profileImage || false,

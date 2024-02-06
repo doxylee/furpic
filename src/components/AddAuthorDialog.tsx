@@ -45,6 +45,8 @@ export function AddUserDialog({
       bio: "",
       smImage: null,
       xsImage: null,
+      createdAt: "",
+      updatedAt: "",
       crop: null,
       create: true,
     });
@@ -58,11 +60,13 @@ export function AddUserDialog({
     <Dialog open={openModal} onClose={() => onFinish()}>
       <DialogTitle>{target} 추가하기</DialogTitle>
       <DialogContent>
-        <form onSubmit={(e)=>{
-          e.preventDefault();
-          e.stopPropagation();
-          handleSubmit(onSubmit)(e);
-        }}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleSubmit(onSubmit)(e);
+          }}
+        >
           <Controller
             name="name"
             control={control}
