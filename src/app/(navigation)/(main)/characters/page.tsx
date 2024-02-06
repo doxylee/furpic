@@ -1,12 +1,16 @@
-"use server";
-
 import { Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { PicturePostFab } from "@/components/PicturePostFab";
 import { getCharacters } from "@/_interface/backend/api/characters";
 import { CharacterWall } from "@/components/CharacterWall";
+import { Metadata } from "next";
 
 const PER_PAGE = 60;
+
+export const metadata: Metadata = {
+  title: "FurPic - 캐릭터",
+  description: "최근 등록된 캐릭터들이에요!",
+};
 
 export default async function IndexPage({
   searchParams,

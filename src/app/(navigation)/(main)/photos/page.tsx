@@ -1,4 +1,3 @@
-"use server";
 
 import { getPictures } from "@/_interface/backend/api/pictures";
 import {
@@ -8,8 +7,15 @@ import {
 } from "@tanstack/react-query";
 import { IndexPageContainer } from "./container";
 import { getAuthCookies } from "@/utils/authCookie";
+import { Metadata } from "next";
 
 const PER_PAGE = 60;
+
+export const metadata: Metadata = {
+  title: "FurPic - 사진",
+  description:
+    "최신 사진 작품들을 모아봤어요!",
+};
 
 export default async function IndexPage({
   searchParams,
