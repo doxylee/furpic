@@ -1,7 +1,14 @@
 "use client";
 
 import { CharacterWithUser } from "@/_interface/backend/entities/character";
-import { Avatar, AvatarGroup, Paper, Stack, Tooltip, Typography } from "@mui/material";
+import {
+  Avatar,
+  AvatarGroup,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import Link from "next/link";
 import { CharacterEditButton } from "./CharacterEditButton";
 import { CharacterTabs } from "./CharacterTabs";
@@ -72,7 +79,11 @@ export function CharacterPanel({
                 {character.designers.map((designer) => (
                   <Avatar
                     component={Link}
-                    href={`/users/@${designer.username}`}
+                    href={
+                      designer.username
+                        ? `/users/@${designer.username}`
+                        : `/users/${designer.id}`
+                    }
                     key={designer.id}
                     src={designer.xsImage ?? undefined}
                     sx={{ cursor: "pointer", height: 20, width: 20 }}
