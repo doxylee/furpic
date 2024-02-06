@@ -10,4 +10,6 @@ export type User = {
   xsImage: string | null;
   smImage: string | null;
   crop: PercentCrop | null;
+  createdAt: string;
+  updatedAt: string;
 };
