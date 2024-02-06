@@ -12,6 +12,8 @@ export type Character = {
   xsImage: string | null;
   smImage: string | null;
   crop: PercentCrop | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type CharacterWithUser = Character & {
