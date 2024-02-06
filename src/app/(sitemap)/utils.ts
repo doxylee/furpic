@@ -10,7 +10,7 @@ export function generateSitemapIndex(
 ${sitemaps
   .map(
     (postUrl) => `  <sitemap>
-    <loc>${BASE_URL}/${postUrl.url}</loc>
+    <loc>${BASE_URL}${postUrl.url}</loc>
     <lastmod>${postUrl.lastModified || new Date().toISOString()}</lastmod>
   </sitemap>`,
   )
@@ -37,7 +37,7 @@ export function generateSitemap(
 ${sitemap
   .map(
     (postUrl) => `  <url>
-    <loc>${BASE_URL}/${postUrl.url}</loc>
+    <loc>${BASE_URL}${postUrl.url}</loc>
     <lastmod>${postUrl.lastModified || new Date().toISOString()}</lastmod>
     <changefreq>${postUrl.changeFreq || "daily"}</changefreq>
     <priority>${postUrl.priority || 0.8}</priority>
