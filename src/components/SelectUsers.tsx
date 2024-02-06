@@ -65,7 +65,7 @@ export function SelectUsers({
 
   const [addDialogueOpen, setAddDialogueOpen] = useState<boolean>(false);
 
-  const authors = searchQuery ? data : user ? [user] : [];
+  const authors = searchQuery ? data?.results : user ? [user] : [];
 
   return (
     <Box>

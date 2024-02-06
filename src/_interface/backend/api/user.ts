@@ -48,7 +48,7 @@ export async function getUsers(
     method: "GET",
     path: "users",
     query: args,
-  })) as User[];
+  })) as { count: number; results: User[] };
 }
 
 export async function getUserByIdent(ident: string) {
