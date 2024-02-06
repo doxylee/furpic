@@ -12,8 +12,8 @@ export type PictureWithConnections = {
   crop: PercentCrop | null;
   uploaderId: string | null;
   uploader: User | null;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   likeCount: number;
   viewCount: number;
   authors: User[];
