@@ -10,7 +10,7 @@ export async function GET() {
   if (process.env.VERCEL_ENV === "development")
     return new Response("Not Found", { status: 404 });
 
-  const sitemaps = [{ url: "sitemap/main.xml" }];
+  const sitemaps = [{ url: "/sitemap/main.xml" }];
 
   const pRes = await getPictures({});
   const pCount = Math.ceil(pRes.count / SPLIT_SIZE);
