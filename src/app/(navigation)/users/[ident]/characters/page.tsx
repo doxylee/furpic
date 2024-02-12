@@ -20,7 +20,7 @@ export default async function UserCharactersPage({
 
   const data = await getCharacters({
     limit: PER_PAGE,
-    offset: (page - 1) * PER_PAGE,
+    offset: Math.max((page - 1) * PER_PAGE, 0),
     ...userSearchQuery,
   });
 
