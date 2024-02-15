@@ -47,19 +47,7 @@ export function CharacterEditButton({
     reset,
     setValue,
     getFieldState,
-  } = useForm<FormFields>({
-    defaultValues: {
-      nameKo: character.nameKo ?? undefined,
-      nameEn: character.nameEn ?? undefined,
-      alias: character.alias,
-      species: character.species ?? undefined,
-      bio: character.bio,
-      designers: character.designers.map((designer) => ({
-        ...designer,
-        create: false,
-      })),
-    },
-  });
+  } = useForm<FormFields>();
 
   const router = useRouter();
   const mutation = useMutation({
@@ -78,7 +66,17 @@ export function CharacterEditButton({
   });
 
   const openModal = () => {
-    reset();
+    reset({
+      nameKo: character.nameKo ?? "",
+      nameEn: character.nameEn ?? "",
+      alias: character.alias,
+      species: character.species ?? "",
+      bio: character.bio,
+      designers: character.designers.map((designer) => ({
+        ...designer,
+        create: false,
+      })),
+    });
     setModalOpen(true);
   };
 
