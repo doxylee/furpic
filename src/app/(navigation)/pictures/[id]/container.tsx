@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  addViewCount,
   getPictureById,
   likePicture,
   unlikePicture,
@@ -14,8 +15,9 @@ import { NotFoundComponent } from "@/components/404";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { NeedLoginModal } from "@/components/NeedLoginModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@/utils/useUser";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export function PicturePageContainer({
   id,
@@ -44,6 +46,10 @@ export function PicturePageContainer({
     });
   };
 
+  useEffect(() => {
+    addViewCount(picture.id);
+  }, []);
+
   return (
     <Container maxWidth="xl" sx={{ p: { xs: 0, sm: 2, md: 4 } }}>
       <NeedLoginModal open={needLogin} message="로그인이 필요한 기능이에요" />
@@ -64,7 +70,11 @@ export function PicturePageContainer({
                   <FavoriteBorderIcon />
                 )}
               </IconButton>
-              <Typography fontSize={18}>{picture.likeCount}</Typography>
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Typography fontSize={18}>{picture.likeCount}</Typography>
+                <VisibilityIcon />
+                <Typography fontSize={18}>{picture.viewCount}</Typography>
+              </Stack>
             </Stack>
             <Box sx={{ flex: "1" }} />
             <PictureEditButton picture={picture} size="small" />

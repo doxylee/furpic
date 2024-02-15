@@ -148,3 +148,10 @@ export async function unlikePicture(id: string) {
     path: `pictures/${id}/like`,
   })) as PictureWithConnectionsAndLiked;
 }
+
+export async function addViewCount(id: string) {
+  return (await fetchAPI({
+    method: "POST",
+    path: `pictures/${id}/viewed`,
+  }))
+}
