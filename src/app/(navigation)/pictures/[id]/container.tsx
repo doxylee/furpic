@@ -34,6 +34,11 @@ export function PicturePageContainer({
   const { user } = useUser();
   const [needLogin, setNeedLogin] = useState(false);
 
+  useEffect(() => {
+    if(!picture) return;
+    addViewCount(picture.id);
+  }, []);
+
   if (!picture) return <NotFoundComponent />;
 
   const onLike = () => {
@@ -45,10 +50,6 @@ export function PicturePageContainer({
       queryClient.setQueryData(queryKey, res);
     });
   };
-
-  useEffect(() => {
-    addViewCount(picture.id);
-  }, []);
 
   return (
     <Container maxWidth="xl" sx={{ p: { xs: 0, sm: 2, md: 4 } }}>
