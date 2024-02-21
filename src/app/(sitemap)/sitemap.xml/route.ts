@@ -10,13 +10,13 @@ export async function GET() {
   if (process.env.VERCEL_ENV === "development")
     return new Response("Not Found", { status: 404 });
 
-  const sitemaps = [{ url: "/sitemap/main.xml" }];
+  const sitemaps = [{ url: "/main.xml" }];
 
   const pRes = await getPictures({});
   const pCount = Math.ceil(pRes.count / SPLIT_SIZE);
   sitemaps.push(
     ...Array.from({ length: pCount }, (_, i) => ({
-      url: `/sitemap/pictures/${i}.xml`,
+      url: `/pictures_${i}.xml`,
     })),
   );
 
@@ -24,7 +24,7 @@ export async function GET() {
   const cCount = Math.ceil(cRes.count / SPLIT_SIZE);
   sitemaps.push(
     ...Array.from({ length: cCount }, (_, i) => ({
-      url: `/sitemap/characters/${i}.xml`,
+      url: `/characters_${i}.xml`,
     })),
   );
 
@@ -32,7 +32,7 @@ export async function GET() {
   const uCount = Math.ceil(uRes.count / SPLIT_SIZE);
   sitemaps.push(
     ...Array.from({ length: uCount }, (_, i) => ({
-      url: `/sitemap/users/${i}.xml`,
+      url: `/users_${i}.xml`,
     })),
   );
 
