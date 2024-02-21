@@ -40,7 +40,7 @@ ${sitemap
     <loc>${BASE_URL}${postUrl.url}</loc>
     <lastmod>${postUrl.lastModified || new Date().toISOString()}</lastmod>
     <changefreq>${postUrl.changeFreq || "daily"}</changefreq>
-    <priority>${postUrl.priority || 0.8}</priority>
+    <priority>${postUrl.priority?.toFixed(1) || 0.8}</priority>
   </url>`,
   )
   .join("\n")}
