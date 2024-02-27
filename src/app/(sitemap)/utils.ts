@@ -1,6 +1,6 @@
+import { BASE_URL } from "@/utils/constants";
 import { NextResponse } from "next/server";
 
-const BASE_URL = "https://furpic.net";
 
 export function generateSitemapIndex(
   sitemaps: { url: string; lastModified?: string }[],

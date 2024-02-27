@@ -9,6 +9,7 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import { PicturePageContainer } from "./container";
+import { BASE_URL } from "@/utils/constants";
 
 type Props = {
   params: { id: string };
@@ -60,6 +61,7 @@ export async function generateMetadata(
       description,
     },
     metadataBase: (await parent).metadataBase,
+    alternates: { canonical: `${BASE_URL}/pictures/${params.id}` },
   };
 }
 
