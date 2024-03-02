@@ -148,7 +148,11 @@ export default function NavigationLayout({
             ))}
             <Divider />
             <ListItem>
-              <Link href="/post" style={{ width: "100%" }}>
+              <Link
+                href="/post"
+                style={{ width: "100%" }}
+                onClick={() => setDrawerOpen(false)}
+              >
                 <Button variant="contained" fullWidth>
                   작품 올리기
                 </Button>
