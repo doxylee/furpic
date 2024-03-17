@@ -19,7 +19,7 @@ export type PictureWithConnections = {
   authors: User[];
   characters: CharacterWithUser[];
   liked?: boolean;
-  ogKey?: string;
+  ogKey?: string | null;
 };
 
 export type PictureWithConnectionsAndLiked = PictureWithConnections & {
