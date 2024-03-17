@@ -6,7 +6,14 @@ import {
   likePicture,
   unlikePicture,
 } from "@/_interface/backend/api/pictures";
-import { Box, Container, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { PictureEditButton } from "./PictureEditButton";
 import CharactersPart from "./CharactersPart";
@@ -18,6 +25,7 @@ import { NeedLoginModal } from "@/components/NeedLoginModal";
 import { useEffect, useState } from "react";
 import { useUser } from "@/utils/useUser";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import Link from "next/link";
 
 export function PicturePageContainer({
   id,
@@ -35,7 +43,7 @@ export function PicturePageContainer({
   const [needLogin, setNeedLogin] = useState(false);
 
   useEffect(() => {
-    if(!picture) return;
+    if (!picture) return;
     addViewCount(picture.id);
   }, []);
 
@@ -78,6 +86,11 @@ export function PicturePageContainer({
               </Stack>
             </Stack>
             <Box sx={{ flex: "1" }} />
+            {picture.ogKey && (
+              <Link href={`/media/${picture.ogKey}`} target="_blank" download>
+                <Button size="small">원본 다운로드</Button>
+              </Link>
+            )}
             <PictureEditButton picture={picture} size="small" />
           </Stack>
           <Typography variant="h5">캐릭터</Typography>

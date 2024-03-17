@@ -23,6 +23,7 @@ export async function generateMetadata(
   try {
     picture = await getPictureById(params.id);
   } catch (e) {
+    console.log("not found", e)
     if (e instanceof FetchError && e.status === 404) return {};
   }
 
