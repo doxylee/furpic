@@ -4,6 +4,7 @@ import { CharacterWithUser } from "@/_interface/backend/entities/character";
 import {
   Avatar,
   AvatarGroup,
+  Chip,
   Paper,
   Stack,
   Tooltip,
@@ -12,12 +13,15 @@ import {
 import Link from "next/link";
 import { CharacterEditButton } from "./CharacterEditButton";
 import { CharacterTabs } from "./CharacterTabs";
+import { useSpecies } from "@/utils/useSpecies";
 
 export function CharacterPanel({
   character,
 }: {
   character: CharacterWithUser;
 }) {
+  const { speciesMap } = useSpecies();
+
   return (
     <Paper
       elevation={3}
@@ -61,10 +65,22 @@ export function CharacterPanel({
         />
       </Stack>
       <Stack direction="row" flexWrap="wrap" alignItems="center">
-        {character.speciesDetail && (
-          <Typography fontSize={14} color="#aaa" mr={2}>
-            종족: {character.speciesDetail}
-          </Typography>
+        {(character.species.length || character.speciesDetail) && (
+          <Stack direction="row" alignItems="center" gap={1} mr={2}>
+            <Typography fontSize={14} color="#aaa">
+              종족:
+            </Typography>
+            {character.species.map((species) => (
+              <Chip
+                key={species}
+                label={speciesMap?.[species].nameKo}
+                sx={{ height: 18 }}
+              />
+            ))}
+            <Typography fontSize={14} color="#aaa" mr={2}>
+              {character.speciesDetail}
+            </Typography>
+          </Stack>
         )}
         {character.designers.length > 0 && (
           <Stack direction="row" alignItems="center" spacing={1}>

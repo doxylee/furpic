@@ -8,6 +8,12 @@ import { FetchError } from "@/utils/fetch";
 import { PicturePostFab } from "@/components/PicturePostFab";
 import { Metadata, ResolvingMetadata } from "next";
 import { CharacterPanel } from "./CharacterPanel";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
+import { getAllSpecies } from "@/_interface/backend/api/species";
 
 export async function generateMetadata(
   { params }: { params: { id: string } },
@@ -78,11 +84,20 @@ export default async function CharacterLayout({
     throw e;
   }
 
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["species", "all"],
+    queryFn: getAllSpecies,
+    staleTime: Infinity,
+  });
+
   return (
     <Container maxWidth="x2l" sx={{ pb: 2 }}>
-      <CharacterPanel character={character} />
-      {children}
-      <PicturePostFab />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <CharacterPanel character={character} />
+        {children}
+        <PicturePostFab />
+      </HydrationBoundary>
     </Container>
   );
 }

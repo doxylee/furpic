@@ -19,18 +19,7 @@ export function useSpecies() {
     staleTime: Infinity,
   });
 
-  const [trigger, setTrigger] = useState(0);
-
-  // data is list of {id: 'dragon', nameKo: '드래곤', nameEn: 'Dragon', parentId: null}
-  // make it into {id, nameKo, nameEn, parent, children}
-
-  useEffect(() => {
-    if (!data) return;
-    if (speciesMap) {
-      setTrigger((prev) => prev + 1);
-      return;
-    }
-
+  if (data && !speciesMap) {
     speciesMap = {};
     speciesList = [];
     const tempSpeciesList: ComputedSpecies[] = [];
@@ -65,9 +54,7 @@ export function useSpecies() {
         stack.push(child);
       });
     }
-
-    setTrigger((prev) => prev + 1);
-  }, [data]);
+  }
 
   return { speciesMap, speciesList };
 }
