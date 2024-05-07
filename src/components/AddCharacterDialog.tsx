@@ -16,10 +16,12 @@ import { Controller, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { CharacterItem } from "./selectCharacters";
 import { SelectUsers, UserItem } from "./SelectUsers";
+import { SelectSpecies } from "./SelectSpecies";
 
 type FormFields = {
   nameKo?: string;
   nameEn?: string;
+  species: string[];
   speciesDetail?: string;
   bio: string;
   mine: boolean;
@@ -53,6 +55,7 @@ export function AddCharacterDialog({
       nameKo: data.nameKo || null,
       nameEn: data.nameEn || null,
       alias: "",
+      species: data.species,
       speciesDetail: data.speciesDetail || null,
       bio: data.bio,
       smImage: null,
@@ -138,20 +141,40 @@ export function AddCharacterDialog({
           />
 
           <Controller
+            name="species"
+            control={control}
+            defaultValue={[]}
+            render={({ field }) => (
+              <>
+                <SelectSpecies
+                  value={field.value}
+                  onChange={field.onChange}
+                  label="종족 (선택)"
+                  sx={{mt: 2}}
+                />
+                <Typography color="gray" fontSize={14} mt={1}>
+                  고양이인 경우에는 고양이만, 고양이는 아니지만 고양이과인 경우
+                  고양이과를 선택해주세요.
+                </Typography>
+              </>
+            )}
+          />
+
+          <Controller
             name="speciesDetail"
             control={control}
             defaultValue=""
             rules={{
               maxLength: {
                 value: 60,
-                message: "종족은 60자 이내로 입력해주세요",
+                message: "세부 종족은 60자 이내로 입력해주세요",
               },
             }}
             render={({ field, fieldState: { error } }) => (
               <>
                 <TextField
                   {...field}
-                  label="종족 (선택)"
+                  label="세부 종족 (허스키 등 종족을 더 자세히 적고 싶은 경우)"
                   variant="outlined"
                   fullWidth
                   margin="normal"

@@ -7,6 +7,7 @@ export type Character = {
   nameKo: string | null;
   nameEn: string | null;
   alias: string;
+  species: string[];
   speciesDetail: string | null;
   bio: string;
   xsImage: string | null;
