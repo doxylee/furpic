@@ -71,9 +71,23 @@ export function PictureEditContainer({
 
   const onSubmit = (data: FormFields) => {
     if (!user) return;
-    const addCharacters = data.characters?.filter(
-      (c) => !prevCharacterIds.includes(c.id),
-    );
+    const addCharacters = data.characters
+      ?.filter((c) => !prevCharacterIds.includes(c.id))
+      .map(
+        ({
+          create,
+          id,
+          nameKo,
+          nameEn,
+          species,
+          speciesDetail,
+          mine,
+          setImage,
+        }) =>
+          create
+            ? { nameKo, nameEn, species, speciesDetail, mine, setImage }
+            : { id },
+      );
     const curCharacterIds = data.characters?.map((c) => c.id) || [];
     const removeCharacterIds = prevCharacterIds.filter(
       (id) => !curCharacterIds.includes(id),
