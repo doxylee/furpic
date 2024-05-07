@@ -1,6 +1,5 @@
 "use client";
 
-import { getAllSpecies } from "@/_interface/backend/api/species";
 import { useSpecies } from "@/utils/useSpecies";
 import {
   SxProps,
@@ -9,12 +8,9 @@ import {
   MenuItem,
   Box,
   Chip,
-  OutlinedInput,
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 
 type ComputedSpecies = {
   id: string;

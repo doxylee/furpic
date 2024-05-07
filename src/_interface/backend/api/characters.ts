@@ -19,6 +19,7 @@ export async function updateCharacter({
   nameKo,
   nameEn,
   alias,
+  species,
   speciesDetail,
   bio,
   image,
@@ -28,6 +29,7 @@ export async function updateCharacter({
   nameKo?: string | null;
   nameEn?: string | null;
   alias?: string;
+  species?: string[];
   speciesDetail?: string | null;
   bio?: string;
   image?: ImageCrop;
@@ -41,6 +43,7 @@ export async function updateCharacter({
       nameKo,
       nameEn,
       alias,
+      species,
       speciesDetail,
       crop: image?.crop,
       bio,
@@ -58,6 +61,7 @@ export async function createCharacter({
   nameKo,
   nameEn,
   alias,
+  species,
   speciesDetail,
   bio,
   image,
@@ -66,6 +70,7 @@ export async function createCharacter({
   nameKo?: string | null;
   nameEn?: string | null;
   alias?: string;
+  species?: string[];
   speciesDetail?: string | null;
   bio?: string;
   image?: ImageCrop;
@@ -79,6 +84,7 @@ export async function createCharacter({
       nameKo,
       nameEn,
       alias,
+      species,
       speciesDetail,
       crop: image?.crop,
       bio,

@@ -25,6 +25,7 @@ type FormFields = {
   nameKo?: string;
   nameEn?: string;
   alias?: string;
+  species?: string[];
   speciesDetail?: string;
   bio: string;
   designers: UserItem[];

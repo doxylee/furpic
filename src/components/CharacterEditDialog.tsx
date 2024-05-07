@@ -11,6 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import { ImageUploadInput } from "./ImageUploadInput";
 import { SelectUsers } from "./SelectUsers";
 import { FormEvent, useState } from "react";
+import { SelectSpecies } from "./SelectSpecies";
 
 export function CharacterEditDialog({
   modalOpen,
@@ -127,6 +128,26 @@ export function CharacterEditDialog({
             />
 
             <Controller
+              name="species"
+              control={control}
+              defaultValue={[]}
+              render={({ field }) => (
+                <>
+                  <SelectSpecies
+                    value={field.value}
+                    onChange={field.onChange}
+                    label="종족 (선택)"
+                    sx={{ mt: 2 }}
+                  />
+                  <Typography color="gray" fontSize={14} mt={1}>
+                    고양이인 경우에는 고양이만, 고양이는 아니지만 고양이과인
+                    경우 고양이과를 선택해주세요.
+                  </Typography>
+                </>
+              )}
+            />
+
+            <Controller
               name="speciesDetail"
               control={control}
               defaultValue=""
@@ -140,7 +161,7 @@ export function CharacterEditDialog({
                 <>
                   <TextField
                     {...field}
-                    label="종족 (선택)"
+                    label="세부 종족 (허스키 등 종족을 더 자세히 적고 싶은 경우)"
                     variant="outlined"
                     fullWidth
                     margin="normal"
