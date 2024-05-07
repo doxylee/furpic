@@ -32,8 +32,8 @@ export async function generateMetadata(
   const keywords = Array.from(new Set(keywordsDuplicate));
 
   let descriptionFirstLine = [];
-  if (character.species)
-    descriptionFirstLine.push(`종족: ${character.species}`);
+  if (character.speciesDetail)
+    descriptionFirstLine.push(`종족: ${character.speciesDetail}`);
   if (character.designers.length > 0)
     descriptionFirstLine.push(
       `디자이너: ${character.designers.map((d) => d.name).join(", ")}`,

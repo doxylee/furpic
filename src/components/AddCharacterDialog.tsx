@@ -20,7 +20,7 @@ import { SelectUsers, UserItem } from "./SelectUsers";
 type FormFields = {
   nameKo?: string;
   nameEn?: string;
-  species?: string;
+  speciesDetail?: string;
   bio: string;
   mine: boolean;
   profileImage?: boolean;
@@ -53,7 +53,7 @@ export function AddCharacterDialog({
       nameKo: data.nameKo || null,
       nameEn: data.nameEn || null,
       alias: "",
-      species: data.species || null,
+      speciesDetail: data.speciesDetail || null,
       bio: data.bio,
       smImage: null,
       xsImage: null,
@@ -138,7 +138,7 @@ export function AddCharacterDialog({
           />
 
           <Controller
-            name="species"
+            name="speciesDetail"
             control={control}
             defaultValue=""
             rules={{

@@ -61,9 +61,9 @@ export function CharacterPanel({
         />
       </Stack>
       <Stack direction="row" flexWrap="wrap" alignItems="center">
-        {character.species && (
+        {character.speciesDetail && (
           <Typography fontSize={14} color="#aaa" mr={2}>
-            종족: {character.species}
+            종족: {character.speciesDetail}
           </Typography>
         )}
         {character.designers.length > 0 && (

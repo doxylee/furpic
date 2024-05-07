@@ -29,7 +29,7 @@ type FormFields = {
   nameKo?: string;
   nameEn?: string;
   alias?: string;
-  species?: string;
+  speciesDetail?: string;
   bio: string;
   designers: UserItem[];
 };
@@ -187,7 +187,7 @@ export function CharacterAddButton({ sx }: { sx?: SxProps }) {
             />
 
             <Controller
-              name="species"
+              name="speciesDetail"
               control={control}
               defaultValue=""
               rules={{

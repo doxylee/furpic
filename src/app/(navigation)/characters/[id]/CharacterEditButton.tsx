@@ -25,7 +25,7 @@ type FormFields = {
   nameKo?: string;
   nameEn?: string;
   alias?: string;
-  species?: string;
+  speciesDetail?: string;
   bio?: string;
   designers?: UserItem[];
 };
@@ -70,7 +70,7 @@ export function CharacterEditButton({
       nameKo: character.nameKo ?? "",
       nameEn: character.nameEn ?? "",
       alias: character.alias,
-      species: character.species ?? "",
+      speciesDetail: character.speciesDetail ?? "",
       bio: character.bio,
       designers: character.designers.map((designer) => ({
         ...designer,
@@ -189,7 +189,7 @@ export function CharacterEditButton({
               />
 
               <Controller
-                name="species"
+                name="speciesDetail"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <>

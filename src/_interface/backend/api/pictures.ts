@@ -11,7 +11,7 @@ export type UserLink = { id: string } | TempUserData;
 export type TempCharacterData = {
   nameKo: string | null;
   nameEn: string | null;
-  species: string | null;
+  speciesDetail: string | null;
   mine: boolean;
   setImage: boolean;
 };
