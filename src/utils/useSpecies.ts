@@ -44,16 +44,17 @@ export function useSpecies() {
       }
     });
 
-    // Set level and add to list using DFS
-    const stack = tempSpeciesList.filter((species) => !species.parent);
-    while (stack.length) {
-      const species = stack.pop()!;
+    // Set level and add to list using DFS with recursive function
+    const roots = tempSpeciesList.filter((species) => !species.parent);
+    const dfs = (species: ComputedSpecies) => {
       speciesList!.push(species);
       species.children.forEach((child) => {
         child.level = species.level + 1;
-        stack.push(child);
+        dfs(child);
       });
-    }
+    };
+    roots.forEach(dfs);
+    
   }
 
   return { speciesMap, speciesList };
