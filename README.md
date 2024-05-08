@@ -19,5 +19,5 @@ Run backend together.
 
 ```bash
 # development
-$ make dev
+$ yarn dev
 ```
