@@ -42,8 +42,6 @@ export function SelectSpecies({
     );
   };
 
-  console.log(speciesList);
-
   return (
     <FormControl fullWidth sx={sx}>
       <InputLabel>{label}</InputLabel>

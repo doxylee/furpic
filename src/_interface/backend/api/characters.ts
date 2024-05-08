@@ -91,19 +91,28 @@ export async function getCharacters({
   userId,
   username,
   query,
+  species,
   limit,
   offset,
 }: {
   userId?: string;
   username?: string;
   query?: string;
+  species?: string[];
   limit?: number;
   offset?: number;
 }): Promise<{ count: number; results: CharacterWithUser[] }> {
   return await fetchAPI({
     method: "GET",
     path: "characters",
-    query: { userId, username, query, limit, offset },
+    query: {
+      userId,
+      username,
+      query,
+      species: species ? species.join(",") : undefined,
+      limit,
+      offset,
+    },
   });
 }
 
