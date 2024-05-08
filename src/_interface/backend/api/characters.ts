@@ -1,18 +1,7 @@
 import { ImageCrop } from "@/components/ImageUploadInput";
 import { CharacterWithUser } from "../entities/character";
 import { fetchAPI } from "@/utils/fetch";
-import { UserItem } from "@/components/SelectUsers";
 import { UserLink } from "./pictures";
-
-export async function fullSearchCharacters(
-  query: string,
-): Promise<CharacterWithUser[]> {
-  return await fetchAPI({
-    method: "GET",
-    path: "characters/fullSearch",
-    query: { query },
-  });
-}
 
 export async function updateCharacter({
   id,
@@ -101,18 +90,20 @@ export async function createCharacter({
 export async function getCharacters({
   userId,
   username,
+  query,
   limit,
   offset,
 }: {
   userId?: string;
   username?: string;
+  query?: string;
   limit?: number;
   offset?: number;
 }): Promise<{ count: number; results: CharacterWithUser[] }> {
   return await fetchAPI({
     method: "GET",
     path: "characters",
-    query: { userId, username, limit, offset },
+    query: { userId, username, query, limit, offset },
   });
 }
 

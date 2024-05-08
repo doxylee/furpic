@@ -22,10 +22,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import { CharacterCard } from "./CharacterCard";
 import { AddCharacterDialog } from "./AddCharacterDialog";
 import { useQuery } from "@tanstack/react-query";
-import {
-  fullSearchCharacters,
-  getCharacters,
-} from "@/_interface/backend/api/characters";
+import { getCharacters } from "@/_interface/backend/api/characters";
 import { useUser } from "@/utils/useUser";
 
 export type CharacterItem = CharacterWithUser & {
@@ -48,10 +45,14 @@ export function SelectCharacters({
   const [search, setSearch] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
+  const queryPayload = searchQuery
+    ? { query: searchQuery, limit: 12 }
+    : { userId: user?.id };
+
   const { data, isFetching } = useQuery({
-    queryKey: ["characters", "fullSearch", searchQuery],
-    enabled: !!searchQuery,
-    queryFn: () => fullSearchCharacters(searchQuery),
+    queryKey: ["characters", queryPayload],
+    enabled: !!searchQuery || !!user,
+    queryFn: () => getCharacters(queryPayload),
   });
 
   const onCharacterClick = (character: CharacterWithUser) => {
@@ -73,13 +74,7 @@ export function SelectCharacters({
 
   const [addDialogueOpen, setAddDialogueOpen] = useState<boolean>(false);
 
-  const { data: myCharacters } = useQuery({
-    queryKey: ["characters", "mine"],
-    enabled: !!user,
-    queryFn: () => getCharacters({ userId: user?.id }),
-  });
-
-  const characters = searchQuery ? data : myCharacters?.results;
+  const characters = data?.results;
 
   return (
     <Box>
