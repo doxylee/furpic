@@ -9,22 +9,25 @@ import {
   SxProps,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 import { MouseEventHandler } from "react";
 
 export function UserCard({
   user,
   onClick,
   sx,
+  link,
 }: {
   user: User;
   onClick?: MouseEventHandler<HTMLDivElement>;
   sx?: SxProps;
+  link?: boolean;
 }) {
-  return (
+  const inner = (
     <Card
       onClick={onClick}
       sx={{
-        cursor: onClick ? "pointer" : "auto",
+        cursor: onClick || link ? "pointer" : "auto",
         borderRadius: "50em 50em 32px 32px",
         ...sx,
       }}
@@ -32,7 +35,7 @@ export function UserCard({
       <CardMedia
         image={user.smImage ?? undefined}
         title={user.name}
-        sx={{ paddingTop: "100%", borderRadius: "50%", position: "relative"}}
+        sx={{ paddingTop: "100%", borderRadius: "50%", position: "relative" }}
       >
         {!user.smImage && (
           <Avatar
@@ -46,7 +49,7 @@ export function UserCard({
             }}
           />
         )}
-        </CardMedia>
+      </CardMedia>
       <CardContent sx={{ p: 1, "&:last-child": { pb: 1 } }}>
         <Typography
           noWrap
@@ -67,4 +70,8 @@ export function UserCard({
       </CardContent>
     </Card>
   );
+
+  if (link) {
+    return <Link href={`/users/${user.id}`}>{inner}</Link>;
+  } else return inner;
 }

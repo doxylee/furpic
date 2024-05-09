@@ -22,7 +22,7 @@ export function UserWall({
       <Grid2 container spacing={{ xs: 1, sm: 2 }} pt={2}>
         {data?.results.map((user) => (
           <Grid2 xs={6} sm={4} md={3} lg={2} key={user.id}>
-            <UserCard user={user} />
+            <UserCard user={user} link />
           </Grid2>
         ))}
       </Grid2>
