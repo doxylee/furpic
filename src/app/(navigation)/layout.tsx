@@ -26,6 +26,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ImageIcon from "@mui/icons-material/Image";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import PetsIcon from "@mui/icons-material/Pets";
+import PersonIcon from "@mui/icons-material/Person";
 
 export default function NavigationLayout({
   children,
@@ -82,6 +83,11 @@ export default function NavigationLayout({
                   캐릭터
                 </Typography>
               </Link>
+              <Link href="/users">
+                <Typography variant="h5" component="div">
+                  유저
+                </Typography>
+              </Link>
             </Stack>
           </Stack>
           <Box sx={{ flexGrow: 1 }} />
@@ -128,6 +134,7 @@ export default function NavigationLayout({
               { icon: <ImageIcon />, name: "그림", href: "/drawings" },
               { icon: <CameraAltIcon />, name: "사진", href: "/photos" },
               { icon: <PetsIcon />, name: "캐릭터", href: "/characters" },
+              { icon: <PersonIcon />, name: "유저", href: "/users" },
             ].map(({ icon, name, href }) => (
               <Link href={href} onClick={() => setDrawerOpen(false)} key={href}>
                 <ListItem
