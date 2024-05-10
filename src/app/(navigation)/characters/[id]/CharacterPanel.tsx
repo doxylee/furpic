@@ -15,6 +15,21 @@ import { CharacterEditButton } from "./CharacterEditButton";
 import { CharacterTabs } from "./CharacterTabs";
 import { useSpecies } from "@/utils/useSpecies";
 
+const COLOR_EMOJI = {
+  red: "❤️",
+  pink: "🩷",
+  orange: "🧡",
+  yellow: "💛",
+  green: "💚",
+  cyan: "🩵",
+  blue: "💙",
+  purple: "💜",
+  brown: "🤎",
+  black: "🖤",
+  gray: "🩶",
+  white: "🤍",
+} as const;
+
 export function CharacterPanel({
   character,
 }: {
@@ -64,9 +79,9 @@ export function CharacterPanel({
           sx={{ ml: "auto", mr: { xs: 1, sm: 2 }, my: 1 }}
         />
       </Stack>
-      <Stack direction="row" flexWrap="wrap" alignItems="center">
+      <Stack direction="row" flexWrap="wrap" alignItems="center" gap={1}>
         {(character.species.length || character.speciesDetail) && (
-          <Stack direction="row" alignItems="center" gap={1} mr={2}>
+          <Stack direction="row" alignItems="center" gap={1}>
             <Typography fontSize={14} color="#aaa">
               종족:
             </Typography>
@@ -79,6 +94,13 @@ export function CharacterPanel({
             ))}
             <Typography fontSize={14} color="#aaa" mr={2}>
               {character.speciesDetail}
+            </Typography>
+          </Stack>
+        )}
+        {character.designers.length > 0 && (
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Typography fontSize={14} color="#aaa">
+              색상: {character.color.map((color) => COLOR_EMOJI[color])}
             </Typography>
           </Stack>
         )}
