@@ -1,7 +1,7 @@
 "use client";
 
 import { updateCharacter } from "@/_interface/backend/api/characters";
-import { CharacterWithUser } from "@/_interface/backend/entities/character";
+import { CharacterWithUser, Color } from "@/_interface/backend/entities/character";
 import { CharacterEditDialog } from "@/components/CharacterEditDialog";
 import { ImageCrop } from "@/components/ImageUploadInput";
 import { UserItem } from "@/components/SelectUsers";
@@ -24,6 +24,7 @@ type FormFields = {
   alias?: string;
   species?: string[];
   speciesDetail?: string;
+  color?: Color[];
   bio?: string;
   designers?: UserItem[];
 };
@@ -67,6 +68,7 @@ export function CharacterEditButton({
       alias: character.alias,
       species: character.species ?? [],
       speciesDetail: character.speciesDetail ?? "",
+      color: character.color ?? [],
       bio: character.bio,
       designers: character.designers.map((designer) => ({
         ...designer,

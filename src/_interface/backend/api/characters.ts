@@ -1,5 +1,5 @@
 import { ImageCrop } from "@/components/ImageUploadInput";
-import { CharacterWithUser } from "../entities/character";
+import { CharacterWithUser, Color } from "../entities/character";
 import { fetchAPI } from "@/utils/fetch";
 import { UserLink } from "./pictures";
 
@@ -10,6 +10,7 @@ export async function updateCharacter({
   alias,
   species,
   speciesDetail,
+  color,
   bio,
   image,
   designers,
@@ -20,6 +21,7 @@ export async function updateCharacter({
   alias?: string;
   species?: string[];
   speciesDetail?: string | null;
+  color?: Color[];
   bio?: string;
   image?: ImageCrop;
   designers?: UserLink[];
@@ -34,6 +36,7 @@ export async function updateCharacter({
       alias,
       species,
       speciesDetail,
+      color,
       crop: image?.crop,
       bio,
       designers,
@@ -52,6 +55,7 @@ export async function createCharacter({
   alias,
   species,
   speciesDetail,
+  color,
   bio,
   image,
   designers,
@@ -61,6 +65,7 @@ export async function createCharacter({
   alias?: string;
   species?: string[];
   speciesDetail?: string | null;
+  color?: Color[];
   bio?: string;
   image?: ImageCrop;
   designers?: UserLink[];
@@ -75,6 +80,7 @@ export async function createCharacter({
       alias,
       species,
       speciesDetail,
+      color,
       crop: image?.crop,
       bio,
       designers,

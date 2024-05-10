@@ -19,6 +19,7 @@ import { UserItem } from "@/components/SelectUsers";
 import { useRouter } from "next/navigation";
 import { enqueueSnackbar } from "notistack";
 import { CharacterEditDialog } from "@/components/CharacterEditDialog";
+import { Color } from "@/_interface/backend/entities/character";
 
 type FormFields = {
   image?: ImageCrop;
@@ -27,6 +28,7 @@ type FormFields = {
   alias?: string;
   species?: string[];
   speciesDetail?: string;
+  color?: Color[];
   bio: string;
   designers: UserItem[];
 };

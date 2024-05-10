@@ -53,13 +53,16 @@ export function SelectSpecies({
         label={label}
         renderValue={(selected) => (
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-            {selected.map((value) => (
-              <Chip
-                key={value}
-                label={speciesMap?.[value].nameKo}
-                sx={{ height: 22 }}
-              />
-            ))}
+            {selected.map(
+              (value) =>
+                speciesMap?.[value] && (
+                  <Chip
+                    key={value}
+                    label={speciesMap?.[value].nameKo}
+                    sx={{ height: 22 }}
+                  />
+                ),
+            )}
           </Box>
         )}
       >

@@ -7,11 +7,12 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { ImageUploadInput } from "./ImageUploadInput";
 import { SelectUsers } from "./SelectUsers";
 import { FormEvent, useState } from "react";
 import { SelectSpecies } from "./SelectSpecies";
+import { SelectColor } from "./SelectColor";
 
 export function CharacterEditDialog({
   modalOpen,
@@ -37,7 +38,11 @@ export function CharacterEditDialog({
 
   return (
     <>
-      <Dialog open={modalOpen} onClose={() => onCancel()}>
+      <Dialog
+        open={modalOpen}
+        onClose={() => onCancel()}
+        sx={{ "& .MuiDialog-paper": { maxWidth: 620 } }}
+      >
         <form onSubmit={onSubmit}>
           <DialogTitle>{dialogTitle}</DialogTitle>
           <DialogContent>
@@ -169,6 +174,29 @@ export function CharacterEditDialog({
                   {error && (
                     <Typography color="red">{error.message}</Typography>
                   )}
+                </>
+              )}
+            />
+
+            <Controller
+              name="color"
+              control={control}
+              defaultValue={[]}
+              render={({ field }) => (
+                <>
+                  <SelectColor
+                    value={field.value}
+                    onChange={field.onChange}
+                    label="주요 색상 (선택)"
+                    sx={{ mt: 2 }}
+                  />
+
+                  <Typography color="gray" fontSize={14} mt={1}>
+                    많은 색이 앞에 오도록 순서대로 골라주세요!
+                    <br />
+                    너무 많이 고르면 오히려 검색이 어려워요. 주요한 색상만
+                    골라주세요!
+                  </Typography>
                 </>
               )}
             />
