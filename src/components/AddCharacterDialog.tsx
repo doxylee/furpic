@@ -17,12 +17,15 @@ import { useEffect } from "react";
 import { CharacterItem } from "./selectCharacters";
 import { SelectUsers, UserItem } from "./SelectUsers";
 import { SelectSpecies } from "./SelectSpecies";
+import { SelectColor } from "./SelectColor";
+import { Color } from "@/_interface/backend/entities/character";
 
 type FormFields = {
   nameKo?: string;
   nameEn?: string;
   species: string[];
   speciesDetail?: string;
+  color: Color[];
   bio: string;
   mine: boolean;
   profileImage?: boolean;
@@ -57,6 +60,7 @@ export function AddCharacterDialog({
       alias: "",
       species: data.species,
       speciesDetail: data.speciesDetail || null,
+      color: data.color,
       bio: data.bio,
       smImage: null,
       xsImage: null,
@@ -75,7 +79,11 @@ export function AddCharacterDialog({
   }, [openModal]);
 
   return (
-    <Dialog open={openModal} onClose={() => onFinish()}>
+    <Dialog
+      open={openModal}
+      onClose={() => onFinish()}
+      sx={{ "& .MuiDialog-paper": { maxWidth: 620 } }}
+    >
       <DialogTitle>캐릭터 추가하기</DialogTitle>
       <DialogContent>
         <form
@@ -150,11 +158,34 @@ export function AddCharacterDialog({
                   value={field.value}
                   onChange={field.onChange}
                   label="종족 (선택)"
-                  sx={{mt: 2}}
+                  sx={{ mt: 2 }}
                 />
                 <Typography color="gray" fontSize={14} mt={1}>
                   고양이인 경우에는 고양이만, 고양이는 아니지만 고양이과인 경우
                   고양이과를 선택해주세요.
+                </Typography>
+              </>
+            )}
+          />
+
+          <Controller
+            name="color"
+            control={control}
+            defaultValue={[]}
+            render={({ field }) => (
+              <>
+                <SelectColor
+                  value={field.value}
+                  onChange={field.onChange}
+                  label="주요 색상 (선택)"
+                  sx={{ mt: 2 }}
+                />
+
+                <Typography color="gray" fontSize={14} mt={1}>
+                  많은 색이 앞에 오도록 순서대로 골라주세요!
+                  <br />
+                  너무 많이 고르면 오히려 검색이 어려워요. 주요한 색상만
+                  골라주세요!
                 </Typography>
               </>
             )}

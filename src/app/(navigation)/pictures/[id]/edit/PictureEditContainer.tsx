@@ -81,11 +81,12 @@ export function PictureEditContainer({
           nameEn,
           species,
           speciesDetail,
+          color,
           mine,
           setImage,
         }) =>
           create
-            ? { nameKo, nameEn, species, speciesDetail, mine, setImage }
+            ? { nameKo, nameEn, species, speciesDetail, color, mine, setImage }
             : { id },
       );
     const curCharacterIds = data.characters?.map((c) => c.id) || [];

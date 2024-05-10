@@ -59,8 +59,20 @@ export function PostContainer() {
         create ? { name, twitterUsername: twitterUsername || null } : { id },
       ),
       characters: characters.map(
-        ({ create, id, nameKo, nameEn, species, speciesDetail, mine, setImage }) =>
-          create ? { nameKo, nameEn, species, speciesDetail, mine, setImage } : { id },
+        ({
+          create,
+          id,
+          nameKo,
+          nameEn,
+          species,
+          speciesDetail,
+          color,
+          mine,
+          setImage,
+        }) =>
+          create
+            ? { nameKo, nameEn, species, speciesDetail, color, mine, setImage }
+            : { id },
       ),
     });
   };

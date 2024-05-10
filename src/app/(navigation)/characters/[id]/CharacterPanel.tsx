@@ -97,7 +97,7 @@ export function CharacterPanel({
             </Typography>
           </Stack>
         )}
-        {character.designers.length > 0 && (
+        {character.color.length > 0 && (
           <Stack direction="row" alignItems="center" spacing={1}>
             <Typography fontSize={14} color="#aaa">
               색상: {character.color.map((color) => COLOR_EMOJI[color])}
