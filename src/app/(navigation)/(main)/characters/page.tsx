@@ -6,6 +6,7 @@ import { CharacterWall } from "@/components/CharacterWall";
 import { Metadata } from "next";
 import { Param, getCommaList, getFirst } from "@/utils/queryUtils";
 import { CharacterSearchFilter } from "./CharacterSearchFilter";
+import { Color, ColorMatch } from "@/_interface/backend/entities/character";
 
 const PER_PAGE = 60;
 
@@ -17,15 +18,27 @@ export const metadata: Metadata = {
 export default async function IndexPage({
   searchParams,
 }: {
-  searchParams: { page: Param, query: Param, species: Param};
+  searchParams: {
+    page: Param;
+    query: Param;
+    species: Param;
+    color: Param;
+    colorMatch: Param;
+  };
 }) {
   const page = searchParams.page ? parseInt(getFirst(searchParams.page)) : 1;
-  const species = getCommaList(searchParams.species);
   const query = getFirst(searchParams.query);
+  const species = getCommaList(searchParams.species);
+  const color = getCommaList<Color>(searchParams.color);
+  const colorMatch = getFirst(searchParams.colorMatch) as
+    | ColorMatch
+    | undefined;
 
   const data = await getCharacters({
     query,
     species,
+    color,
+    colorMatch,
     limit: PER_PAGE,
     offset: (page - 1) * PER_PAGE,
   });
@@ -35,7 +48,7 @@ export default async function IndexPage({
       <Typography variant="h2" mt={4}>
         캐릭터
       </Typography>
-      <CharacterSearchFilter sx={{mt:2}}/>
+      <CharacterSearchFilter sx={{ mt: 2 }} />
       <CharacterWall
         page={page}
         perPage={PER_PAGE}

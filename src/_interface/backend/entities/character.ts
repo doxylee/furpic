@@ -15,6 +15,8 @@ export type Color =
   | "gray"
   | "white";
 
+export type ColorMatch = "some" | "every" | "exact";
+
 export type Character = {
   id: string;
   userId: string | null;

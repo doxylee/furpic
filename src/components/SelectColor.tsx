@@ -1,6 +1,5 @@
 "use client";
 
-import { Color } from "@/_interface/backend/entities/character";
 import {
   SxProps,
   SelectChangeEvent,
@@ -27,7 +26,7 @@ const COLOR_LIST = [
   "white",
 ] as const;
 
-const COLOR_MAP = {
+const COLOR_MAP: Record<string, { color: string }> = {
   red: { color: "#f44336" },
   pink: { color: "#ff79a5" },
   orange: { color: "#ff9800" },
@@ -50,10 +49,10 @@ export function SelectColor({
   label,
 }: {
   onChange: (value: string[]) => void;
-  value: Color[];
+  value: string[];
   sx?: SxProps;
   onBlur?: () => void;
-  label: string;
+  label?: string;
 }) {
   const handleChange = ({ target: { value } }: SelectChangeEvent<string[]>) => {
     onChange(
@@ -64,7 +63,7 @@ export function SelectColor({
 
   return (
     <FormControl sx={sx}>
-      <Typography color="gray">{label}</Typography>
+      {label && <Typography color="gray">{label}</Typography>}
       <Stack direction="row" gap={1} flexWrap="wrap">
         {value
           .filter((color) => !!COLOR_MAP[color])

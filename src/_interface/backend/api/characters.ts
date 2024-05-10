@@ -1,5 +1,5 @@
 import { ImageCrop } from "@/components/ImageUploadInput";
-import { CharacterWithUser, Color } from "../entities/character";
+import { CharacterWithUser, Color, ColorMatch } from "../entities/character";
 import { fetchAPI } from "@/utils/fetch";
 import { UserLink } from "./pictures";
 
@@ -98,6 +98,8 @@ export async function getCharacters({
   username,
   query,
   species,
+  color,
+  colorMatch,
   limit,
   offset,
 }: {
@@ -105,6 +107,8 @@ export async function getCharacters({
   username?: string;
   query?: string;
   species?: string[];
+  color?: Color[];
+  colorMatch?: ColorMatch;
   limit?: number;
   offset?: number;
 }): Promise<{ count: number; results: CharacterWithUser[] }> {
@@ -116,6 +120,8 @@ export async function getCharacters({
       username,
       query,
       species: species ? species.join(",") : undefined,
+      color,
+      colorMatch,
       limit,
       offset,
     },
