@@ -169,29 +169,6 @@ export function AddCharacterDialog({
           />
 
           <Controller
-            name="color"
-            control={control}
-            defaultValue={[]}
-            render={({ field }) => (
-              <>
-                <SelectColor
-                  value={field.value}
-                  onChange={field.onChange}
-                  label="주요 색상 (선택)"
-                  sx={{ mt: 2 }}
-                />
-
-                <Typography color="gray" fontSize={14} mt={1}>
-                  많은 색이 앞에 오도록 순서대로 골라주세요!
-                  <br />
-                  너무 많이 고르면 오히려 검색이 어려워요. 주요한 색상만
-                  골라주세요!
-                </Typography>
-              </>
-            )}
-          />
-
-          <Controller
             name="speciesDetail"
             control={control}
             defaultValue=""
@@ -211,6 +188,29 @@ export function AddCharacterDialog({
                   margin="normal"
                 />
                 {error && <Typography color="red">{error.message}</Typography>}
+              </>
+            )}
+          />
+
+          <Controller
+            name="color"
+            control={control}
+            defaultValue={[]}
+            render={({ field }) => (
+              <>
+                <SelectColor
+                  value={field.value}
+                  onChange={field.onChange}
+                  label="주요 색상 (선택)"
+                  sx={{ mt: 2 }}
+                />
+
+                <Typography color="gray" fontSize={14} mt={1}>
+                  많은 색이 앞에 오도록 순서대로 골라주세요!
+                  <br />
+                  너무 많이 고르면 오히려 검색이 어려워요. 주요한 색상만
+                  골라주세요!
+                </Typography>
               </>
             )}
           />
