@@ -8,7 +8,7 @@ import { Param, getCommaList, getFirst } from "@/utils/queryUtils";
 import { CharacterSearchFilter } from "./CharacterSearchFilter";
 import { Color, ColorMatch } from "@/_interface/backend/entities/character";
 
-const PER_PAGE = 60;
+const PER_PAGE = 6;
 
 export const metadata: Metadata = {
   title: "FurPic - 캐릭터",
@@ -43,6 +43,14 @@ export default async function IndexPage({
     offset: (page - 1) * PER_PAGE,
   });
 
+    let parts = [];
+    if (query) parts.push(`query=${query}`);
+    if (species?.length) parts.push(`species=${species.join(",")}`);
+    if (color?.length) parts.push(`color=${color.join(",")}`);
+    if (colorMatch && colorMatch != "some")
+      parts.push(`colorMatch=${colorMatch}`);
+    const href = `/characters?${parts.join("&")}&`;
+
   return (
     <Container maxWidth="xl" sx={{ px: { xs: 1, sm: 2, md: 4 }, pb: 2 }}>
       <Typography variant="h2" mt={4}>
@@ -52,7 +60,7 @@ export default async function IndexPage({
       <CharacterWall
         page={page}
         perPage={PER_PAGE}
-        href={"/characters?"}
+        href={href}
         data={data}
       />
       <PicturePostFab />

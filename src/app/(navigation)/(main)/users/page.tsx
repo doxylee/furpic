@@ -28,13 +28,16 @@ export default async function IndexPage({
     offset: (page - 1) * PER_PAGE,
   });
 
+  let href = `/users?`;
+  if (query) href += `query=${query}&`;
+
   return (
     <Container maxWidth="xl" sx={{ px: { xs: 1, sm: 2, md: 4 }, pb: 2 }}>
       <Typography variant="h2" mt={4}>
         유저
       </Typography>
       <UserSearchFilter sx={{ mt: 2 }} />
-      <UserWall page={page} perPage={PER_PAGE} href={"/users?"} data={data} />
+      <UserWall page={page} perPage={PER_PAGE} href={href} data={data} />
       <PicturePostFab />
     </Container>
   );

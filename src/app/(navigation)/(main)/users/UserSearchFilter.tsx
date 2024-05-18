@@ -16,7 +16,6 @@ export function UserSearchFilter({ sx }: { sx?: SxProps }) {
   const handleSearch = () => {
     let parts = [];
     if (query) parts.push(`query=${query}`);
-    if (page) parts.push(`page=${page}`);
     router.push(`${pathname}?${parts.join("&")}`);
   };
 

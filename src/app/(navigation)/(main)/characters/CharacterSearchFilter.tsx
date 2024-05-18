@@ -39,7 +39,6 @@ export function CharacterSearchFilter({ sx }: { sx?: SxProps }) {
     let parts = [];
     if (query) parts.push(`query=${query}`);
     if (species.length) parts.push(`species=${species.join(",")}`);
-    if (page) parts.push(`page=${page}`);
     if (color.length) parts.push(`color=${color.join(",")}`);
     if (colorMatch && colorMatch != "some")
       parts.push(`colorMatch=${colorMatch}`);
