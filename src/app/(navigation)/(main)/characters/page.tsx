@@ -8,7 +8,7 @@ import { Param, getCommaList, getFirst } from "@/utils/queryUtils";
 import { CharacterSearchFilter } from "./CharacterSearchFilter";
 import { Color, ColorMatch } from "@/_interface/backend/entities/character";
 
-const PER_PAGE = 6;
+const PER_PAGE = 60;
 
 export const metadata: Metadata = {
   title: "FurPic - 캐릭터",
