@@ -103,10 +103,10 @@ export function ImageUpload({
     <Box sx={sx}>
       <DragDropFileUpload
         icon={<ImageIcon style={{ fontSize: 60 }} />}
-        description="20MB, 8196x8196 이하 jpg, png, gif, webp, avif, tiff 이미지"
+        description="50MB, 8196x8196 이하 jpg, png, gif, webp, avif, tiff 이미지"
         check={(file) => {
-          if (file.size > 20 * 1024 * 1024) {
-            enqueueSnackbar("20MB 이하의 이미지를 업로드 해주세요", {
+          if (file.size > 50 * 1024 * 1024) {
+            enqueueSnackbar("50MB 이하의 이미지를 업로드 해주세요", {
               variant: "error",
             });
             return false;
