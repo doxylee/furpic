@@ -3,15 +3,10 @@
 import { User } from "@/_interface/backend/entities/user";
 import {
   Avatar,
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
   Stack,
   SxProps,
   Typography,
 } from "@mui/material";
-import Link from "next/link";
 import { MouseEventHandler } from "react";
 
 export function UserItem({
