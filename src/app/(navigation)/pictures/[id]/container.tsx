@@ -28,6 +28,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import Link from "next/link";
 import LikedUsersModal from "./LikedUsersModal";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export function PicturePageContainer({
   id,
@@ -36,22 +37,47 @@ export function PicturePageContainer({
   id: string;
   queryKey: any[];
 }) {
+  // data
   const queryClient = useQueryClient();
   const { data: picture } = useQuery({
     queryKey,
     queryFn: () => getPictureById(id),
   });
+
+  // user states
   const { user } = useUser();
   const [needLogin, setNeedLogin] = useState(false);
-  const [likedUsersOpen, setLikedUsersOpen] = useState(false);
 
+  // liked users
+  const searchParams = useSearchParams();
+  const likedUsersOpen = searchParams.get("likes") === "true";
+  const router = useRouter();
+  const pathname = usePathname();
+  const [showLikesClicked, setShowLikesClicked] = useState(false);
+  const setLikedUsersOpen = (open: boolean) => {
+    if (open) {
+      router.push(`${pathname}?likes=${open}`, { scroll: false });
+      setShowLikesClicked(true);
+    } else {
+      if (showLikesClicked) {
+        setShowLikesClicked(false);
+        router.back();
+      } else {
+        router.push(pathname, { scroll: false });
+      }
+    }
+  };
+
+  // add viewcount
   useEffect(() => {
     if (!picture) return;
     addViewCount(picture.id);
   }, []);
 
+  // not found
   if (!picture) return <NotFoundComponent />;
 
+  // like button
   const onLike = () => {
     if (!user) {
       setNeedLogin(true);
