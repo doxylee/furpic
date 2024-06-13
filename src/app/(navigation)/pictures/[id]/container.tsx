@@ -25,6 +25,7 @@ import { NeedLoginModal } from "@/components/NeedLoginModal";
 import { useEffect, useState } from "react";
 import { useUser } from "@/utils/useUser";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
 import Link from "next/link";
 import LikedUsersModal from "./LikedUsersModal";
 
@@ -77,7 +78,7 @@ export function PicturePageContainer({
           sx={{ width: 1 }}
         />
         <Stack spacing={2} sx={{ px: { xs: 1, sm: 0 } }}>
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1} alignItems="center">
             <Stack direction="row" alignItems="center">
               <IconButton onClick={onLike}>
                 {picture.liked ? (
@@ -99,12 +100,15 @@ export function PicturePageContainer({
               </Stack>
             </Stack>
             <Box sx={{ flex: "1" }} />
+            <IconButton onClick={() => setLikedUsersOpen(true)} sx={{}}>
+              <EqualizerIcon />
+            </IconButton>
             {picture.ogKey && (
               <Link href={`/media/${picture.ogKey}`} target="_blank" download>
-                <Button size="small">원본 다운로드</Button>
+                <Button>원본 다운로드</Button>
               </Link>
             )}
-            <PictureEditButton picture={picture} size="small" />
+            <PictureEditButton picture={picture} />
           </Stack>
           <Typography variant="h5">캐릭터</Typography>
           <CharactersPart characters={picture.characters} />
