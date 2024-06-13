@@ -20,7 +20,6 @@ export function UserItem({
   sx?: SxProps;
   link?: boolean;
 }) {
-  console.log(user);
   return (
     <Stack
       direction="row"
