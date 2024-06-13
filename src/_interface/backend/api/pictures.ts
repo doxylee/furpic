@@ -4,6 +4,7 @@ import {
   PictureWithConnectionsAndLiked,
 } from "../entities/picture";
 import { fetchAPI } from "@/utils/fetch";
+import { User } from "../entities/user";
 
 export type TempUserData = { name: string; twitterUsername: string | null };
 export type UserLink = { id: string } | TempUserData;
@@ -133,6 +134,14 @@ export async function getLikedPictures(
     query,
     cookie,
   })) as { count: number; results: PictureWithConnectionsAndLiked[] };
+}
+
+export async function getLikedUsers(id: string) {
+  return (await fetchAPI({
+    method: "GET",
+    path: `pictures/${id}/like`,
+    query: { limit: 120 },
+  })) as User[];
 }
 
 export async function likePicture(id: string) {

@@ -26,6 +26,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "@/utils/useUser";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Link from "next/link";
+import LikedUsersModal from "./LikedUsersModal";
 
 export function PicturePageContainer({
   id,
@@ -41,6 +42,7 @@ export function PicturePageContainer({
   });
   const { user } = useUser();
   const [needLogin, setNeedLogin] = useState(false);
+  const [likedUsersOpen, setLikedUsersOpen] = useState(false);
 
   useEffect(() => {
     if (!picture) return;
@@ -62,6 +64,11 @@ export function PicturePageContainer({
   return (
     <Container maxWidth="xl" sx={{ p: { xs: 0, sm: 2, md: 4 } }}>
       <NeedLoginModal open={needLogin} message="로그인이 필요한 기능이에요" />
+      <LikedUsersModal
+        pictureId={id}
+        open={likedUsersOpen}
+        onClose={() => setLikedUsersOpen(false)}
+      />
       <Stack spacing={2}>
         <Box
           component="img"
@@ -80,7 +87,13 @@ export function PicturePageContainer({
                 )}
               </IconButton>
               <Stack direction="row" alignItems="center" spacing={1}>
-                <Typography fontSize={18}>{picture.likeCount}</Typography>
+                <Typography
+                  fontSize={18}
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => setLikedUsersOpen(true)}
+                >
+                  {picture.likeCount}
+                </Typography>
                 <VisibilityIcon />
                 <Typography fontSize={18}>{picture.viewCount}</Typography>
               </Stack>
