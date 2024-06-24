@@ -1,6 +1,6 @@
 {
   "functions": {
-    "**/media/**": {
+    "media/[...file]": {
       "memory": 500,
       "maxDuration": 10
     },
