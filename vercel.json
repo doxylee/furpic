@@ -4,7 +4,7 @@
       "memory": 500,
       "maxDuration": 10
     },
-    "**/*.js": {
+    "app/**/*.js": {
       "memory": 300,
       "maxDuration": 5
     }
