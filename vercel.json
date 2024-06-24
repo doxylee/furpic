@@ -5,8 +5,8 @@
       "maxDuration": 10
     },
     "src/app/**/*.*": {
-      "memory": 300,
-      "maxDuration": 5
+      "memory": 500,
+      "maxDuration": 10
     }
   }
 }
