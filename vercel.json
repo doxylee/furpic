@@ -1,10 +1,10 @@
 {
   "functions": {
-    "media/[...file]": {
+    "src/app/media/[...file]/route.ts": {
       "memory": 500,
       "maxDuration": 10
     },
-    "**": {
+    "**/*.*": {
       "memory": 300,
       "maxDuration": 5
     }
