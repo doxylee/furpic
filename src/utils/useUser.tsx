@@ -118,7 +118,7 @@ class UserController {
 
     this.clearLocalStorage();
     redirect(
-      `${clientSettings.BACKEND_URL}/oauth2/callback?code=${code}&codeVerifier=${codeVerifier}&redirectUri=${UserController.getOAuthRedirectUrl()}`,
+      `${clientSettings.BACKEND_URL}/oauth2/callback?code=${code}&codeVerifier=${codeVerifier}&redirectUri=${UserController.getOAuthRedirectUrl()}&origin=${window.location.origin}`,
     );
   }
 
